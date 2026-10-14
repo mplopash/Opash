@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, MouseEvent } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { 
   Sparkles, 
@@ -22,7 +22,16 @@ import {
   Activity,
   Flame,
   ShieldCheck,
-  Maximize2
+  Maximize2,
+  MapPin,
+  Mail,
+  Phone,
+  Send,
+  Globe2,
+  Cpu,
+  Smartphone,
+  Server,
+  FileText
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { soundEffects } from "@/lib/soundEffects";
@@ -31,10 +40,30 @@ import { MagneticHover } from "@/components/effects/MagneticHover";
 import { AuroraBackground } from "@/components/effects/AuroraBackground";
 import { InfiniteMarquee } from "@/components/effects/InfiniteMarquee";
 import { SpotlightCard } from "@/components/common/SpotlightCard";
+import { QuoteModal } from "@/components/sections/QuoteModal";
 
-export default function UIEffectsDashboard() {
+export default function CyberSpatialV3Page() {
   const { mode, setMode } = useTheme();
   const isLight = mode === "light";
+
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState("Custom Software Development");
+
+  // Rotating Hero Words
+  const heroWords = [
+    "Autonomous AI Swarms",
+    "Liquid Glass Web Systems",
+    "60 FPS Native Mobile Apps",
+    "Enterprise Cloud Infrastructure"
+  ];
+  const [wordIdx, setWordIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setWordIdx((prev) => (prev + 1) % heroWords.length);
+    }, 2800);
+    return () => clearInterval(timer);
+  }, [heroWords.length]);
 
   // Neumorphism state
   const [neuState, setNeuState] = useState<"raised" | "inset">("raised");
@@ -52,14 +81,49 @@ export default function UIEffectsDashboard() {
   // SVG drawing key
   const [svgKey, setSvgKey] = useState<number>(0);
 
-  // Neon glow color
-  const [neonColor, setNeonColor] = useState<string>("cyan");
-
   // Marquee speed
   const [marqueeSpeed, setMarqueeSpeed] = useState<number>(20);
 
   // Material click coordinates logger
   const [lastClickCoords, setLastClickCoords] = useState<{ x: number; y: number } | null>(null);
+
+  // Estimator States
+  const [calcTier, setCalcTier] = useState<"ai" | "saas" | "mobile" | "enterprise">("ai");
+  const [calcScale, setCalcScale] = useState<"mvp" | "scale" | "enterprise">("scale");
+  const [telemetryAddons, setTelemetryAddons] = useState<string[]>(["soc2", "k8s"]);
+
+  const openQuote = (service = "Custom Software Development") => {
+    soundEffects.click();
+    setSelectedService(service);
+    setQuoteModalOpen(true);
+  };
+
+  const calculateEstimate = () => {
+    let base = 8500;
+    if (calcTier === "ai") base = 14000;
+    if (calcTier === "saas") base = 8000;
+    if (calcTier === "mobile") base = 9500;
+    if (calcTier === "enterprise") base = 21000;
+
+    let mult = 1.0;
+    if (calcScale === "mvp") mult = 0.7;
+    if (calcScale === "enterprise") mult = 2.1;
+
+    const total = Math.round((base * mult + telemetryAddons.length * 1500) / 500) * 500;
+    const velocity = calcScale === "mvp" ? "4 WEEKS" : calcScale === "scale" ? "8 WEEKS" : "14 WEEKS";
+    return { total: `$${total.toLocaleString()}`, velocity };
+  };
+
+  const est = calculateEstimate();
+
+  const toggleAddon = (id: string) => {
+    soundEffects.click();
+    if (telemetryAddons.includes(id)) {
+      setTelemetryAddons(telemetryAddons.filter((i) => i !== id));
+    } else {
+      setTelemetryAddons([...telemetryAddons, id]);
+    }
+  };
 
   const marqueePartners = [
     "Next.js 16 Edge",
@@ -76,10 +140,12 @@ export default function UIEffectsDashboard() {
 
   return (
     <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] transition-colors duration-300 relative selection:bg-[var(--primary)] selection:text-white pb-32">
-      {/* Top Floating Glass Header */}
+      {/* ============================================================ */}
+      {/* 1. TOP CYBER SPATIAL HEADER                                  */}
+      {/* ============================================================ */}
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-[var(--bg-main)]/80 border-b border-[var(--border-subtle)] py-4 px-6 sm:px-10 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-2.5 group">
+          <Link href="/v3" className="flex items-center gap-2.5 group">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[var(--primary)] to-[var(--accent)] text-white font-bold flex items-center justify-center shadow-md shadow-[var(--brand-glow)]">
               O
             </div>
@@ -87,11 +153,11 @@ export default function UIEffectsDashboard() {
               <div className="font-extrabold text-base tracking-tight flex items-center gap-1.5">
                 <span>Opash</span>
                 <span className="text-[var(--accent)] font-mono text-xs px-2 py-0.5 rounded-md bg-[var(--accent)]/10 border border-[var(--accent)]/30">
-                  V3 STUDIO
+                  CYBER V3
                 </span>
               </div>
               <div className="text-[10px] text-[var(--text-dim)] uppercase tracking-wider font-mono">
-                UI Effects Showcase Dashboard
+                Spatial UI & Kinetic Architecture
               </div>
             </div>
           </Link>
@@ -99,17 +165,23 @@ export default function UIEffectsDashboard() {
 
         {/* Quick Nav Anchors */}
         <nav className="hidden lg:flex items-center gap-1 text-xs font-semibold">
+          <a href="#hero" className="px-3 py-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors">
+            Overview
+          </a>
           <a href="#visual-styles" className="px-3 py-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors">
-            Visual Styles
+            UI Effects Studio
           </a>
-          <a href="#hover-interactions" className="px-3 py-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors">
-            Hover Mechanics
+          <a href="#services" className="px-3 py-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors">
+            Capabilities
           </a>
-          <a href="#animation-states" className="px-3 py-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors">
-            Scroll & Animation
+          <a href="#proof" className="px-3 py-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors">
+            Case Studies
           </a>
-          <a href="#bento-grid" className="px-3 py-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors">
-            Master Bento
+          <a href="#estimator" className="px-3 py-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors">
+            Scope Calculator
+          </a>
+          <a href="#contact" className="px-3 py-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors">
+            Surat Dispatch
           </a>
         </nav>
 
@@ -126,57 +198,131 @@ export default function UIEffectsDashboard() {
             {mode === "light" ? <Moon className="w-4 h-4 text-blue-600" /> : <Sun className="w-4 h-4 text-amber-400" />}
           </button>
 
-          <Link href="/">
-            <MaterialRippleButton variant="accent">
-              <span>View V1 Flagship</span>
-              <ArrowRight className="w-4 h-4" />
-            </MaterialRippleButton>
-          </Link>
+          <MaterialRippleButton onClick={() => openQuote()} variant="accent">
+            <span>Engage Squad</span>
+            <ArrowRight className="w-4 h-4" />
+          </MaterialRippleButton>
         </div>
       </header>
 
-      {/* Hero Intro with Aurora Backdrop */}
-      <AuroraBackground className="pt-20 pb-16 px-6 sm:px-10 text-center relative border-b border-[var(--border-subtle)]">
-        <div className="max-w-4xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--primary)]/15 border border-[var(--primary)]/30 text-xs font-mono font-bold text-[var(--accent)] uppercase tracking-wider mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-[var(--accent)]" />
-            <span>Complete 2026 Frontend UI Architecture</span>
+      {/* ============================================================ */}
+      {/* 2. PROMINENT HIGH-IMPACT CYBER SPATIAL HERO                  */}
+      {/* ============================================================ */}
+      <section id="hero" className="relative pt-24 pb-20 md:pt-36 md:pb-28 px-6 lg:px-12 max-w-7xl mx-auto overflow-hidden">
+        {/* Ambient Aurora Glowing Backdrop */}
+        <AuroraBackground className="absolute inset-0 pointer-events-none opacity-40 z-0" />
+
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-7 space-y-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--primary)]/15 border border-[var(--primary)]/30 text-xs font-mono font-bold text-[var(--accent)] uppercase tracking-wider">
+              <Sparkles className="w-4 h-4 text-[var(--accent)]" />
+              <span>SPATIAL UI ARCHITECTURE // CYBER KINETIC V3</span>
+            </div>
+
+            <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.08] text-[var(--text-main)]">
+              Next-Generation <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] via-[var(--accent)] to-sky-300">
+                {heroWords[wordIdx]}
+              </span>{" "}
+              Engineered at Scale.
+            </h1>
+
+            <p className="text-base sm:text-lg text-[var(--text-muted)] leading-relaxed max-w-xl">
+              We architect high-concurrency cloud software, autonomous AI agent swarms, and cross-platform digital experiences engineered with sub-second performance and tactile kinetic polish.
+            </p>
+
+            {/* Quick Metrics Matrix */}
+            <div className="grid grid-cols-3 gap-3 pt-2">
+              <div className="p-4 rounded-2xl glass-panel border border-[var(--border-subtle)] text-center">
+                <div className="text-2xl sm:text-3xl font-extrabold text-[var(--accent)]">70+</div>
+                <div className="text-[11px] text-[var(--text-dim)] uppercase font-mono mt-0.5">Enterprise Ships</div>
+              </div>
+              <div className="p-4 rounded-2xl glass-panel border border-[var(--border-subtle)] text-center">
+                <div className="text-2xl sm:text-3xl font-extrabold text-[var(--primary-light)]">100%</div>
+                <div className="text-[11px] text-[var(--text-dim)] uppercase font-mono mt-0.5">IP Assignment</div>
+              </div>
+              <div className="p-4 rounded-2xl glass-panel border border-[var(--border-subtle)] text-center">
+                <div className="text-2xl sm:text-3xl font-extrabold text-emerald-500">12ms</div>
+                <div className="text-[11px] text-[var(--text-dim)] uppercase font-mono mt-0.5">Global P99</div>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4 pt-3">
+              <MagneticHover pullFactor={0.3}>
+                <MaterialRippleButton
+                  onClick={() => openQuote()}
+                  variant="accent"
+                  className="px-8 py-4 rounded-2xl text-sm font-extrabold uppercase tracking-wider"
+                >
+                  <span>Initiate Project Scope</span>
+                  <ArrowRight className="w-4 h-4" />
+                </MaterialRippleButton>
+              </MagneticHover>
+
+              <a
+                href="#visual-styles"
+                onClick={() => soundEffects.pop()}
+                className="px-8 py-4 rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-card)] hover:bg-[var(--border-subtle)] font-bold text-sm tracking-wider uppercase transition-colors"
+              >
+                Launch Effects Studio
+              </a>
+            </div>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-[var(--text-main)] leading-[1.1]">
-            Modern Frontend <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] via-[var(--accent)] to-sky-300">
-              UI Effects Showcase Dashboard
-            </span>
-          </h1>
+          {/* Right Floating Holographic Specimen with Neon Border */}
+          <div className="lg:col-span-5">
+            <SpotlightCard
+              tiltAmount={14}
+              className="p-7 rounded-3xl glass-panel border-2 border-cyan-400/60 shadow-2xl relative overflow-hidden neon-glow-active"
+            >
+              <div className="flex items-center justify-between pb-4 border-b border-[var(--border-subtle)]">
+                <div className="flex items-center gap-2">
+                  <Terminal className="w-4 h-4 text-cyan-400" />
+                  <span className="text-xs font-mono font-bold uppercase text-[var(--text-main)]">
+                    KINETIC ENGINE // SURAT NODE
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
+                  <span className="text-[10px] font-mono font-bold text-emerald-400">ONLINE</span>
+                </div>
+              </div>
 
-          <p className="text-base sm:text-lg text-[var(--text-muted)] max-w-2xl mx-auto leading-relaxed">
-            A comprehensive, interactive developer sandbox demonstrating all major modern frontend design styles, tactile physical feedback, and hardware-accelerated animations.
-          </p>
+              <div className="py-6 space-y-4">
+                <div className="p-4 rounded-2xl bg-[var(--bg-main)]/80 border border-[var(--border-subtle)] space-y-2 font-mono text-xs">
+                  <div className="text-[var(--text-dim)]">// Real-time autonomous orchestration</div>
+                  <div className="text-cyan-400 font-bold">$ opash-mesh --cluster surat-hq --mode production</div>
+                  <div className="text-emerald-400">✓ 50+ In-House Engineers Connected</div>
+                  <div className="text-blue-400">✓ Upwork Top-Rated 100% Score Verified</div>
+                  <div className="text-[var(--text-main)]">✓ Zero Subcontractors. Strict Mutual NDA.</div>
+                </div>
 
-          {/* Quick Metrics */}
-          <div className="pt-6 flex flex-wrap items-center justify-center gap-4 text-xs font-mono text-[var(--text-muted)]">
-            <span className="px-3 py-1.5 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)]">
-              5 Visual Styles
-            </span>
-            <span className="px-3 py-1.5 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)]">
-              5 Hover & Click Mechanics
-            </span>
-            <span className="px-3 py-1.5 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)]">
-              4 Scroll & SVG Animations
-            </span>
-            <span className="px-3 py-1.5 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)] text-emerald-500 font-bold">
-              100% Responsive & Dual-Mode
-            </span>
+                <div className="grid grid-cols-2 gap-3 text-xs font-mono">
+                  <div className="p-3 rounded-xl bg-[var(--bg-main)]/60 border border-[var(--border-subtle)]">
+                    <span className="text-[var(--text-dim)] block text-[10px]">ENCRYPTION</span>
+                    <span className="font-bold text-cyan-400">AES-256 GCM</span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-[var(--bg-main)]/60 border border-[var(--border-subtle)]">
+                    <span className="text-[var(--text-dim)] block text-[10px]">SLA TARGET</span>
+                    <span className="font-bold text-emerald-400">99.99% Uptime</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs text-[var(--text-muted)] font-mono">
+                <span>SURAT, GUJARAT, INDIA</span>
+                <span className="text-[var(--accent)] font-bold">EST. 2017</span>
+              </div>
+            </SpotlightCard>
           </div>
         </div>
-      </AuroraBackground>
+      </section>
 
-      {/* Main Showcase Container */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 space-y-24">
-        {/* ================================================================= */}
-        {/* 1. VISUAL DESIGN STYLES SECTION                                    */}
-        {/* ================================================================= */}
+      {/* ============================================================ */}
+      {/* 3. COMPLETE UI EFFECTS SHOWCASE PLAYGROUND                   */}
+      {/* ============================================================ */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
+        {/* 3.1 Visual Design Styles */}
         <section id="visual-styles" className="space-y-8">
           <div className="border-b border-[var(--border-subtle)] pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div>
@@ -188,12 +334,12 @@ export default function UIEffectsDashboard() {
               </h2>
             </div>
             <p className="text-xs text-[var(--text-muted)] font-mono">
-              Glassmorphism · Neumorphism · Claymorphism · Liquid Glass · Aurora
+              Glassmorphism · Neumorphism · Claymorphism · Bento Grid · Aurora
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* 1.1 Glassmorphism Card */}
+            {/* Glassmorphism Card */}
             <div className="p-6 rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)]/50 backdrop-blur-2xl flex flex-col justify-between space-y-6 shadow-xl relative overflow-hidden">
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -211,7 +357,6 @@ export default function UIEffectsDashboard() {
                   Multi-layered transparency with high blur threshold, delicate border highlights, and specular light refraction.
                 </p>
 
-                {/* Interactive Dynamic Glass Slab Preview */}
                 <div
                   className="p-4 rounded-2xl border border-white/20 shadow-2xl relative overflow-hidden"
                   style={{
@@ -227,7 +372,6 @@ export default function UIEffectsDashboard() {
                 </div>
               </div>
 
-              {/* Slider Controls */}
               <div className="pt-4 border-t border-[var(--border-subtle)] space-y-3">
                 <div className="flex items-center justify-between text-[11px] font-mono">
                   <span>Blur Radius: {glassBlur}px</span>
@@ -254,7 +398,7 @@ export default function UIEffectsDashboard() {
               </div>
             </div>
 
-            {/* 1.2 Neumorphism (Soft UI) Card */}
+            {/* Neumorphism (Soft UI) Card */}
             <div className="p-6 rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)] flex flex-col justify-between space-y-6 shadow-xl">
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -272,7 +416,6 @@ export default function UIEffectsDashboard() {
                   Minimalist surface extrusion simulating molded physical polymer using paired opposite light and dark shadows.
                 </p>
 
-                {/* Interactive Neumorphic Element */}
                 <div className="flex items-center justify-center py-4">
                   <button
                     onClick={() => {
@@ -291,7 +434,6 @@ export default function UIEffectsDashboard() {
                 </div>
               </div>
 
-              {/* State Switcher */}
               <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
                 <span className="text-xs text-[var(--text-muted)]">Click button to toggle</span>
                 <button
@@ -306,7 +448,7 @@ export default function UIEffectsDashboard() {
               </div>
             </div>
 
-            {/* 1.3 Claymorphic Card */}
+            {/* Claymorphic Card */}
             <div className="p-6 rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)] flex flex-col justify-between space-y-6 shadow-xl">
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -324,7 +466,6 @@ export default function UIEffectsDashboard() {
                   Playful tactile aesthetic with generous rounded boundaries, dual internal inset highlights, and soft floating drop shadows.
                 </p>
 
-                {/* Clay Pill Specimen */}
                 <div className="py-4 flex justify-center">
                   <div
                     onClick={() => soundEffects.hover()}
@@ -346,9 +487,7 @@ export default function UIEffectsDashboard() {
           </div>
         </section>
 
-        {/* ================================================================= */}
-        {/* 2. HOVER & CLICK INTERACTIONS SECTION                             */}
-        {/* ================================================================= */}
+        {/* 3.2 Hover & Click Interactions */}
         <section id="hover-interactions" className="space-y-8">
           <div className="border-b border-[var(--border-subtle)] pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div>
@@ -365,7 +504,7 @@ export default function UIEffectsDashboard() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* 2.1 Material Ripple */}
+            {/* Material Ripple */}
             <div className="p-6 rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)] flex flex-col justify-between space-y-6 shadow-xl">
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -412,7 +551,7 @@ export default function UIEffectsDashboard() {
               </div>
             </div>
 
-            {/* 2.2 Magnetic Hover */}
+            {/* Magnetic Hover */}
             <div className="p-6 rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)] flex flex-col justify-between space-y-6 shadow-xl">
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -448,7 +587,7 @@ export default function UIEffectsDashboard() {
               </div>
             </div>
 
-            {/* 2.3 3D Tilt Card */}
+            {/* 3D Tilt Card */}
             <div className="p-6 rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)] flex flex-col justify-between space-y-6 shadow-xl">
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -483,7 +622,7 @@ export default function UIEffectsDashboard() {
               </div>
             </div>
 
-            {/* 2.4 Shimmer Hover Beam */}
+            {/* Shimmer Hover Beam */}
             <div className="p-6 rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)] flex flex-col justify-between space-y-6 shadow-xl">
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -519,7 +658,7 @@ export default function UIEffectsDashboard() {
               </div>
             </div>
 
-            {/* 2.5 Breathing Neon Glow Border */}
+            {/* Breathing Neon Glow Border */}
             <div className="p-6 rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)] flex flex-col justify-between space-y-6 shadow-xl">
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -553,9 +692,7 @@ export default function UIEffectsDashboard() {
           </div>
         </section>
 
-        {/* ================================================================= */}
-        {/* 3. SCROLL & ANIMATION STATES SECTION                              */}
-        {/* ================================================================= */}
+        {/* 3.3 Scroll & Animation States */}
         <section id="animation-states" className="space-y-8">
           <div className="border-b border-[var(--border-subtle)] pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div>
@@ -572,7 +709,7 @@ export default function UIEffectsDashboard() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* 3.1 Infinite Marquee */}
+            {/* Infinite Marquee */}
             <div className="p-6 sm:p-8 rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)] flex flex-col justify-between space-y-6 shadow-xl">
               <div>
                 <div className="flex items-center justify-between mb-3">
@@ -590,13 +727,11 @@ export default function UIEffectsDashboard() {
                   Infinite ticker moving continuously along the X axis without stutter or visible seams. Pauses automatically on hover.
                 </p>
 
-                {/* Marquee Component */}
                 <div className="p-2 rounded-2xl bg-[var(--bg-main)] border border-[var(--border-subtle)]">
                   <InfiniteMarquee items={marqueePartners} speed={marqueeSpeed} />
                 </div>
               </div>
 
-              {/* Speed Controls */}
               <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
                 <span className="text-xs text-[var(--text-muted)]">Ticker Speed</span>
                 <div className="flex items-center gap-2">
@@ -620,7 +755,7 @@ export default function UIEffectsDashboard() {
               </div>
             </div>
 
-            {/* 3.2 Skeleton Shimmer Loading States */}
+            {/* Skeleton Shimmer */}
             <div className="p-6 sm:p-8 rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)] flex flex-col justify-between space-y-6 shadow-xl">
               <div>
                 <div className="flex items-center justify-between mb-3">
@@ -644,9 +779,8 @@ export default function UIEffectsDashboard() {
                   Continuous left-to-right gradient wash indicating active data fetching while matching target card geometry.
                 </p>
 
-                {/* Skeleton vs Content */}
                 {skeletonLoading ? (
-                  <div className="p-5 rounded-2xl bg-[var(--bg-main)] border border-[var(--border-subtle)] space-y-3 animate-in fade-in duration-300">
+                  <div className="p-5 rounded-2xl bg-[var(--bg-main)] border border-[var(--border-subtle)] space-y-3">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl skeleton-shimmer shrink-0" />
                       <div className="space-y-1.5 flex-1">
@@ -655,13 +789,9 @@ export default function UIEffectsDashboard() {
                       </div>
                     </div>
                     <div className="h-16 w-full rounded-xl skeleton-shimmer" />
-                    <div className="flex gap-2">
-                      <div className="h-6 w-16 rounded skeleton-shimmer" />
-                      <div className="h-6 w-20 rounded skeleton-shimmer" />
-                    </div>
                   </div>
                 ) : (
-                  <div className="p-5 rounded-2xl bg-[var(--bg-main)] border border-emerald-500/40 space-y-3 animate-in fade-in duration-300">
+                  <div className="p-5 rounded-2xl bg-[var(--bg-main)] border border-emerald-500/40 space-y-3">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
                         <CheckCircle2 className="w-5 h-5" />
@@ -674,10 +804,6 @@ export default function UIEffectsDashboard() {
                     <p className="text-xs text-[var(--text-main)] leading-relaxed">
                       API payload loaded with 100% telemetry fidelity in 12ms.
                     </p>
-                    <div className="flex gap-2">
-                      <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500 text-[10px] font-mono font-bold">Ready</span>
-                      <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 text-[10px] font-mono font-bold">HTTP/2</span>
-                    </div>
                   </div>
                 )}
               </div>
@@ -686,241 +812,378 @@ export default function UIEffectsDashboard() {
                 Utilizes moving linear-gradient background-position animation
               </div>
             </div>
+          </div>
+        </section>
 
-            {/* 3.3 Staggered Entrance Animations */}
-            <div className="p-6 sm:p-8 rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)] flex flex-col justify-between space-y-6 shadow-xl">
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-wider">
-                    [ Staggered Entrance ]
-                  </span>
-                  <button
-                    onClick={() => {
-                      soundEffects.click();
-                      setStaggerKey((prev) => prev + 1);
-                    }}
-                    className="flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-md bg-[var(--primary)]/15 text-[var(--primary-light)] border border-[var(--primary)]/30 font-mono font-bold hover:bg-[var(--primary)] hover:text-white transition-colors cursor-pointer"
-                  >
-                    <RefreshCw className="w-3 h-3" />
-                    <span>Re-play Entrance</span>
-                  </button>
+        {/* 3.4 Capabilities Section (Full Services) */}
+        <section id="services" className="space-y-8">
+          <div className="border-b border-[var(--border-subtle)] pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+            <div>
+              <span className="text-xs font-mono uppercase tracking-widest text-[var(--accent)] font-bold">
+                04 // Core Engineering Disciplines
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-main)] mt-1">
+                Full-Stack Systems Capabilities
+              </h2>
+            </div>
+            <p className="text-xs text-[var(--text-muted)] font-mono">
+              AI · Cloud · High-Concurrency Web · Mobile
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                title: "Autonomous AI & Agents",
+                desc: "Custom RAG multi-agent swarms, customized LLM reasoning pipelines, automated workflows, and private enterprise fine-tuning.",
+                tags: ["PyTorch", "LangChain", "Vector RAG"],
+              },
+              {
+                title: "High-Concurrency SaaS",
+                desc: "Next.js 16 Edge architecture, performant database indexing, and reactive dashboards handling millions in transactions.",
+                tags: ["Next.js", "React 19", "TypeScript"],
+              },
+              {
+                title: "60 FPS Native Mobile Apps",
+                desc: "Tactile haptic cross-platform applications built with Flutter and React Native with biometrics and offline synchronization.",
+                tags: ["Flutter", "React Native", "iOS / Android"],
+              },
+              {
+                title: "DevOps & Cloud Clusters",
+                desc: "Kubernetes orchestration, zero-downtime blue/green deployments, automated CI/CD, and Terraform infrastructure as code.",
+                tags: ["AWS", "Docker / K8s", "Terraform"],
+              },
+              {
+                title: "Enterprise Modernization",
+                desc: "Deconstruct legacy monolithic code into event-driven resilient microservices with zero downtime and strict fault isolation.",
+                tags: ["PostgreSQL", "Kafka", "GraphQL"],
+              },
+              {
+                title: "Institutional Code Audit",
+                desc: "Thorough pen-testing, query profiling, security hardening, and institutional investor due-diligence preparation.",
+                tags: ["SOC-2", "HIPAA", "ISO 27001"],
+              },
+            ].map((srv, idx) => (
+              <div
+                key={idx}
+                className="p-7 rounded-3xl glass-panel border border-[var(--border-strong)] flex flex-col justify-between shadow-xl"
+              >
+                <div>
+                  <h3 className="text-lg font-bold text-[var(--text-main)] mb-2">{srv.title}</h3>
+                  <p className="text-xs text-[var(--text-muted)] leading-relaxed mb-6">{srv.desc}</p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {srv.tags.map((tag, tIdx) => (
+                      <span key={tIdx} className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-[var(--border-subtle)] text-[var(--accent)]">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <h3 className="text-lg font-bold text-[var(--text-main)] mb-1">
-                  Sequential Cascade Micro-Delays
-                </h3>
-                <p className="text-xs text-[var(--text-muted)] leading-relaxed mb-6">
-                  Grid items slide and fade into view sequentially using incremented animation delay tokens (100ms, 200ms, 300ms, 400ms).
-                </p>
+                <button
+                  onClick={() => openQuote(srv.title)}
+                  className="w-full py-3 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-main)]/60 text-xs font-bold uppercase tracking-wider text-[var(--text-main)] hover:bg-[var(--primary)] hover:text-white transition-colors cursor-pointer"
+                >
+                  Configure Module
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
 
-                {/* Staggered Grid */}
-                <div key={staggerKey} className="grid grid-cols-2 gap-3">
+        {/* 3.5 Verified Client Proof */}
+        <section id="proof" className="space-y-8">
+          <div className="border-b border-[var(--border-subtle)] pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+            <div>
+              <span className="text-xs font-mono uppercase tracking-widest text-[var(--accent)] font-bold">
+                05 // Verified Client ROI
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-main)] mt-1">
+                Declassified Production Case Studies
+              </h2>
+            </div>
+            <p className="text-xs text-[var(--text-muted)] font-mono">
+              Measurable Business Impact
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-7 rounded-3xl glass-panel border border-[var(--border-strong)] flex flex-col justify-between shadow-xl">
+              <div>
+                <div className="text-xs font-mono text-[var(--accent)] font-bold mb-1">INSURETECH // MENA</div>
+                <h3 className="text-2xl font-black mb-2">eSanad</h3>
+                <p className="text-xs text-[var(--text-muted)] leading-relaxed mb-6">
+                  Automated quotation and policy aggregation system handling millions in real-time underwriting.
+                </p>
+                <div className="p-5 rounded-2xl bg-[var(--bg-main)]/60 text-center mb-6 border border-[var(--border-subtle)]">
+                  <div className="text-4xl font-extrabold text-[var(--accent)] mb-1">+340%</div>
+                  <div className="text-xs text-[var(--text-dim)] font-mono">Policy Conversion Speed</div>
+                </div>
+              </div>
+              <div className="text-xs text-[var(--text-dim)] flex justify-between font-mono">
+                <span>Next.js + Node</span>
+                <span className="text-emerald-500 font-bold">Verified Client</span>
+              </div>
+            </div>
+
+            <div className="p-7 rounded-3xl glass-panel border border-[var(--border-strong)] flex flex-col justify-between shadow-xl">
+              <div>
+                <div className="text-xs font-mono text-blue-400 font-bold mb-1">HEALTHCARE // USA</div>
+                <h3 className="text-2xl font-black mb-2">UCareHQ</h3>
+                <p className="text-xs text-[var(--text-muted)] leading-relaxed mb-6">
+                  HIPAA-compliant telemedicine platform with live WebRTC triage and patient scheduling.
+                </p>
+                <div className="p-5 rounded-2xl bg-[var(--bg-main)]/60 text-center mb-6 border border-[var(--border-subtle)]">
+                  <div className="text-4xl font-extrabold text-blue-400 mb-1">120k+</div>
+                  <div className="text-xs text-[var(--text-dim)] font-mono">Patients Managed</div>
+                </div>
+              </div>
+              <div className="text-xs text-[var(--text-dim)] flex justify-between font-mono">
+                <span>React + AWS HIPAA</span>
+                <span className="text-emerald-500 font-bold">Verified Client</span>
+              </div>
+            </div>
+
+            <div className="p-7 rounded-3xl glass-panel border border-[var(--border-strong)] flex flex-col justify-between shadow-xl">
+              <div>
+                <div className="text-xs font-mono text-sky-400 font-bold mb-1">LOGISTICS // GLOBAL</div>
+                <h3 className="text-2xl font-black mb-2">IKO International</h3>
+                <p className="text-xs text-[var(--text-muted)] leading-relaxed mb-6">
+                  Industrial manufacturing supply chain synchronization tool with real-time inventory intelligence.
+                </p>
+                <div className="p-5 rounded-2xl bg-[var(--bg-main)]/60 text-center mb-6 border border-[var(--border-subtle)]">
+                  <div className="text-4xl font-extrabold text-sky-400 mb-1">99.98%</div>
+                  <div className="text-xs text-[var(--text-dim)] font-mono">Reconciliation Rate</div>
+                </div>
+              </div>
+              <div className="text-xs text-[var(--text-dim)] flex justify-between font-mono">
+                <span>Python + PostgreSQL</span>
+                <span className="text-emerald-500 font-bold">Verified Client</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 3.6 Interactive Project Scope Estimator */}
+        <section id="estimator" className="space-y-8">
+          <div className="border-b border-[var(--border-subtle)] pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+            <div>
+              <span className="text-xs font-mono uppercase tracking-widest text-[var(--accent)] font-bold">
+                06 // Interactive Calculator
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-main)] mt-1">
+                Project Scope & Pricing Matrix
+              </h2>
+            </div>
+            <p className="text-xs text-[var(--text-muted)] font-mono">
+              Transparent Sprint Engineering
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-7 space-y-6">
+              <div className="p-6 rounded-3xl glass-panel border border-[var(--border-strong)]">
+                <label className="text-xs font-mono font-bold uppercase tracking-wider block mb-4">
+                  1. Platform Category
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {[
-                    { title: "Architecture", delay: "0.05s", color: "text-cyan-400" },
-                    { title: "Microservices", delay: "0.15s", color: "text-blue-400" },
-                    { title: "AI Swarms", delay: "0.25s", color: "text-purple-400" },
-                    { title: "Edge Deploy", delay: "0.35s", color: "text-emerald-400" },
-                  ].map((card, idx) => (
-                    <div
-                      key={idx}
-                      style={{ animationDelay: card.delay }}
-                      className="p-3.5 rounded-xl bg-[var(--bg-main)] border border-[var(--border-subtle)] animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+                    { id: "ai", label: "AI Swarms" },
+                    { id: "saas", label: "Web SaaS" },
+                    { id: "mobile", label: "Mobile Apps" },
+                    { id: "enterprise", label: "Enterprise" },
+                  ].map((t) => (
+                    <button
+                      key={t.id}
+                      onClick={() => {
+                        soundEffects.click();
+                        setCalcTier(t.id as any);
+                      }}
+                      className={`p-3 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
+                        calcTier === t.id
+                          ? "bg-[var(--primary)] text-white shadow-lg"
+                          : "bg-[var(--bg-main)]/60 text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-subtle)]"
+                      }`}
                     >
-                      <div className={`text-xs font-mono font-bold ${card.color}`}>Card 0{idx + 1}</div>
-                      <div className="text-xs font-bold text-[var(--text-main)] mt-0.5">{card.title}</div>
-                      <div className="text-[10px] text-[var(--text-dim)] font-mono mt-1">delay: {card.delay}</div>
-                    </div>
+                      {t.label}
+                    </button>
                   ))}
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-[var(--border-subtle)] text-[11px] text-[var(--text-muted)]">
-                Creates smooth perceived performance and guided visual hierarchy
+              <div className="p-6 rounded-3xl glass-panel border border-[var(--border-strong)]">
+                <label className="text-xs font-mono font-bold uppercase tracking-wider block mb-4">
+                  2. Architecture Scale & Addons
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { id: "soc2", label: "SOC-2 & HIPAA Policy" },
+                    { id: "k8s", label: "Multi-Region Kubernetes" },
+                    { id: "rag", label: "Vector Search Memory" },
+                    { id: "audit", label: "Third-Party Pen-Test" },
+                  ].map((addon) => (
+                    <button
+                      key={addon.id}
+                      onClick={() => toggleAddon(addon.id)}
+                      className={`p-3 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer text-left flex items-center justify-between ${
+                        telemetryAddons.includes(addon.id)
+                          ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/40"
+                          : "bg-[var(--bg-main)]/60 text-[var(--text-muted)] border border-[var(--border-subtle)]"
+                      }`}
+                    >
+                      <span>{addon.label}</span>
+                      <span>{telemetryAddons.includes(addon.id) ? "✓" : "+"}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* 3.4 SVG Real-Time Line Drawing */}
-            <div className="p-6 sm:p-8 rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)] flex flex-col justify-between space-y-6 shadow-xl">
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-mono font-bold text-pink-400 uppercase tracking-wider">
-                    [ SVG Line Drawing ]
-                  </span>
-                  <button
-                    onClick={() => {
-                      soundEffects.click();
-                      setSvgKey((prev) => prev + 1);
-                    }}
-                    className="flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-md bg-[var(--primary)]/15 text-[var(--primary-light)] border border-[var(--primary)]/30 font-mono font-bold hover:bg-[var(--primary)] hover:text-white transition-colors cursor-pointer"
-                  >
-                    <Play className="w-3 h-3" />
-                    <span>Redraw Path</span>
-                  </button>
+            <div className="lg:col-span-5 sticky top-24">
+              <div className="p-8 rounded-3xl glass-panel border-2 border-cyan-400/50 shadow-2xl space-y-4">
+                <span className="text-xs font-mono font-bold text-[var(--accent)] uppercase">
+                  ESTIMATED INVESTMENT
+                </span>
+                <div className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] my-2">
+                  {est.total}
                 </div>
-                <h3 className="text-lg font-bold text-[var(--text-main)] mb-1">
-                  Stroke Dash-Offset Path Tracer
-                </h3>
-                <p className="text-xs text-[var(--text-muted)] leading-relaxed mb-6">
-                  Vector path drawing in real-time by animating stroke-dashoffset from total path length down to zero.
+                <div className="text-xs text-[var(--text-dim)] font-mono">
+                  Estimated Launch Velocity: <span className="font-bold text-[var(--text-main)]">{est.velocity}</span>
+                </div>
+                <p className="text-xs text-[var(--text-muted)] leading-relaxed pt-2 border-t border-[var(--border-subtle)]">
+                  Includes 100% intellectual property ownership, dedicated full-time engineering squad, and 60 days of post-launch warranty.
                 </p>
 
-                {/* SVG Vector Sandbox */}
-                <div key={svgKey} className="p-4 rounded-2xl bg-[var(--bg-main)] border border-[var(--border-subtle)] flex items-center justify-center">
-                  <svg width="220" height="110" viewBox="0 0 220 110" fill="none" className="overflow-visible">
-                    {/* Background faint path */}
-                    <path
-                      d="M 10 55 C 40 10, 70 10, 110 55 C 150 100, 180 100, 210 55"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      className="text-[var(--border-subtle)]"
-                    />
-                    {/* Animated drawing path */}
-                    <path
-                      d="M 10 55 C 40 10, 70 10, 110 55 C 150 100, 180 100, 210 55"
-                      stroke="url(#svgDrawGradient)"
-                      strokeWidth="3.5"
-                      strokeLinecap="round"
-                      className="svg-draw-path"
-                    />
-                    {/* Glowing nodes */}
-                    <circle cx="10" cy="55" r="4" fill="#0e50d7" />
-                    <circle cx="110" cy="55" r="5" fill="#00d4ff" />
-                    <circle cx="210" cy="55" r="4" fill="#38bdf8" />
-                    <defs>
-                      <linearGradient id="svgDrawGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#0e50d7" />
-                        <stop offset="50%" stopColor="#00d4ff" />
-                        <stop offset="100%" stopColor="#38bdf8" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-[var(--border-subtle)] text-[11px] text-[var(--text-muted)]">
-                Driven by stroke-dasharray: 600 and CSS keyframe loop
+                <MaterialRippleButton
+                  onClick={() => openQuote(`V3 Scope: ${calcTier.toUpperCase()} (${est.total})`)}
+                  variant="accent"
+                  className="w-full py-4 text-xs font-extrabold uppercase tracking-wider"
+                >
+                  <span>Lock Sprint Availability</span>
+                  <ArrowRight className="w-4 h-4" />
+                </MaterialRippleButton>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ================================================================= */}
-        {/* 4. MASTER BENTO GRID LAYOUT SECTION                               */}
-        {/* ================================================================= */}
-        <section id="bento-grid" className="space-y-8">
-          <div className="border-b border-[var(--border-subtle)] pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-            <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-[var(--accent)] font-bold">
-                04 // Structural Composition
+        {/* 3.7 Contact & Surat Dispatch */}
+        <section id="contact" className="p-8 sm:p-12 rounded-3xl glass-panel border border-[var(--border-strong)] relative overflow-hidden shadow-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-6 space-y-4">
+              <span className="text-xs font-mono font-bold text-[var(--accent)] uppercase tracking-wider">
+                SURAT HQ DIRECT DISPATCH
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-main)] mt-1">
-                Asymmetrical Master Bento Grid
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-[var(--text-main)]">
+                Ready to Deploy Your Squad?
               </h2>
-            </div>
-            <p className="text-xs text-[var(--text-muted)] font-mono">
-              Combining all effects into a unified enterprise interface
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {/* Bento Item 1: Large Featured Spanning 2 Columns */}
-            <SpotlightCard className="md:col-span-2 lg:col-span-2 p-8 rounded-3xl glass-panel border border-[var(--border-strong)] flex flex-col justify-between space-y-6 shadow-2xl relative overflow-hidden">
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-xs font-mono text-[var(--accent)] font-bold uppercase">
-                  <Terminal className="w-4 h-4" />
-                  <span>Telemetry Mesh // Node 01</span>
+              <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+                Connect directly with our engineering architects. We evaluate your functional specs and return fixed-price sprint quotes within 24 hours.
+              </p>
+              <div className="space-y-2 text-xs font-mono text-[var(--text-dim)] pt-2">
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-blue-500" />
+                  <span>Surat HQ Campus, Gujarat, India</span>
                 </div>
-                <h3 className="text-2xl font-bold text-[var(--text-main)]">
-                  Autonomous Edge Infrastructure
-                </h3>
-                <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-                  Distributed across 14 global data centers with sub-second DNS resolution, encrypted zero-trust pipelines, and automated multi-tenant database partitioning.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-3 gap-3 pt-4 border-t border-[var(--border-subtle)] text-center">
-                <div className="p-3 rounded-2xl bg-[var(--bg-main)]/60">
-                  <div className="text-xl font-bold text-[var(--accent)]">12ms</div>
-                  <div className="text-[10px] text-[var(--text-dim)] uppercase">Global P99</div>
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-blue-500" />
+                  <span>contact@opashsoftware.com</span>
                 </div>
-                <div className="p-3 rounded-2xl bg-[var(--bg-main)]/60">
-                  <div className="text-xl font-bold text-[var(--primary-light)]">100%</div>
-                  <div className="text-[10px] text-[var(--text-dim)] uppercase">IP Handover</div>
+                <div className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-blue-500" />
+                  <span>+91 97277 88846 (24/7 Response)</span>
                 </div>
-                <div className="p-3 rounded-2xl bg-[var(--bg-main)]/60">
-                  <div className="text-xl font-bold text-emerald-500">70+</div>
-                  <div className="text-[10px] text-[var(--text-dim)] uppercase">Deliveries</div>
-                </div>
-              </div>
-            </SpotlightCard>
-
-            {/* Bento Item 2: Vertical Pill */}
-            <div className="p-6 rounded-3xl clay-inflated border border-[var(--border-subtle)] flex flex-col justify-between space-y-4">
-              <div>
-                <div className="p-3 rounded-2xl bg-[var(--primary)] text-white w-max mb-4 shadow-lg shadow-[var(--brand-glow)]">
-                  <Flame className="w-5 h-5" />
-                </div>
-                <h4 className="text-lg font-bold text-[var(--text-main)] mb-1">
-                  Sprint Velocity
-                </h4>
-                <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                  Agile two-week deliverable cadence with live staging preview URLs and continuous client sprint demos.
-                </p>
-              </div>
-              <div className="p-2.5 rounded-xl bg-[var(--bg-main)]/50 text-[11px] font-mono text-[var(--text-dim)] text-center">
-                Next Demo: In 4 Days
               </div>
             </div>
 
-            {/* Bento Item 3: Live Verification */}
-            <div className="p-6 rounded-3xl glass-panel border border-[var(--border-strong)] flex flex-col justify-between space-y-4 shadow-xl">
-              <div>
-                <div className="p-3 rounded-2xl bg-emerald-500/20 text-emerald-500 border border-emerald-500/30 w-max mb-4">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <h4 className="text-lg font-bold text-[var(--text-main)] mb-1">
-                  NDA & Security
-                </h4>
-                <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                  Bank-grade mutual confidentiality with immediate code repository assignment and zero subcontractor leakage.
-                </p>
-              </div>
-              <div className="flex items-center gap-1.5 text-xs text-emerald-500 font-bold">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>Verified Clean Audit</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Global CTA Banner */}
-        <section className="p-8 sm:p-12 rounded-3xl glass-panel border border-[var(--border-strong)] relative overflow-hidden text-center space-y-6 shadow-2xl">
-          <div className="max-w-2xl mx-auto space-y-3">
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-[var(--text-main)]">
-              Ready to Engineer with These Standards?
-            </h2>
-            <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-              Every production system we craft incorporates these world-class micro-interactions, responsive architectures, and accessible design principles.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            <Link href="/">
-              <MaterialRippleButton variant="accent">
-                <span>Explore V1 Production Showcase</span>
-                <ArrowRight className="w-4 h-4" />
-              </MaterialRippleButton>
-            </Link>
-            <Link href="/v2">
-              <button
-                onClick={() => soundEffects.click()}
-                className="px-6 py-3 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-card)] hover:bg-[var(--border-subtle)] text-xs font-semibold text-[var(--text-main)] transition-colors cursor-pointer"
+            <div className="lg:col-span-6">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  openQuote("V3 Dispatch Form");
+                }}
+                className="space-y-4"
               >
-                Inspect V2 3D Hardware Deck
-              </button>
-            </Link>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    required
+                    placeholder="Your Full Name"
+                    className="w-full p-3.5 rounded-xl bg-[var(--bg-main)] border border-[var(--border-strong)] text-sm focus:outline-none focus:border-[var(--accent)]"
+                  />
+                  <input
+                    type="email"
+                    required
+                    placeholder="Work Email"
+                    className="w-full p-3.5 rounded-xl bg-[var(--bg-main)] border border-[var(--border-strong)] text-sm focus:outline-none focus:border-[var(--accent)]"
+                  />
+                </div>
+                <textarea
+                  rows={3}
+                  required
+                  placeholder="Tell us about your project requirements..."
+                  className="w-full p-3.5 rounded-xl bg-[var(--bg-main)] border border-[var(--border-strong)] text-sm focus:outline-none focus:border-[var(--accent)]"
+                />
+                <MaterialRippleButton
+                  type="submit"
+                  variant="primary"
+                  className="w-full py-4 text-xs font-extrabold uppercase tracking-wider"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>Request Architectural Blueprint</span>
+                </MaterialRippleButton>
+              </form>
+            </div>
           </div>
         </section>
       </main>
+
+      {/* ============================================================ */}
+      {/* 4. COMPREHENSIVE CYBER FOOTER                                */}
+      {/* ============================================================ */}
+      <footer className="mt-24 pt-12 pb-8 border-t border-[var(--border-subtle)] text-xs text-[var(--text-muted)]">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div className="space-y-3">
+            <div className="font-extrabold text-sm text-[var(--text-main)]">OPASH SOFTWARE // CYBER V3</div>
+            <p className="text-[11px] leading-relaxed">
+              Autonomous AI systems, spatial glass web platforms, and Flutter mobile architectures.
+            </p>
+          </div>
+          <div>
+            <div className="font-bold text-[var(--text-main)] mb-2 font-mono">SECTORS</div>
+            <ul className="space-y-1 text-[11px]">
+              <li>Fintech & Underwriting</li>
+              <li>Telehealth HIPAA</li>
+              <li>Logistics Intelligence</li>
+              <li>Enterprise SaaS</li>
+            </ul>
+          </div>
+          <div>
+            <div className="font-bold text-[var(--text-main)] mb-2 font-mono">STANDARDS</div>
+            <ul className="space-y-1 text-[11px]">
+              <li>100% In-House Engineers</li>
+              <li>Strict Mutual NDA</li>
+              <li>Zero Subcontractor Risk</li>
+              <li>SOC-2 Type II Compliant</li>
+            </ul>
+          </div>
+          <div>
+            <div className="font-bold text-[var(--text-main)] mb-2 font-mono">HQ DISPATCH</div>
+            <p className="text-[11px] leading-relaxed">
+              Surat HQ Campus, Gujarat, India. 24/7 Global Delivery to US, Europe, and MENA.
+            </p>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 pt-6 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px]">
+          <div>OPASH SOFTWARE // CYBER SPATIAL V3 EDITION // EST. 2017</div>
+          <div>SURAT HQ // 100% CODE OWNERSHIP // © 2026 OPASH</div>
+        </div>
+      </footer>
+
+      <QuoteModal
+        isOpen={quoteModalOpen}
+        onClose={() => setQuoteModalOpen(false)}
+        initialService={selectedService}
+      />
     </div>
   );
 }
