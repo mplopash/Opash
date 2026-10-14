@@ -5,7 +5,6 @@ import { ThemeCustomizer } from "@/components/theme/ThemeCustomizer";
 import { SmoothScroll } from "@/components/common/SmoothScroll";
 import { VersionSwitcher } from "@/components/common/VersionSwitcher";
 import { ScrollProgress } from "@/components/common/ScrollProgress";
-import { AwwwardsCursor } from "@/components/common/AwwwardsCursor";
 import { ScrollNavigationRail } from "@/components/common/ScrollNavigationRail";
 
 export const metadata: Metadata = {
@@ -61,7 +60,6 @@ export default function RootLayout({
         <SmoothScroll>
           <ThemeProvider>
             <ScrollProgress />
-            <AwwwardsCursor />
             <ScrollNavigationRail />
             {children}
             <VersionSwitcher />

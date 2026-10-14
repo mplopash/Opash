@@ -9,7 +9,8 @@ import { GlobalReachSection } from "@/components/sections/GlobalReachSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
 import { IndustriesSection } from "@/components/sections/IndustriesSection";
 import { TechStackSection } from "@/components/sections/TechStackSection";
-import { UIEffectsBentoSection } from "@/components/sections/UIEffectsBentoSection";
+import { CohereScrollTextReveal } from "@/components/common/CohereScrollTextReveal";
+import { CohereStackedCardsSection } from "@/components/sections/CohereStackedCardsSection";
 import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
 import { ClientSuccessSection } from "@/components/sections/ClientSuccessSection";
 import { ProjectEstimatorSection } from "@/components/sections/ProjectEstimatorSection";
@@ -63,7 +64,11 @@ export default function Home() {
         <ServicesSection onSelectService={(srv) => handleOpenQuoteModal(srv)} />
         <IndustriesSection onExploreIndustry={(ind) => handleOpenQuoteModal(`Industry Solution: ${ind}`)} />
         <TechStackSection />
-        <UIEffectsBentoSection />
+        <CohereScrollTextReveal 
+          subtext="THE NEW NATURE OF DIGITAL ENGINEERING // COHERE STANDARDS"
+          text="We engineer mission-critical software and autonomous AI systems that reason, adapt, and scale natively into modern enterprise workflows with mathematical precision."
+        />
+        <CohereStackedCardsSection onOpenQuoteModal={handleOpenQuoteModal} />
         <WhyChooseUsSection />
         <ClientSuccessSection />
         <ProjectEstimatorSection onEstimateSubmit={handleEstimateSubmit} />

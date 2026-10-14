@@ -12,6 +12,7 @@ import {
   CheckCircle2, 
   Heart
 } from "lucide-react";
+import HalftoneWordmarkFooter from "@/components/ui/halftone-wordmark-footer";
 
 export function Footer() {
   const [currentYear, setCurrentYear] = React.useState(2026);
@@ -191,30 +192,13 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Bottom Legal / Copyright */}
-      <div className="border-t border-[var(--border-subtle)] py-6 bg-[var(--bg-main)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-dim)]">
-          <div>
-            © {currentYear} Opash Software. All rights reserved.
-          </div>
-          <div className="flex items-center gap-6">
-            <Link href="#privacy" className="hover:text-[var(--text-muted)] transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="#terms" className="hover:text-[var(--text-muted)] transition-colors">
-              Terms & Conditions
-            </Link>
-            <Link href="#security" className="hover:text-[var(--text-muted)] transition-colors">
-              Security Policy
-            </Link>
-          </div>
-          <div className="flex items-center gap-1 text-[11px]">
-            <span>Crafted with</span>
-            <Heart className="w-3 h-3 text-red-500 fill-red-500" />
-            <span>for high-growth enterprises</span>
-          </div>
-        </div>
-      </div>
+      {/* Halftone Interactive Wordmark Footer (Opash) */}
+      <HalftoneWordmarkFooter
+        wordmark="opash"
+        label="Opash Software"
+        meta={`©${currentYear} · Surat HQ Campus / Global Delivery`}
+        height="480px"
+      />
     </footer>
   );
 }

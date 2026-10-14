@@ -52,6 +52,13 @@ export function VersionSwitcher() {
       style: "Fluid Spatial UI",
       icon: <Workflow className="w-3.5 h-3.5 text-emerald-400" />,
     },
+    {
+      id: "v5",
+      path: "/v5",
+      name: "V5: Kinetic Scroll",
+      style: "WebGL Ink & Chroma",
+      icon: <Zap className="w-3.5 h-3.5 text-cyan-400" />,
+    },
   ];
 
   const toggleTheme = () => {

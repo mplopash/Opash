@@ -37,6 +37,7 @@ import { MaterialRippleButton } from "@/components/effects/MaterialRippleButton"
 import { MagneticHover } from "@/components/effects/MagneticHover";
 import { SpotlightCard } from "@/components/common/SpotlightCard";
 import { QuoteModal } from "@/components/sections/QuoteModal";
+import { CohereScrollTextReveal } from "@/components/common/CohereScrollTextReveal";
 
 export default function ScrollytellingV4Page() {
   const { mode, setMode } = useTheme();
@@ -263,6 +264,12 @@ export default function ScrollytellingV4Page() {
           </div>
         </div>
       </section>
+
+      {/* Cohere-Style Scroll Text Reveal */}
+      <CohereScrollTextReveal 
+        subtext="CONTINUOUS ADAPTIVE DEPLOYMENT // SCROLL CADENCE"
+        text="Digital intelligence is not an add-on. We embed autonomous agent architectures and reactive edge engines directly into your core business foundation."
+      />
 
       {/* ============================================================ */}
       {/* 3. PINNED STICKY SCROLLYTELLING JOURNEY (SIGNATURE V4 FEATURE)*/}
