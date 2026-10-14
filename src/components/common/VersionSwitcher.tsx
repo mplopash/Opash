@@ -11,7 +11,8 @@ import {
   MonitorCheck,
   Sun,
   Moon,
-  Zap
+  Zap,
+  Workflow
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { soundEffects } from "@/lib/soundEffects";
@@ -21,7 +22,7 @@ export function VersionSwitcher() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { mode, setMode } = useTheme();
 
-  // Active Versions strictly V1, V2, V3
+  // Active Versions strictly V1, V2, V3, V4
   const versions = [
     {
       id: "v1",
@@ -40,9 +41,16 @@ export function VersionSwitcher() {
     {
       id: "v3",
       path: "/v3",
-      name: "V3: UI Effects",
-      style: "Showcase Dashboard",
+      name: "V3: Cyber Spatial",
+      style: "Kinetic UI Studio",
       icon: <Zap className="w-3.5 h-3.5 text-amber-400" />,
+    },
+    {
+      id: "v4",
+      path: "/v4",
+      name: "V4: Scrollytelling",
+      style: "Fluid Spatial UI",
+      icon: <Workflow className="w-3.5 h-3.5 text-emerald-400" />,
     },
   ];
 

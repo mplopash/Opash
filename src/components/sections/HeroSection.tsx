@@ -213,19 +213,15 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
             >
               Get Free Project Scope & Quote
             </Button>
-            <button
+            <Button
+              variant="outline"
+              size="lg"
               onClick={handleScrollToEstimator}
-              className="w-full sm:w-auto"
+              leftIcon={<Sparkles className="w-4 h-4 text-[var(--accent)]" />}
+              className="w-full sm:w-auto text-base bg-[var(--bg-card)]/80 backdrop-blur-md hover:bg-[var(--bg-card-hover)] text-[var(--text-main)] font-semibold cursor-pointer"
             >
-              <Button
-                variant="outline"
-                size="lg"
-                leftIcon={<Sparkles className="w-4 h-4 text-[var(--accent)]" />}
-                className="w-full sm:w-auto text-base bg-[var(--bg-card)]/80 backdrop-blur-md hover:bg-[var(--bg-card-hover)] text-[var(--text-main)] font-semibold cursor-pointer"
-              >
-                Interactive Cost Estimator
-              </Button>
-            </button>
+              Interactive Cost Estimator
+            </Button>
           </div>
 
           {/* Trust badges - interactive on click */}
