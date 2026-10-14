@@ -144,7 +144,7 @@ const contract = {
 
         <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[var(--text-main)] leading-tight">
           Sticky Stacking Architecture: <br className="hidden sm:inline" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] via-[var(--accent)] to-teal-400">
+          <span className="text-[#1d4ed8] dark:text-[#3b82f6]">
             Engineered Layer by Layer.
           </span>
         </h2>

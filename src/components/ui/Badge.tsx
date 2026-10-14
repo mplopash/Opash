@@ -33,11 +33,11 @@ export function Badge({
 
   return (
     <span
-      className={`inline-flex items-center rounded-full transition-colors ${sizeClasses} ${variantClasses} ${className}`}
+      className={`inline-flex items-center rounded-full transition-all duration-200 hover:scale-105 ${sizeClasses} ${variantClasses} ${className}`}
       {...props}
     >
       {variant === "dot" && (
-        <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] animate-pulse" />
+        <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
       )}
       {children}
     </span>

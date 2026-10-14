@@ -126,8 +126,8 @@ export function ScrollNavigationRail() {
             title={s.label}
             className={`w-1.5 rounded-full transition-all duration-300 cursor-pointer ${
               activeSection === s.id
-                ? "h-4 bg-gradient-to-b from-[var(--primary)] to-[var(--accent)] shadow-sm"
-                : "h-1.5 bg-[var(--border-strong)] hover:bg-[var(--text-muted)]"
+                ? "h-4 bg-[var(--primary)] shadow-[0_0_8px_rgba(29,78,216,0.6)]"
+                : "h-1.5 bg-[var(--border-strong)] hover:bg-[var(--primary)]/60"
             }`}
           />
         ))}

@@ -26,7 +26,7 @@ export function WhyChooseUsSection() {
     {
       title: "Upwork Top-Rated Agency",
       desc: "Recognized as an elite software agency with a 100% Job Success Score and dozens of 5-star verified enterprise reviews.",
-      icon: <Award className="w-5 h-5 text-amber-500" />,
+      icon: <Award className="w-5 h-5 text-[var(--primary)]" />,
       colSpan: "lg:col-span-2",
       badge: "ELITE STATUS",
       highlight: "100% Client Success Record",
@@ -34,7 +34,7 @@ export function WhyChooseUsSection() {
     {
       title: "Agile 2-Week Sprints",
       desc: "Zero black-box engineering. You see live staging demos every two weeks with clear backlog tracking.",
-      icon: <Flame className="w-5 h-5 text-orange-500" />,
+      icon: <Flame className="w-5 h-5 text-[var(--accent)]" />,
       colSpan: "lg:col-span-1",
       badge: "VELOCITY",
       highlight: "Continuous Staging Demos",
@@ -42,7 +42,7 @@ export function WhyChooseUsSection() {
     {
       title: "Transparent Collaboration",
       desc: "Direct access to our senior architects via private Slack channels, Jira boards, and weekly video standups.",
-      icon: <MessageSquare className="w-5 h-5 text-[var(--accent)]" />,
+      icon: <MessageSquare className="w-5 h-5 text-[var(--primary)]" />,
       colSpan: "lg:col-span-1",
       badge: "COMMUNICATION",
       highlight: "Direct Slack Access",
@@ -58,7 +58,7 @@ export function WhyChooseUsSection() {
     {
       title: "Rock-Solid NDA & Code Ownership",
       desc: "You retain 100% intellectual property rights, source code ownership, and patentable work from day one.",
-      icon: <ShieldCheck className="w-5 h-5 text-emerald-500" />,
+      icon: <ShieldCheck className="w-5 h-5 text-[var(--accent)]" />,
       colSpan: "lg:col-span-1",
       badge: "SECURITY",
       highlight: "100% IP Ownership",
@@ -66,7 +66,7 @@ export function WhyChooseUsSection() {
     {
       title: "Complimentary Post-Launch Warranty",
       desc: "Every custom build includes 60 days of bug-fixing warranty and performance monitoring post-launch to ensure a silky-smooth rollout.",
-      icon: <RefreshCw className="w-5 h-5 text-purple-400" />,
+      icon: <RefreshCw className="w-5 h-5 text-[var(--primary)]" />,
       colSpan: "lg:col-span-2",
       badge: "GUARANTEE",
       highlight: "60-Day Full Warranty",
@@ -159,11 +159,14 @@ export function WhyChooseUsSection() {
             {reasons.map((item, idx) => (
               <SpotlightCard
                 key={idx}
-                className={`${item.colSpan} p-8 rounded-3xl glass-panel border border-[var(--border-strong)] flex flex-col justify-between group hover:border-[var(--primary)]/60 transition-all duration-300 shadow-md hover:shadow-2xl hover:shadow-[var(--brand-glow)]`}
+                className={`${item.colSpan} p-8 rounded-3xl glass-panel border border-[var(--border-strong)] flex flex-col justify-between group hover-card-elevate relative overflow-hidden transition-all duration-300 shadow-md`}
               >
+                {/* Minimal Green Accent Top Corner Sheen on Hover */}
+                <span className="absolute top-0 right-0 w-24 h-1 bg-gradient-to-l from-[#10b981] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <div className="p-3 rounded-2xl bg-[var(--bg-main)] border border-[var(--border-subtle)] group-hover:scale-110 transition-transform">
+                    <div className="p-3 rounded-2xl bg-[var(--bg-main)] border border-[var(--border-subtle)] group-hover:scale-110 group-hover:rotate-3 group-hover:border-[#1d4ed8]/40 group-hover:bg-[var(--primary)]/10 transition-all duration-300">
                       {item.icon}
                     </div>
                     <Badge variant="glass" size="sm">

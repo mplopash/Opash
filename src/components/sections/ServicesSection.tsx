@@ -208,11 +208,14 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
               <SpotlightCard
                 key={service.id}
                 data-cursor="INSPECT"
-                className="glass-panel p-6 sm:p-7 rounded-3xl border border-[var(--border-strong)] hover:border-[var(--primary)]/60 hover:shadow-2xl hover:shadow-[var(--brand-glow)] flex flex-col justify-between transition-all duration-300 group"
+                className="hover-card-elevate glass-panel p-6 sm:p-7 rounded-3xl border border-[var(--border-strong)] flex flex-col justify-between transition-all duration-300 group relative overflow-hidden"
               >
+                {/* Minimal Green Accent Top Sheen on Hover */}
+                <span className="absolute top-0 right-0 w-24 h-1 bg-gradient-to-l from-[#10b981] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="p-3 rounded-2xl bg-[var(--bg-main)] border border-[var(--border-subtle)] group-hover:scale-110 transition-transform">
+                    <div className="p-3 rounded-2xl bg-[var(--bg-main)] border border-[var(--border-subtle)] group-hover:scale-110 group-hover:rotate-3 group-hover:border-[#1d4ed8]/40 group-hover:bg-[var(--primary)]/10 transition-all duration-300">
                       {service.icon}
                     </div>
                     <Badge variant="glass" size="sm">
