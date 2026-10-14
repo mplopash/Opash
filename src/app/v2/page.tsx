@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { 
   ArrowRight, 
   Sparkles, 
@@ -200,13 +201,13 @@ export default function TactileHardwareV2Page() {
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/v2" className="flex items-center gap-3">
-            <div
-              className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black text-xl text-[#0e50d7] ${
-                isLight ? "tactile-convex-light" : "tactile-convex-dark"
-              }`}
-            >
-              O
-            </div>
+            <Image
+              src="/logos/opash-icon.png"
+              alt="Opash"
+              width={40}
+              height={40}
+              className="w-10 h-10 object-contain rounded-xl"
+            />
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="text-base font-extrabold tracking-tight">Opash</span>

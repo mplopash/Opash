@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
-import { ThemeCustomizer } from "@/components/theme/ThemeCustomizer";
 import { SmoothScroll } from "@/components/common/SmoothScroll";
 import { VersionSwitcher } from "@/components/common/VersionSwitcher";
 import { ScrollProgress } from "@/components/common/ScrollProgress";
@@ -47,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-palette="electric" data-mode="dark" data-font="jakarta" suppressHydrationWarning>
+    <html lang="en" data-mode="dark" data-font="jakarta" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -63,7 +62,6 @@ export default function RootLayout({
             <ScrollNavigationRail />
             {children}
             <VersionSwitcher />
-            <ThemeCustomizer />
           </ThemeProvider>
         </SmoothScroll>
       </body>

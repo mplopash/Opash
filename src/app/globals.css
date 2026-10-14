@@ -4,16 +4,18 @@
 @custom-variant light (&:where([data-mode="light"], [data-mode="light"] *, .light, .light *));
 
 :root {
-  /* Default Color Scheme: Electric Sapphire (Opash Brand) */
-  --primary: #0e50d7;
-  --primary-hover: #0a3fb0;
-  --primary-light: #38bdf8;
-  --primary-rgb: 14, 80, 215;
-  --accent: #00d4ff;
-  --accent-rgb: 0, 212, 255;
-  --brand-glow: rgba(14, 80, 215, 0.35);
+  /* Vibrant Opash Signature Brand Colors */
+  --primary: #1d4ed8;
+  --primary-hover: #1e40af;
+  --primary-light: #3b82f6;
+  --primary-rgb: 29, 78, 216;
+  --accent: #10b981;
+  --accent-hover: #059669;
+  --accent-light: #34d399;
+  --accent-rgb: 16, 185, 129;
+  --brand-glow: rgba(29, 78, 216, 0.32);
   
-  /* Default Theme: Dark Mode */
+  /* Default Theme: Dark Space / Slate */
   --bg-main: #060913;
   --bg-secondary: #0c1222;
   --bg-card: rgba(15, 23, 42, 0.72);
@@ -23,64 +25,13 @@
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --text-dim: #64748b;
-  --spotlight-color: rgba(0, 212, 255, 0.15);
+  --spotlight-color: rgba(16, 185, 129, 0.15);
   
   /* Fonts */
   --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
   --radius: 1rem;
-}
-
-/* Color Palettes */
-[data-palette="electric"] {
-  --primary: #0e50d7;
-  --primary-hover: #0a3fb0;
-  --primary-light: #38bdf8;
-  --primary-rgb: 14, 80, 215;
-  --accent: #00d4ff;
-  --accent-rgb: 0, 212, 255;
-  --brand-glow: rgba(14, 80, 215, 0.35);
-}
-
-[data-palette="emerald"] {
-  --primary: #059669;
-  --primary-hover: #047857;
-  --primary-light: #34d399;
-  --primary-rgb: 5, 150, 105;
-  --accent: #0d9488;
-  --accent-rgb: 13, 148, 136;
-  --brand-glow: rgba(5, 150, 105, 0.32);
-}
-
-[data-palette="violet"] {
-  --primary: #7c3aed;
-  --primary-hover: #6d28d9;
-  --primary-light: #a78bfa;
-  --primary-rgb: 124, 58, 237;
-  --accent: #ec4899;
-  --accent-rgb: 236, 72, 153;
-  --brand-glow: rgba(124, 58, 237, 0.32);
-}
-
-[data-palette="sunset"] {
-  --primary: #ea580c;
-  --primary-hover: #c2410c;
-  --primary-light: #fb923c;
-  --primary-rgb: 234, 88, 12;
-  --accent: #e11d48;
-  --accent-rgb: 225, 29, 72;
-  --brand-glow: rgba(234, 88, 12, 0.32);
-}
-
-[data-palette="classic"] {
-  --primary: #0e50d7;
-  --primary-hover: #0a3fb0;
-  --primary-light: #38bdf8;
-  --primary-rgb: 14, 80, 215;
-  --accent: #3b82f6;
-  --accent-rgb: 59, 130, 246;
-  --brand-glow: rgba(14, 80, 215, 0.35);
 }
 
 /* Modes */
@@ -95,7 +46,7 @@
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --text-dim: #64748b;
-  --spotlight-color: rgba(0, 212, 255, 0.14);
+  --spotlight-color: rgba(16, 185, 129, 0.15);
 }
 
 [data-mode="midnight"] {
@@ -108,21 +59,21 @@
   --text-main: #ffffff;
   --text-muted: #8e9bb0;
   --text-dim: #505d73;
-  --spotlight-color: rgba(14, 80, 215, 0.2);
+  --spotlight-color: rgba(29, 78, 216, 0.2);
 }
 
 [data-mode="light"],
 .light {
-  --bg-main: #f8fafc;
-  --bg-secondary: #f1f5f9;
+  --bg-main: #ffffff;
+  --bg-secondary: #f8fafc;
   --bg-card: #ffffff;
-  --bg-card-hover: #f8fafc;
-  --border-subtle: rgba(15, 23, 42, 0.08);
-  --border-strong: rgba(15, 23, 42, 0.16);
+  --bg-card-hover: #f1f5f9;
+  --border-subtle: rgba(15, 23, 42, 0.06);
+  --border-strong: rgba(15, 23, 42, 0.12);
   --text-main: #090d16;
-  --text-muted: #334155;
+  --text-muted: #475569;
   --text-dim: #64748b;
-  --spotlight-color: rgba(14, 80, 215, 0.08);
+  --spotlight-color: rgba(29, 78, 216, 0.06);
 }
 
 /* Dynamic Fonts */
@@ -272,7 +223,7 @@ html.lenis, html.lenis body {
   100% { background-position: 200% 0; }
 }
 .shiny-text {
-  background: linear-gradient(110deg, #64CEFB 25%, #ffffff 50%, #64CEFB 75%);
+  background: linear-gradient(110deg, #3b82f6 25%, #ffffff 50%, #3b82f6 75%);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -281,7 +232,7 @@ html.lenis, html.lenis body {
 
 [data-mode="light"] .shiny-text,
 .light .shiny-text {
-  background: linear-gradient(110deg, #0e50d7 20%, #00d4ff 50%, #0e50d7 80%);
+  background: linear-gradient(110deg, #1d4ed8 20%, #3b82f6 50%, #1d4ed8 80%);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -307,14 +258,157 @@ html.lenis, html.lenis body {
     16px 16px 36px rgba(0, 0, 0, 0.6);
 }
 
+/* Strict 2-Color Brand Text: Monochromatic Brand Blue */
 .gradient-text {
-  background: linear-gradient(135deg, var(--text-main) 30%, var(--primary-light) 70%, var(--accent) 100%);
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+[data-mode="light"] .gradient-text,
+.light .gradient-text {
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Strict Brand Blue Solid / Monochromatic Fill (No rainbow gradient) */
 .brand-gradient {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  background: #1d4ed8;
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+}
+
+[data-mode="light"] .brand-gradient,
+.light .brand-gradient {
+  background: #1d4ed8;
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+}
+
+/* ============================================================
+   PREMIUM INTERACTIVE HOVER MICRO-INTERACTIONS
+   Strict 2-Color Brand: Brand Blue (#1d4ed8) + Minimal Green (#10b981)
+   ============================================================ */
+
+/* 1. Button Specular Shine Sweep & Tactile Lift */
+.btn-shine-sweep {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background-color 0.2s ease;
+}
+.btn-shine-sweep::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: skewX(-20deg);
+  transition: transform 0.75s ease;
+  pointer-events: none;
+}
+.btn-shine-sweep:hover::before {
+  transform: translateX(350%) skewX(-20deg);
+}
+.btn-shine-sweep:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -4px rgba(29, 78, 216, 0.45);
+}
+.btn-shine-sweep:active {
+  transform: translateY(0);
+}
+
+/* 2. Interactive Card Lift & Border Glow */
+.hover-card-elevate {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s ease, 
+              border-color 0.3s ease;
+}
+.hover-card-elevate:hover {
+  transform: translateY(-5px);
+  border-color: rgba(29, 78, 216, 0.45);
+  box-shadow: 0 20px 40px -15px rgba(29, 78, 216, 0.22);
+}
+[data-mode="dark"] .hover-card-elevate:hover,
+.dark .hover-card-elevate:hover {
+  border-color: rgba(59, 130, 246, 0.45);
+  box-shadow: 0 20px 40px -15px rgba(29, 78, 216, 0.35);
+}
+
+/* 3. Nav Link Hover Underline */
+.nav-link-hover {
+  position: relative;
+  transition: color 0.2s ease;
+}
+.nav-link-hover::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  border-radius: 9999px;
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link-hover:hover::after {
+  width: 70%;
+  left: 15%;
+}
+
+/* 4. Minimal Green Accent Pip / Live Dot */
+.accent-green-pip {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+/* 5. Interactive Magnetic Glow for Secondary & Outline Buttons */
+.btn-outline-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-outline-hover:hover {
+  border-color: var(--primary) !important;
+  background-color: rgba(29, 78, 216, 0.08) !important;
+  color: var(--primary) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(29, 78, 216, 0.2);
+}
+[data-mode="dark"] .btn-outline-hover:hover,
+.dark .btn-outline-hover:hover {
+  color: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+  background-color: rgba(59, 130, 246, 0.12) !important;
+  box-shadow: 0 8px 20px -4px rgba(29, 78, 216, 0.3);
+}
+
+/* 6. Hero 3D Fluid Brand Video Tint */
+.hero-video-dark {
+  filter: grayscale(1) contrast(1.2) brightness(0.95);
+}
+.hero-video-dark-tint {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 75%, #10b981 100%);
+  mix-blend-mode: color;
+  pointer-events: none;
+}
+.hero-video-dark-glow {
+  background: radial-gradient(circle at 75% 35%, rgba(16, 185, 129, 0.14), transparent 45%),
+              radial-gradient(circle at 35% 65%, rgba(29, 78, 216, 0.28), transparent 55%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.hero-video-light {
+  filter: invert(1) grayscale(1) contrast(1.18) brightness(1.02);
+  mix-blend-mode: multiply;
+}
+.hero-video-light-tint {
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 80%, #10b981 100%);
+  mix-blend-mode: screen;
+  pointer-events: none;
 }
 
 .grid-mesh {
@@ -329,10 +423,10 @@ html.lenis, html.lenis body {
 [data-mode="light"] .grid-mesh,
 .light .grid-mesh {
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(14, 80, 215, 0.09) 0%, transparent 60%),
-    radial-gradient(circle at 100% 100%, rgba(0, 212, 255, 0.06) 0%, transparent 50%),
-    linear-gradient(to right, rgba(14, 80, 215, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(14, 80, 215, 0.07) 1px, transparent 1px);
+    radial-gradient(circle at 50% 0%, rgba(29, 78, 216, 0.04) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
+    linear-gradient(to right, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
   background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
 }
 

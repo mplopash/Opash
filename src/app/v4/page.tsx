@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { 
   Sparkles, 
   Layers, 
@@ -142,9 +143,13 @@ export default function ScrollytellingV4Page() {
       <header className="sticky top-1 z-40 backdrop-blur-2xl bg-[var(--bg-main)]/70 border-b border-[var(--border-subtle)] py-4 px-6 sm:px-10 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link href="/v4" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white font-black flex items-center justify-center shadow-lg shadow-cyan-500/20">
-              O
-            </div>
+            <Image
+              src="/logos/opash-icon.png"
+              alt="Opash"
+              width={36}
+              height={36}
+              className="w-9 h-9 object-contain"
+            />
             <div>
               <div className="font-extrabold text-base tracking-tight flex items-center gap-1.5">
                 <span>Opash</span>

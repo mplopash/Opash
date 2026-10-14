@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { 
   Mail, 
   Phone, 
@@ -94,18 +95,21 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
         {/* Brand & Address Column */}
         <div className="lg:col-span-2 space-y-5">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-[var(--primary)] to-[var(--accent)] text-white shadow-md shadow-[var(--brand-glow)]">
-              <span className="font-extrabold text-xl">O</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-bold tracking-tight text-[var(--text-main)]">
-                Opash<span className="text-[var(--accent)]">.</span>
-              </span>
-              <span className="text-[10px] uppercase tracking-widest text-[var(--text-dim)] font-medium -mt-1">
-                Software Solutions
-              </span>
-            </div>
+          <Link href="/" className="inline-block group">
+            <Image
+              src="/logos/opash-logo-dark.png"
+              alt="Opash Software"
+              width={200}
+              height={48}
+              className="h-10 w-auto object-contain hidden dark:block transition-transform duration-200 group-hover:scale-102"
+            />
+            <Image
+              src="/logos/opash-logo-light.png"
+              alt="Opash Software"
+              width={200}
+              height={48}
+              className="h-10 w-auto object-contain block dark:hidden transition-transform duration-200 group-hover:scale-102"
+            />
           </Link>
 
           <p className="text-[var(--text-muted)] leading-relaxed text-sm max-w-md">
@@ -197,6 +201,7 @@ export function Footer() {
         wordmark="opash"
         label="Opash Software"
         meta={`©${currentYear} · Surat HQ Campus / Global Delivery`}
+        palette={{ ink: "#476d9a", warm: "#5ec098" }}
         height="480px"
       />
     </footer>

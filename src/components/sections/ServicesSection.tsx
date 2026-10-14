@@ -52,7 +52,7 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
       title: "Web Development & Next-Gen Apps",
       description:
         "Modern, responsive, ultra-fast websites and web applications built with Next.js, React, and TypeScript. Optimized for SEO, user experience, and frictionless conversions.",
-      icon: <Globe className="w-5 h-5 text-[var(--accent)]" />,
+      icon: <Globe className="w-5 h-5 text-[var(--primary)]" />,
       features: [
         "Server-Side Rendering (SSR) & Static Edge Delivery",
         "State-of-the-Art Design Systems & Tailwind CSS",
@@ -68,7 +68,7 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
       title: "Mobile App Development",
       description:
         "Design and engineering of high-performing mobile applications for iOS and Android. We craft immersive native and cross-platform apps with fluid gestures and offline-first data sync.",
-      icon: <Smartphone className="w-5 h-5 text-purple-400" />,
+      icon: <Smartphone className="w-5 h-5 text-[var(--primary)]" />,
       features: [
         "Cross-Platform Flutter & React Native Apps",
         "Native Swift (iOS) & Kotlin (Android) Solutions",
@@ -84,7 +84,7 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
       title: "AI & Machine Learning Solutions",
       description:
         "Harness the power of Artificial Intelligence to automate complex workflows, extract actionable insights, and build personalized agentic experiences.",
-      icon: <Bot className="w-5 h-5 text-pink-400" />,
+      icon: <Bot className="w-5 h-5 text-[var(--accent)]" />,
       features: [
         "Generative AI & LLM Integration (OpenAI, Gemini)",
         "Retrieval-Augmented Generation (RAG) & Vector DBs",
@@ -100,7 +100,7 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
       title: "SaaS Development & Multi-Tenancy",
       description:
         "Architecting multi-tenant Software-as-a-Service platforms engineered for global scale, zero downtime, automated billing, and rock-solid data isolation.",
-      icon: <Cloud className="w-5 h-5 text-cyan-400" />,
+      icon: <Cloud className="w-5 h-5 text-[var(--primary)]" />,
       features: [
         "Multi-Tenant Database Partitioning",
         "Stripe, LemonSqueezy & Paddle Billing Engines",
@@ -116,7 +116,7 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
       title: "API Integration & Microservices",
       description:
         "Seamlessly connect disparate third-party systems and decouple legacy monoliths into lightweight, independently deployable microservices.",
-      icon: <Network className="w-5 h-5 text-emerald-400" />,
+      icon: <Network className="w-5 h-5 text-[var(--accent)]" />,
       features: [
         "RESTful & GraphQL API Design and Documentation",
         "Payment Gateway, ERP & Logistics Integrations",
@@ -132,7 +132,7 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
       title: "QA & Automated Testing",
       description:
         "Rigorous automated testing protocols that catch regressions before production. Ensuring flawless user experiences across all devices, browsers, and traffic spikes.",
-      icon: <CheckCheck className="w-5 h-5 text-amber-400" />,
+      icon: <CheckCheck className="w-5 h-5 text-[var(--primary)]" />,
       features: [
         "End-to-End Test Automation (Playwright, Cypress)",
         "API Performance & Load Testing (k6, JMeter)",
@@ -148,7 +148,7 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
       title: "Hire Dedicated Developers",
       description:
         "Scale your software engineering bandwidth on-demand with our thoroughly vetted senior developers. Seamlessly integrated into your daily standups and sprint boards.",
-      icon: <UserCheck className="w-5 h-5 text-blue-400" />,
+      icon: <UserCheck className="w-5 h-5 text-[var(--primary)]" />,
       features: [
         "Timezone-Aligned Dedicated Full-Time Developers",
         "Flexible Engagement (Hourly, Monthly, or Milestone)",

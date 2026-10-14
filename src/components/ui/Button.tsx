@@ -33,33 +33,37 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantClasses = {
       primary:
-        "bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] shadow-md shadow-[var(--brand-glow)] active:scale-[0.98]",
+        "btn-shine-sweep bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] shadow-md shadow-blue-600/30 active:scale-[0.98]",
       secondary:
-        "bg-[var(--bg-card)] text-[var(--text-main)] hover:bg-[var(--border-strong)] border border-[var(--border-subtle)] active:scale-[0.98]",
+        "bg-[var(--bg-card)] text-[var(--text-main)] hover:bg-[var(--border-strong)] border border-[var(--border-subtle)] hover:-translate-y-0.5 active:scale-[0.98]",
       outline:
-        "bg-transparent text-[var(--text-main)] hover:bg-[var(--primary)]/10 border border-[var(--border-strong)] hover:border-[var(--primary)] active:scale-[0.98]",
+        "btn-outline-hover bg-transparent text-[var(--text-main)] border border-[var(--border-strong)] active:scale-[0.98]",
       ghost:
-        "bg-transparent text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)]",
+        "bg-transparent text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--primary)]/10 hover:scale-[1.02]",
       gradient:
-        "brand-gradient text-white shadow-lg shadow-[var(--brand-glow)] hover:opacity-95 hover:scale-[1.02] active:scale-[0.98]",
+        "btn-shine-sweep bg-[#1d4ed8] hover:bg-[#1e40af] text-white shadow-lg shadow-blue-600/30 active:scale-[0.98]",
       glow:
-        "bg-[var(--primary)] text-white shadow-lg shadow-[var(--primary)]/40 hover:shadow-xl hover:shadow-[var(--primary)]/60 hover:scale-[1.02] active:scale-[0.98]",
+        "btn-shine-sweep bg-[var(--primary)] text-white shadow-lg shadow-blue-600/40 hover:shadow-xl hover:shadow-blue-600/60 active:scale-[0.98]",
     }[variant];
 
     return (
       <button
         ref={ref}
         disabled={disabled || isLoading}
-        className={`inline-flex items-center justify-center rounded-[var(--radius)] transition-all duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed select-none ${sizeClasses} ${variantClasses} ${className}`}
+        className={`group inline-flex items-center justify-center rounded-[var(--radius)] transition-all duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed select-none ${sizeClasses} ${variantClasses} ${className}`}
         {...props}
       >
         {isLoading ? (
           <Loader2 className="w-4 h-4 animate-spin" />
         ) : (
-          leftIcon && <span className="inline-flex shrink-0">{leftIcon}</span>
+          leftIcon && <span className="inline-flex shrink-0 transition-transform duration-200 group-hover:scale-110">{leftIcon}</span>
         )}
         <span>{children}</span>
-        {!isLoading && rightIcon && <span className="inline-flex shrink-0">{rightIcon}</span>}
+        {!isLoading && rightIcon && (
+          <span className="inline-flex shrink-0 transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5">
+            {rightIcon}
+          </span>
+        )}
       </button>
     );
   }

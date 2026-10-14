@@ -59,12 +59,13 @@ export function HeroParticleCanvas() {
     const particleCount = Math.min(Math.floor((width * height) / 14000), 90);
     const particles: Particle[] = [];
 
-    const darkColors = ["#00d4ff", "#38bdf8", "#0e50d7", "#60a5fa", "#34d399"];
-    const lightColors = ["#0e50d7", "#0284c7", "#2563eb", "#06b6d4"];
+    // Strict 2-Color Brand: Brand Blue (dominant 85%) + Minimal Green (15%)
+    const darkColors = ["#1d4ed8", "#2563eb", "#3b82f6", "#60a5fa", "#1d4ed8", "#10b981"];
+    const lightColors = ["rgba(29, 78, 216, 0.55)", "rgba(37, 99, 235, 0.5)", "rgba(59, 130, 246, 0.45)", "rgba(29, 78, 216, 0.5)", "rgba(16, 185, 129, 0.45)"];
     const colors = isLight ? lightColors : darkColors;
 
     for (let i = 0; i < particleCount; i++) {
-      const r = Math.random() * 2.2 + 1.5;
+      const r = isLight ? Math.random() * 1.4 + 0.8 : Math.random() * 2.2 + 1.5;
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -88,13 +89,13 @@ export function HeroParticleCanvas() {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < maxDistance) {
-            const alpha = (1 - dist / maxDistance) * (isLight ? 0.25 : 0.4);
+            const alpha = (1 - dist / maxDistance) * (isLight ? 0.14 : 0.35);
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.strokeStyle = isLight
-              ? `rgba(14, 80, 215, ${alpha})`
-              : `rgba(0, 212, 255, ${alpha})`;
+              ? `rgba(29, 78, 216, ${alpha})`
+              : `rgba(59, 130, 246, ${alpha})`;
             ctx.lineWidth = 0.9;
             ctx.stroke();
           }

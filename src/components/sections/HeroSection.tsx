@@ -124,35 +124,53 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
 
   return (
     <section id="hero" className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden bg-[var(--bg-main)] transition-colors duration-300">
-      {/* High-Definition 3D Liquid Metal Looping Video (from Untitled-2.md) */}
-      <video
-        className={`absolute inset-0 w-full h-full object-cover pointer-events-none z-0 transition-opacity duration-700 ${
-          isLight ? "opacity-20 mix-blend-multiply" : "opacity-75 md:opacity-85"
-        }`}
-        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-      />
-
-      {/* Radial Vignette & Aurora Lighting Overlays */}
-      <div className={`absolute inset-0 pointer-events-none z-0 transition-all duration-700 ${
-        isLight
-          ? "bg-radial-[circle_at_50%_40%_rgba(248,250,252,0.3)_0%,rgba(248,250,252,0.85)_70%,#f8fafc_100%]"
-          : "bg-radial-[circle_at_50%_40%_rgba(6,9,19,0.35)_0%,rgba(6,9,19,0.85)_70%,#060913_100%]"
-      }`} />
-
-      {/* Radiant Cosmic Aurora Glow Blobs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-r from-blue-600/30 via-cyan-500/25 to-sky-400/20 rounded-full blur-[140px] pointer-events-none z-0 animate-pulse" />
-      <div className="absolute top-10 left-10 w-[350px] h-[350px] bg-[var(--primary)]/20 rounded-full blur-[120px] pointer-events-none z-0" />
-      <div className="absolute top-20 right-10 w-[400px] h-[400px] bg-[var(--accent)]/15 rounded-full blur-[130px] pointer-events-none z-0" />
+      {/* High-Definition 3D Liquid Metal / Fluid Glass Background Video in Opash Brand Colors */}
+      {isLight ? (
+        <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden bg-white">
+          <div className="relative w-full h-full">
+            <video
+              className="w-full h-full object-cover hero-video-light opacity-80"
+              src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+            {/* Spotless Crystal Brand Blue with Minimal Green Highlight */}
+            <div className="absolute inset-0 hero-video-light-tint" />
+          </div>
+          {/* Clean ambient radial illumination */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-15%,rgba(29,78,216,0.06),rgba(255,255,255,0))]" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden bg-[#060913]">
+          <div className="relative w-full h-full">
+            <video
+              className="w-full h-full object-cover hero-video-dark opacity-85"
+              src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+            {/* Pure Brand Blue + Minimal Green Color Matrix Tint */}
+            <div className="absolute inset-0 hero-video-dark-tint" />
+            <div className="absolute inset-0 hero-video-dark-glow" />
+          </div>
+          <div className="absolute inset-0 bg-radial-[circle_at_50%_40%_rgba(6,9,19,0.3)_0%,rgba(6,9,19,0.85)_70%,#060913_100%]" />
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#1d4ed8]/25 rounded-full blur-[140px] animate-pulse" />
+          <div className="absolute top-10 left-10 w-[300px] h-[300px] bg-[#1d4ed8]/20 rounded-full blur-[120px]" />
+          <div className="absolute top-20 right-10 w-[350px] h-[350px] bg-[#10b981]/12 rounded-full blur-[130px]" />
+        </div>
+      )}
 
       {/* Interactive Constellation Particle Canvas */}
-      <HeroParticleCanvas />
+      <div className={`absolute inset-0 pointer-events-none z-0 transition-opacity duration-300 ${isLight ? "opacity-35" : "opacity-100"}`}>
+        <HeroParticleCanvas />
+      </div>
 
       {/* Subtle Architectural Grid Mesh */}
-      <div className="absolute inset-0 grid-mesh pointer-events-none z-0 opacity-70" />
+      <div className={`absolute inset-0 grid-mesh pointer-events-none z-0 transition-opacity duration-300 ${isLight ? "opacity-40" : "opacity-70"}`} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
         <div className="text-center max-w-4xl mx-auto space-y-6">
@@ -162,35 +180,42 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
               soundEffects.hover();
               onOpenQuoteModal();
             }}
-            className="inline-block liquid-glass liquid-border px-5 py-2.5 rounded-2xl shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
+            className="inline-block liquid-glass liquid-border px-5 py-2.5 rounded-2xl shadow-xl transition-all duration-300 hover:scale-105 hover:border-[#1d4ed8]/50 cursor-pointer group"
             title="Click to view 2026 Engineering Scope"
           >
             <div className="flex items-center gap-3 text-xs">
-              <span className="px-2 py-0.5 rounded-md bg-[var(--primary)]/25 text-[var(--accent)] font-mono font-bold tracking-wider">
+              <span className="px-2 py-0.5 rounded-md bg-[var(--primary)]/15 text-[var(--primary)] font-mono font-bold tracking-wider group-hover:bg-[var(--primary)] group-hover:text-white transition-colors">
                 [ 2026 ARCHITECTURE ]
               </span>
               <span className="text-[var(--text-main)] font-semibold">
-                Engineered by <span className="font-serif italic text-sky-400 font-normal text-sm">Senior Architects</span>
+                Engineered by <span className="font-serif italic text-blue-600 dark:text-blue-400 font-normal text-sm">Senior Architects</span>
               </span>
               <span className="hidden sm:inline text-[var(--text-dim)]">•</span>
-              <span className="hidden sm:inline text-emerald-500 font-semibold flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline text-emerald-600 dark:text-emerald-500 font-semibold flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse inline-block" />
                 100% Upwork Top Rated Agency
               </span>
             </div>
           </div>
 
-          {/* Main Headline with Vivid Rotating Text */}
+          {/* Main Headline with Strict 2-Color Typography (Solid Brand Blue + Minimal Green Pip) */}
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[var(--text-main)] leading-[1.08]">
             Engineering Next-Gen <br className="hidden sm:inline" />
             <span className="relative inline-block mt-2 min-h-[1.2em]">
               <span 
                 key={wordIndex}
-                className="inline-block font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#00d4ff] via-[#38bdf8] to-[#93c5fd] drop-shadow-[0_0_35px_rgba(0,212,255,0.7)] tracking-tight animate-in fade-in slide-in-from-bottom-2 duration-300"
+                className={`inline-block font-extrabold tracking-tight animate-in fade-in slide-in-from-bottom-2 duration-300 ${
+                  isLight
+                    ? "text-[#1d4ed8] drop-shadow-sm"
+                    : "text-[#3b82f6] drop-shadow-[0_0_35px_rgba(29,78,216,0.6)]"
+                }`}
               >
                 {rotatingWords[wordIndex]}
               </span>
-              <span className="absolute -bottom-2 left-0 right-0 h-1.5 bg-gradient-to-r from-[var(--primary)] via-[var(--accent)] to-transparent rounded-full opacity-90 shadow-[0_0_12px_var(--accent)]" />
+              {/* Opash Logo Signature: Brand Blue Underline Bar with Minimal Green Accent Dot */}
+              <span className="absolute -bottom-2 left-0 right-0 h-1.5 bg-[#1d4ed8] rounded-full opacity-90 shadow-[0_0_12px_rgba(29,78,216,0.5)] flex items-center justify-end pr-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] shadow-[0_0_6px_#10b981]" />
+              </span>
             </span>
           </h1>
 
@@ -199,7 +224,7 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
             With the power of innovation and technology, Opash Software empowers startups, SMEs, and global enterprises to build high-performance web, mobile, and AI solutions delivered with agile sprint velocity.
           </p>
 
-          {/* Dual CTAs - 100% Working Handlers */}
+          {/* Dual CTAs - 100% Working Handlers with Specular Hover Shine and Glide */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Button
               variant="gradient"
@@ -209,7 +234,7 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
                 onOpenQuoteModal();
               }}
               rightIcon={<ArrowRight className="w-4 h-4" />}
-              className="w-full sm:w-auto text-base shadow-xl hover:shadow-[var(--brand-glow)] font-bold cursor-pointer"
+              className="w-full sm:w-auto text-base shadow-xl shadow-blue-600/30 font-bold cursor-pointer"
             >
               Get Free Project Scope & Quote
             </Button>
@@ -218,7 +243,7 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
               size="lg"
               onClick={handleScrollToEstimator}
               leftIcon={<Sparkles className="w-4 h-4 text-[var(--accent)]" />}
-              className="w-full sm:w-auto text-base bg-[var(--bg-card)]/80 backdrop-blur-md hover:bg-[var(--bg-card-hover)] text-[var(--text-main)] font-semibold cursor-pointer"
+              className="w-full sm:w-auto text-base bg-[var(--bg-card)]/80 backdrop-blur-md text-[var(--text-main)] font-semibold cursor-pointer"
             >
               Interactive Cost Estimator
             </Button>
@@ -287,10 +312,10 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
                         soundEffects.click();
                         setActiveTab(tab.id);
                       }}
-                      className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-all duration-200 cursor-pointer ${
+                      className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 cursor-pointer ${
                         isActive
-                          ? "bg-[var(--primary)] text-white shadow-md shadow-[var(--brand-glow)]"
-                          : "text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)]"
+                          ? "bg-[var(--primary)] text-white shadow-md shadow-blue-600/30 scale-[1.02]"
+                          : "text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--primary)]/10"
                       }`}
                     >
                       <Icon className="w-3.5 h-3.5" />
