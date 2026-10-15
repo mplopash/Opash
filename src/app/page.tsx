@@ -12,6 +12,7 @@ import { TechStackSection } from "@/components/sections/TechStackSection";
 import { CohereScrollTextReveal } from "@/components/common/CohereScrollTextReveal";
 import { CohereStackedCardsSection } from "@/components/sections/CohereStackedCardsSection";
 import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
+import { ProjectShowcaseSection } from "@/components/sections/ProjectShowcaseSection";
 import { ClientSuccessSection } from "@/components/sections/ClientSuccessSection";
 import { ProjectEstimatorSection } from "@/components/sections/ProjectEstimatorSection";
 import { BlogInsightsSection } from "@/components/sections/BlogInsightsSection";
@@ -70,6 +71,7 @@ export default function Home() {
         />
         <CohereStackedCardsSection onOpenQuoteModal={handleOpenQuoteModal} />
         <WhyChooseUsSection />
+        <ProjectShowcaseSection />
         <ClientSuccessSection />
         <ProjectEstimatorSection onEstimateSubmit={handleEstimateSubmit} />
         <BlogInsightsSection />

@@ -280,7 +280,7 @@ export function GlobalReachSection() {
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-3xl p-1">{hub.flag}</span>
-                    <Badge variant={isSelected ? "solid" : "glass"} size="sm">
+                    <Badge variant={isSelected ? "primary" : "glass"} size="sm">
                       {hub.projects}
                     </Badge>
                   </div>
