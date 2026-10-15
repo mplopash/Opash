@@ -197,7 +197,7 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
       )}
 
       {/* Interactive Constellation Particle Canvas */}
-      <div className={`absolute inset-0 pointer-events-none z-0 transition-opacity duration-300 ${isLight ? "opacity-35" : "opacity-100"}`}>
+      <div className="absolute inset-0 pointer-events-none z-0 transition-opacity duration-300 opacity-100">
         <HeroParticleCanvas />
       </div>
 
@@ -304,8 +304,8 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
                 <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block shadow-sm" />
                 <span className="text-xs text-[var(--text-dim)] font-mono ml-2 tracking-wider flex items-center gap-2">
                   <span>opash-core-engine::v4.2 // live telemetry</span>
-                  <span className="inline-flex items-center gap-1 text-[10px] text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-800/60 font-mono">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
+                  <span className="inline-flex items-center gap-1 text-[10px] font-semibold font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-500/30 dark:border-emerald-800/60">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     {latency}ms
                   </span>
                 </span>

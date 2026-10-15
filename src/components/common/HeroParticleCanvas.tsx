@@ -11,6 +11,9 @@ interface Particle {
   radius: number;
   baseRadius: number;
   color: string;
+  isBeacon?: boolean;
+  isEmerald?: boolean;
+  pulseOffset: number;
 }
 
 export function HeroParticleCanvas() {
@@ -56,35 +59,56 @@ export function HeroParticleCanvas() {
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     document.addEventListener("mouseleave", handleMouseLeave, { passive: true });
 
-    // Capped particle count for ultra-smooth 120fps performance on low-end devices
-    const particleCount = Math.min(Math.floor((width * height) / 28000), 38);
+    // Increased particle count slightly as requested (~60 on desktop, ~36 on mobile)
+    const particleCount = Math.min(Math.floor((width * height) / 18000), 62);
     const particles: Particle[] = [];
 
-    // Strict 2-Color Brand: Brand Blue (dominant 85%) + Minimal Green (15%)
+    // Strict 2-Color Brand: Brand Blue (85%) + Minimal Emerald Green (15%)
+    // Deep, saturated colors for light mode to ensure crisp visibility against white backgrounds
     const darkColors = ["#1d4ed8", "#2563eb", "#3b82f6", "#60a5fa", "#10b981"];
-    const lightColors = ["rgba(29, 78, 216, 0.45)", "rgba(37, 99, 235, 0.4)", "rgba(59, 130, 246, 0.35)", "rgba(16, 185, 129, 0.35)"];
+    const lightColors = ["#1d4ed8", "#1e40af", "#2563eb", "#0284c7", "#059669"];
     const colors = isLight ? lightColors : darkColors;
 
     for (let i = 0; i < particleCount; i++) {
-      const r = isLight ? Math.random() * 1.2 + 0.8 : Math.random() * 1.8 + 1.2;
+      // Beacon nodes with radiant rings (matching dark mode reference)
+      const isBeacon = i % 10 === 0;
+      const isEmerald = isBeacon ? i % 20 === 0 : Math.random() < 0.18;
+      
+      let color: string;
+      if (isEmerald) {
+        color = isLight ? "#059669" : "#10b981";
+      } else {
+        color = colors[Math.floor(Math.random() * (colors.length - 1))];
+      }
+
+      const r = isBeacon
+        ? (isLight ? 3.4 : 3.0)
+        : (isLight ? Math.random() * 1.6 + 2.0 : Math.random() * 1.6 + 1.4);
+
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.45,
-        vy: (Math.random() - 0.5) * 0.45,
+        vx: (Math.random() - 0.5) * 0.42,
+        vy: (Math.random() - 0.5) * 0.42,
         radius: r,
         baseRadius: r,
-        color: colors[Math.floor(Math.random() * colors.length)],
+        color,
+        isBeacon,
+        isEmerald,
+        pulseOffset: Math.random() * Math.PI * 2,
       });
     }
 
+    let tick = 0;
+
     const render = () => {
       if (!isVisible) return;
+      tick += 0.03;
 
       ctx.clearRect(0, 0, width, height);
 
-      // Draw constellation lines
-      const maxDistance = 110;
+      // Draw constellation connecting lines
+      const maxDistance = 115;
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
@@ -92,20 +116,20 @@ export function HeroParticleCanvas() {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < maxDistance) {
-            const alpha = (1 - dist / maxDistance) * (isLight ? 0.12 : 0.28);
+            const alpha = (1 - dist / maxDistance) * (isLight ? 0.22 : 0.28);
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.strokeStyle = isLight
               ? `rgba(29, 78, 216, ${alpha})`
               : `rgba(59, 130, 246, ${alpha})`;
-            ctx.lineWidth = 0.8;
+            ctx.lineWidth = isLight ? 0.9 : 0.75;
             ctx.stroke();
           }
         }
       }
 
-      // Update particles
+      // Update and draw particles
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         p.x += p.vx;
@@ -114,7 +138,7 @@ export function HeroParticleCanvas() {
         if (p.x < 0 || p.x > width) p.vx *= -1;
         if (p.y < 0 || p.y > height) p.vy *= -1;
 
-        // Mouse avoidance
+        // Mouse avoidance physics
         const dx = mouse.x - p.x;
         const dy = mouse.y - p.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -124,15 +148,41 @@ export function HeroParticleCanvas() {
           const angle = Math.atan2(dy, dx);
           p.x -= Math.cos(angle) * force * 2;
           p.y -= Math.sin(angle) * force * 2;
-          p.radius = p.baseRadius * (1 + force * 1.5);
+          p.radius = p.baseRadius * (1 + force * 1.4);
         } else {
           p.radius = p.baseRadius;
         }
 
+        // Render Beacon pulse ring (matching reference image)
+        if (p.isBeacon) {
+          const pulseScale = 1 + Math.sin(tick + p.pulseOffset) * 0.28;
+          const ringRadius = p.radius * 3.5 * pulseScale;
+          const ringAlpha = (0.42 + Math.sin(tick + p.pulseOffset) * 0.22) * (isLight ? 0.95 : 0.9);
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, ringRadius, 0, Math.PI * 2);
+          ctx.strokeStyle = p.isEmerald
+            ? (isLight ? `rgba(5, 150, 105, ${ringAlpha})` : `rgba(16, 185, 129, ${ringAlpha})`)
+            : (isLight ? `rgba(29, 78, 216, ${ringAlpha})` : `rgba(59, 130, 246, ${ringAlpha})`);
+          ctx.lineWidth = isLight ? 1.5 : 1.2;
+          ctx.stroke();
+        }
+
+        // Render core particle dot
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
+        
+        // Add subtle glow in dark mode, crisp fill in light mode
+        if (!isLight) {
+          ctx.shadowBlur = p.isEmerald ? 8 : 6;
+          ctx.shadowColor = p.color;
+        } else {
+          ctx.shadowBlur = 0;
+        }
+        
         ctx.fill();
+        ctx.shadowBlur = 0; // reset
       }
 
       animationFrameId = requestAnimationFrame(render);
@@ -175,7 +225,7 @@ export function HeroParticleCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none z-10 w-full h-full opacity-80 transition-opacity duration-700"
+      className="absolute inset-0 pointer-events-none z-10 w-full h-full opacity-100 transition-opacity duration-500"
     />
   );
 }

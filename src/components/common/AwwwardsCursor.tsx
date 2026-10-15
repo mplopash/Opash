@@ -154,12 +154,12 @@ export function AwwwardsCursor() {
 
       <style jsx>{`
         .cursor-ring[data-state="hover"] {
-          width: 3.5rem;
-          height: 3.5rem;
-          background-color: rgba(29, 78, 216, 0.18);
-          border-width: 2px;
-          border-color: var(--accent);
-          box-shadow: 0 0 20px rgba(29, 78, 216, 0.25);
+          width: 2.25rem;
+          height: 2.25rem;
+          background-color: rgba(59, 130, 246, 0.08);
+          border-width: 1.5px;
+          border-color: rgba(59, 130, 246, 0.6);
+          box-shadow: 0 0 12px rgba(59, 130, 246, 0.2);
         }
       `}</style>
     </div>

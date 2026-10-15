@@ -63,6 +63,11 @@ export function GlobeAnalytics({
   const globeRef = useRef<ReturnType<typeof createGlobe> | null>(null);
   const [data, setData] = useState(initialMarkers);
 
+  // Sync data whenever initialMarkers changes on country selection
+  useEffect(() => {
+    setData(initialMarkers);
+  }, [initialMarkers]);
+
   const activeLocRef = useRef(activeLocation);
   useEffect(() => {
     activeLocRef.current = activeLocation;
@@ -84,8 +89,8 @@ export function GlobeAnalytics({
       setData((prev) =>
         prev.map((m) => ({
           ...m,
-          visitors: Math.max(10, m.visitors + Math.floor(Math.random() * 11) - 3),
-          trend: Math.max(-20, Math.min(20, m.trend + Math.floor(Math.random() * 5) - 2)),
+          visitors: Math.max(10, m.visitors + Math.floor(Math.random() * 7) - 3),
+          trend: Math.max(-20, Math.min(20, m.trend + Math.floor(Math.random() * 3) - 1)),
         }))
       );
     }, 4000);
@@ -126,24 +131,24 @@ export function GlobeAnalytics({
     };
   }, [handlePointerUp]);
 
-  // Update active markers on globe without re-initializing WebGL
+  // Update active markers AND arcs on globe without re-initializing WebGL
   useEffect(() => {
     if (!globeRef.current) return;
     globeRef.current.update({
-      markers: markersRef.current.map((m) => {
-        const isHQ = m.id === "vis-4" || m.label?.includes("HQ");
-        const isActive =
-          activeLocation &&
-          Math.abs(m.location[0] - activeLocation[0]) < 2 &&
-          Math.abs(m.location[1] - activeLocation[1]) < 2;
+      markers: initialMarkers.map((m) => {
+        const isHQ = m.id === "vis-in" || m.label?.includes("HQ");
         return {
           location: m.location,
-          size: isHQ ? 0.08 : isActive ? 0.075 : 0.045,
+          size: isHQ ? 0.08 : 0.075,
           id: m.id,
         };
       }),
+      arcs: customArcs.map((arc) => ({
+        from: arc.from,
+        to: arc.to,
+      })),
     });
-  }, [activeLocation]);
+  }, [initialMarkers, customArcs, activeLocation]);
 
   // WebGL Globe lifecycle (mounts once and on dark change)
   useEffect(() => {
@@ -158,32 +163,28 @@ export function GlobeAnalytics({
       if (width === 0 || globeRef.current) return;
 
       globeRef.current = createGlobe(canvas, {
-        devicePixelRatio: Math.min(window.devicePixelRatio || 1, 1.75),
+        devicePixelRatio: Math.min(window.devicePixelRatio || 1, 1.25),
         width,
         height: width,
         phi: 0,
         theta: 0.2,
         dark: dark,
-        diffuse: 1.4,
-        mapSamples: 10000,
+        diffuse: 1.2,
+        mapSamples: 6000,
         mapBrightness: 10,
         baseColor: dark ? [0.12, 0.18, 0.32] : [0.94, 0.96, 1],
         markerColor: [0.1, 0.85, 0.45], // Opash brand emerald accent
         glowColor: dark ? [0.11, 0.25, 0.5] : [0.85, 0.92, 1], // Opash brand blue glow
         markerElevation: 0,
-        markers: markersRef.current.map((m) => {
-          const isHQ = m.id === "vis-4" || m.label?.includes("HQ");
-          const isActive =
-            activeLocRef.current &&
-            Math.abs(m.location[0] - activeLocRef.current[0]) < 2 &&
-            Math.abs(m.location[1] - activeLocRef.current[1]) < 2;
+        markers: initialMarkers.map((m) => {
+          const isHQ = m.id === "vis-in" || m.label?.includes("HQ");
           return {
             location: m.location,
-            size: isHQ ? 0.08 : isActive ? 0.075 : 0.045,
+            size: isHQ ? 0.08 : 0.075,
             id: m.id,
           };
         }),
-        arcs: arcsRef.current.map((arc) => ({
+        arcs: customArcs.map((arc) => ({
           from: arc.from,
           to: arc.to,
         })),

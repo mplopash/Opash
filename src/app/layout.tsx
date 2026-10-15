@@ -47,6 +47,32 @@ export default function RootLayout({
   return (
     <html lang="en" data-mode="dark" data-font="jakarta" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var savedMode = localStorage.getItem('opash_mode');
+                  var mode = savedMode || 'light';
+                  if (!savedMode && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    mode = 'dark';
+                  }
+                  var font = localStorage.getItem('opash_font') || 'jakarta';
+                  var d = document.documentElement;
+                  d.setAttribute('data-mode', mode);
+                  d.setAttribute('data-font', font);
+                  if (mode === 'light') {
+                    d.classList.remove('dark');
+                    d.classList.add('light');
+                  } else {
+                    d.classList.remove('light');
+                    d.classList.add('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

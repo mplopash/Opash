@@ -19,22 +19,40 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setModeState] = useState<ThemeMode>("dark");
-  const [font, setFontState] = useState<FontFamily>("jakarta");
-  const [radius, setRadiusState] = useState<BorderRadius>("medium");
+  const [mode, setModeState] = useState<ThemeMode>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("opash_mode") as ThemeMode;
+      if (saved) return saved;
+      const attr = document.documentElement.getAttribute("data-mode") as ThemeMode;
+      if (attr) return attr;
+    }
+    return "dark";
+  });
+
+  const [font, setFontState] = useState<FontFamily>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("opash_font") as FontFamily;
+      if (saved) return saved;
+      const attr = document.documentElement.getAttribute("data-font") as FontFamily;
+      if (attr) return attr;
+    }
+    return "jakarta";
+  });
+
+  const [radius, setRadiusState] = useState<BorderRadius>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("opash_radius") as BorderRadius;
+      if (saved) return saved;
+    }
+    return "medium";
+  });
+
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
     // Remove legacy dynamic palette from local storage
     localStorage.removeItem("opash_palette");
-    const savedMode = localStorage.getItem("opash_mode") as ThemeMode;
-    const savedFont = localStorage.getItem("opash_font") as FontFamily;
-    const savedRadius = localStorage.getItem("opash_radius") as BorderRadius;
-
-    if (savedMode) setModeState(savedMode);
-    if (savedFont) setFontState(savedFont);
-    if (savedRadius) setRadiusState(savedRadius);
   }, []);
 
   useEffect(() => {

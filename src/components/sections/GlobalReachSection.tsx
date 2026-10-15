@@ -112,28 +112,48 @@ export function GlobalReachSection() {
   const hq = hubs[0]; // Surat HQ
   const activeHub = hubs.find((h) => h.id === activeHubId) || hubs[1];
 
-  // Memoized markers
-  const globeMarkers: AnalyticsMarker[] = useMemo(
-    () =>
-      hubs.map((h, i) => ({
-        id: `vis-${h.id}`,
-        location: h.geo,
-        visitors: h.id === "in" ? 1450 : 250 + i * 85,
-        trend: h.id === "in" ? 24 : (i % 2 === 0 ? 12 : -5),
-        label: h.id === "in" ? "Surat HQ" : h.country.split(" ")[0],
-      })),
-    []
-  );
+  // Dynamic markers: ONLY show Surat HQ and the clicked country!
+  const globeMarkers: AnalyticsMarker[] = useMemo(() => {
+    const isIndiaHQ = activeHub.id === "in";
+    if (isIndiaHQ) {
+      return [
+        {
+          id: "vis-in",
+          location: hq.geo,
+          visitors: 1557,
+          trend: 24,
+          label: "Surat HQ",
+        },
+      ];
+    }
+    return [
+      {
+        id: "vis-in",
+        location: hq.geo,
+        visitors: 1557,
+        trend: 19,
+        label: "Surat HQ",
+      },
+      {
+        id: `vis-${activeHub.id}`,
+        location: activeHub.geo,
+        visitors: parseInt(activeHub.projects.replace(/\D/g, "")) * 35 || 650,
+        trend: 12,
+        label: activeHub.country.split(" ")[0].toUpperCase(),
+      },
+    ];
+  }, [activeHub, hq.geo]);
 
-  // Memoized arcs from Surat HQ to other nodes
-  const globeArcs: AnalyticsArc[] = useMemo(
-    () =>
-      hubs.slice(1).map((h) => ({
+  // Dynamic arcs: ONLY draw the trajectory from Surat HQ to the clicked country!
+  const globeArcs: AnalyticsArc[] = useMemo(() => {
+    if (activeHub.id === "in") return [];
+    return [
+      {
         from: hq.geo,
-        to: h.geo,
-      })),
-    [hq.geo]
-  );
+        to: activeHub.geo,
+      },
+    ];
+  }, [activeHub, hq.geo]);
 
   return (
     <section className="py-14 sm:py-20 relative bg-[var(--bg-secondary)] overflow-hidden transition-colors duration-300 cv-auto">
@@ -272,7 +292,6 @@ export function GlobalReachSection() {
                 }}
                 onMouseEnter={() => {
                   soundEffects.hover();
-                  setActiveHubId(hub.id);
                 }}
                 className={`p-5 flex flex-col justify-between group cursor-pointer transition-all duration-300 relative overflow-hidden ${
                   isSelected

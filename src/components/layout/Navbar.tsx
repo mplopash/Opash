@@ -111,25 +111,24 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 flex justify-center ${
-          isScrolled
-            ? "py-2.5 sm:py-3.5 px-3 sm:px-6 pointer-events-none bg-transparent border-b-0 border-transparent shadow-none"
-            : "w-full py-3.5 sm:py-4 px-4 sm:px-6 lg:px-8 bg-white/85 dark:bg-[#070b14]/85 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-800/60 shadow-sm"
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 pointer-events-none flex justify-center ${
+          isScrolled ? "pt-2.5 sm:pt-3" : "pt-3.5 sm:pt-4"
         }`}
       >
-        <div
-          className={`w-full transition-all duration-300 flex items-center justify-between ${
-            isScrolled
-              ? "max-w-6xl rounded-full bg-white/95 dark:bg-[#070b14]/95 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-xl shadow-slate-900/5 dark:shadow-black/50 px-4 sm:px-6 py-2 pointer-events-auto"
-              : "max-w-7xl mx-auto"
-          }`}
-        >
-          {/* Opash Logo */}
-          <Link 
-            href="/" 
-            onClick={() => setActiveTab(0)}
-            className="flex items-center gap-3 group shrink-0"
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            className={`w-full transition-all duration-300 flex items-center justify-between pointer-events-auto rounded-full px-4 sm:px-6 py-2 sm:py-2.5 ${
+              isScrolled
+                ? "bg-white/95 dark:bg-[#070b14]/95 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-lg shadow-slate-900/5 dark:shadow-black/50"
+                : "bg-white/85 dark:bg-[#070b14]/85 backdrop-blur-xl border border-slate-200/70 dark:border-slate-800/70 shadow-sm"
+            }`}
           >
+            {/* Opash Logo */}
+            <Link 
+              href="/" 
+              onClick={() => setActiveTab(0)}
+              className="flex items-center gap-3 group shrink-0"
+            >
             <Image
               src="/logos/opash-logo-dark.png"
               alt="Opash Software"
@@ -327,6 +326,7 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
+          </div>
           </div>
         </div>
       </header>
