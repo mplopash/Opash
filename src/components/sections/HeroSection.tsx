@@ -136,12 +136,39 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
+  const [typingSpeed, setTypingSpeed] = useState(80);
+
+  // Typewriter effect: letters come one-by-one with a blinking cursor line, pause, and cycle
   useEffect(() => {
-    const interval = setInterval(() => {
-      setWordIndex((prev) => (prev + 1) % rotatingWords.length);
-    }, 2800);
-    return () => clearInterval(interval);
-  }, []);
+    const currentWord = rotatingWords[loopNum % rotatingWords.length];
+
+    const handleType = () => {
+      if (!isDeleting) {
+        setDisplayText(currentWord.substring(0, displayText.length + 1));
+        setTypingSpeed(75);
+
+        if (displayText.length + 1 >= currentWord.length) {
+          setTypingSpeed(2200); // Pause on completed word
+          setIsDeleting(true);
+        }
+      } else {
+        setDisplayText(currentWord.substring(0, displayText.length - 1));
+        setTypingSpeed(38); // Fast backspace
+
+        if (displayText.length <= 1) {
+          setIsDeleting(false);
+          setLoopNum((prev) => prev + 1);
+          setTypingSpeed(300); // Brief pause before starting next word
+        }
+      }
+    };
+
+    const timer = setTimeout(handleType, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, loopNum, typingSpeed]);
 
   const handleScrollToEstimator = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -224,15 +251,19 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
             Engineering Next-Gen <br className="hidden sm:inline" />
             <span className="relative inline-block mt-2 min-h-[1.2em]">
               <span 
-                key={wordIndex}
-                className={`inline-block font-extrabold tracking-tight animate-in fade-in slide-in-from-bottom-2 duration-300 ${
+                className={`inline-block font-extrabold tracking-tight ${
                   isLight
                     ? "text-[#476D9A] drop-shadow-sm"
                     : "text-[#5784b8] drop-shadow-[0_0_35px_rgba(71,109,154,0.6)]"
                 }`}
               >
-                {rotatingWords[wordIndex]}
+                {displayText || "\u00A0"}
               </span>
+              {/* Blinking kinetic cursor line in brand accent */}
+              <span 
+                className="inline-block w-[3.5px] h-[0.88em] ml-1 bg-[#5DC099] dark:bg-[#61BE99] align-middle rounded-full animate-pulse shadow-[0_0_12px_#61BE99]" 
+                aria-hidden="true"
+              />
               {/* Opash Logo Signature: Brand Blue Underline Bar with Minimal Green Accent Dot */}
               <span className="absolute -bottom-2 left-0 right-0 h-1.5 bg-[#476D9A] rounded-full opacity-90 shadow-[0_0_12px_rgba(71,109,154,0.5)] flex items-center justify-end pr-0.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#5DC099] dark:bg-[#61BE99] shadow-[0_0_6px_#61BE99]" />

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
@@ -21,6 +21,7 @@ import {
   SlidersHorizontal,
   LayoutGrid,
   ChevronRight,
+  MousePointerClick,
   Hand
 } from "lucide-react";
 import { SpotlightCard } from "@/components/common/SpotlightCard";
@@ -38,6 +39,21 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
   const [activeCategory, setActiveCategory] = useState<"all" | "engineering" | "ai_cloud" | "teams">("all");
   const [viewMode, setViewMode] = useState<"slider" | "studio">("slider");
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const trackContainerRef = useRef<HTMLDivElement | null>(null);
+  const [containerWidth, setContainerWidth] = useState(1200);
+
+  // Measure bounded container width (keeping slider strictly inside max-w-7xl)
+  useEffect(() => {
+    const updateSize = () => {
+      if (trackContainerRef.current) {
+        setContainerWidth(trackContainerRef.current.offsetWidth);
+      }
+    };
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, [viewMode]);
 
   const services = [
     {
@@ -207,7 +223,7 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
     return s.category === activeCategory;
   });
 
-  // Keep selected index within filtered range on category switch
+  // Reset to first slide when category changes
   useEffect(() => {
     setSelectedIndex(0);
   }, [activeCategory]);
@@ -215,21 +231,25 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
   const canScrollLeft = selectedIndex > 0;
   const canScrollRight = selectedIndex < filteredServices.length - 1;
 
-  const scrollPrev = () => {
-    if (canScrollLeft) {
-      soundEffects.click();
-      setSelectedIndex((prev) => prev - 1);
-    }
-  };
+  const goToIndex = useCallback((targetIdx: number) => {
+    if (targetIdx < 0 || targetIdx >= filteredServices.length) return;
+    soundEffects.click();
+    setSelectedIndex(targetIdx);
+  }, [filteredServices.length]);
 
-  const scrollNext = () => {
-    if (canScrollRight) {
-      soundEffects.click();
-      setSelectedIndex((prev) => prev + 1);
+  const scrollPrev = useCallback(() => {
+    if (selectedIndex > 0) {
+      goToIndex(selectedIndex - 1);
     }
-  };
+  }, [selectedIndex, goToIndex]);
 
-  // Keyboard navigation listener (← and → arrow keys)
+  const scrollNext = useCallback(() => {
+    if (selectedIndex < filteredServices.length - 1) {
+      goToIndex(selectedIndex + 1);
+    }
+  }, [selectedIndex, filteredServices.length, goToIndex]);
+
+  // Keyboard navigation listener (← and →)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (viewMode !== "slider") return;
@@ -241,17 +261,30 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedIndex, filteredServices.length, viewMode]);
+  }, [scrollPrev, scrollNext, viewMode]);
 
   const selectedService = filteredServices[selectedIndex] || filteredServices[0];
 
+  // Card geometry calculations constrained strictly inside max-w-7xl
+  const isMobile = containerWidth < 640;
+  const cardWidth = isMobile ? Math.min(310, containerWidth - 36) : Math.min(390, Math.floor(containerWidth * 0.36));
+  const gap = isMobile ? 14 : 24;
+  const stepDistance = cardWidth + gap;
+
+  // Center the active card within the bounded container
+  const trackOffset = (containerWidth / 2) - (cardWidth / 2) - (selectedIndex * stepDistance);
+
   return (
-    <section id="services" className="py-14 sm:py-20 relative bg-[var(--bg-secondary)] transition-colors duration-300 overflow-hidden font-sans">
+    <section 
+      id="services" 
+      className="py-14 sm:py-20 relative bg-[var(--bg-secondary)] transition-colors duration-300 font-sans overflow-hidden"
+    >
       {/* Background ambient radial glow in #476D9A and #61BE99 */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[350px] bg-[radial-gradient(ellipse_at_center,rgba(71,109,154,0.12)_0%,transparent_70%)] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-[450px] h-[300px] bg-[radial-gradient(circle_at_center,rgba(97,190,153,0.1)_0%,transparent_70%)] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* Main Container Bounded in max-w-7xl */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-10">
           <div>
@@ -277,10 +310,10 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
                     ? "bg-[#476D9A] text-white shadow-md shadow-[#476D9A]/25"
                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                 }`}
-                aria-label="3D Coverflow View"
+                aria-label="Kinetic Slider View"
               >
                 <SlidersHorizontal className="w-3.5 h-3.5" />
-                <span>3D Kinetic Slider</span>
+                <span>Kinetic Slider</span>
               </button>
 
               <button
@@ -302,8 +335,8 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
           </div>
         </div>
 
-        {/* Filter Navigation Bar & Live Track Counter */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-slate-200 dark:border-white/10">
+        {/* Filter Navigation Bar & Top Live Counter */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-slate-200 dark:border-white/10">
           {/* Category Tabs */}
           <div className="flex flex-wrap items-center gap-2">
             {[
@@ -332,20 +365,20 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
             })}
           </div>
 
-          {/* Slider Prev / Next Controls & Swipe Tip */}
+          {/* Header Quick Controls */}
           {viewMode === "slider" && (
-            <div className="flex items-center gap-4 self-end sm:self-center">
-              <span className="hidden sm:flex items-center gap-1.5 text-[11px] font-mono text-slate-400">
+            <div className="flex items-center gap-3 self-end sm:self-center">
+              <span className="hidden sm:flex items-center gap-1.5 text-[11px] font-mono text-slate-500 dark:text-slate-400">
                 <Hand className="w-3.5 h-3.5 text-[#61BE99]" />
-                DRAG OR SWIPE TO BROWSE
+                SWIPE OR CLICK TO BROWSE
               </span>
 
-              {/* Exact Index Counter */}
-              <div className="text-xs font-mono tracking-widest text-slate-500 dark:text-slate-400 flex items-center gap-1.5 bg-slate-100 dark:bg-white/[0.05] px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-white/10">
+              {/* Exact Index Indicator */}
+              <div className="text-xs font-mono tracking-widest text-slate-600 dark:text-slate-300 flex items-center gap-1.5 bg-white/80 dark:bg-white/[0.05] px-3 py-1.5 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
                 <span className="text-[#61BE99] font-bold">
                   {String(selectedIndex + 1).padStart(2, "0")}
                 </span>
-                <span>/</span>
+                <span className="opacity-40">/</span>
                 <span>{String(filteredServices.length).padStart(2, "0")}</span>
               </div>
 
@@ -353,10 +386,10 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
               <button
                 onClick={scrollPrev}
                 disabled={!canScrollLeft}
-                className={`p-2.5 rounded-xl border border-slate-200 dark:border-white/10 backdrop-blur-md transition-all cursor-pointer ${
+                className={`p-2 rounded-xl border border-slate-200 dark:border-white/10 backdrop-blur-md transition-all cursor-pointer ${
                   canScrollLeft
-                    ? "bg-white dark:bg-white/[0.06] text-slate-800 dark:text-white hover:border-[#476D9A] hover:bg-[#476D9A]/10 active:scale-95"
-                    : "opacity-40 cursor-not-allowed bg-slate-100 dark:bg-white/[0.02] text-slate-400"
+                    ? "bg-white dark:bg-white/[0.06] text-slate-800 dark:text-white hover:border-[#476D9A] hover:bg-[#476D9A]/10 active:scale-95 shadow-sm"
+                    : "opacity-30 cursor-not-allowed bg-slate-100 dark:bg-white/[0.02] text-slate-400"
                 }`}
                 aria-label="Previous card"
               >
@@ -367,10 +400,10 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
               <button
                 onClick={scrollNext}
                 disabled={!canScrollRight}
-                className={`p-2.5 rounded-xl border border-slate-200 dark:border-white/10 backdrop-blur-md transition-all cursor-pointer ${
+                className={`p-2 rounded-xl border border-slate-200 dark:border-white/10 backdrop-blur-md transition-all cursor-pointer ${
                   canScrollRight
-                    ? "bg-white dark:bg-white/[0.06] text-slate-800 dark:text-white hover:border-[#61BE99] hover:bg-[#61BE99]/10 active:scale-95"
-                    : "opacity-40 cursor-not-allowed bg-slate-100 dark:bg-white/[0.02] text-slate-400"
+                    ? "bg-white dark:bg-white/[0.06] text-slate-800 dark:text-white hover:border-[#61BE99] hover:bg-[#61BE99]/10 active:scale-95 shadow-sm"
+                    : "opacity-30 cursor-not-allowed bg-slate-100 dark:bg-white/[0.02] text-slate-400"
                 }`}
                 aria-label="Next card"
               >
@@ -381,132 +414,181 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
         </div>
 
         {/* ========================================================
-            VIEW MODE 1: 3D KINETIC COVERFLOW SLIDER (With interactive swipe)
+            VIEW MODE 1: KINETIC PARALLAX SLIDER (Pure Swipe & Pagination, Zero Scroll Interference)
             ======================================================== */}
         {viewMode === "slider" ? (
-          <div className="relative flex flex-col items-center">
-            {/* 3D Perspective Stage */}
-            <div className="w-full relative h-[530px] sm:h-[550px] flex items-center justify-center overflow-hidden [perspective:1400px]">
+          <div 
+            ref={trackContainerRef} 
+            className="w-full relative rounded-3xl overflow-hidden py-2 select-none"
+          >
+            {/* Edge Fog Gradients (Fade-out effect within container borders) */}
+            <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-r from-[var(--bg-secondary)] to-transparent z-20 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-l from-[var(--bg-secondary)] to-transparent z-20 pointer-events-none" />
+
+            {/* Kinetic Drag Track */}
+            <div className="w-full relative overflow-hidden py-4 sm:py-5">
               <motion.div
                 drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.25}
+                dragConstraints={{
+                  left: trackOffset - 120,
+                  right: trackOffset + 120,
+                }}
+                dragElastic={0.18}
                 onDragEnd={(_, info) => {
-                  const swipeThreshold = 45;
-                  if (info.offset.x < -swipeThreshold || info.velocity.x < -350) {
+                  const swipeDistance = info.offset.x;
+                  const swipeVelocity = info.velocity.x;
+                  if (swipeDistance < -40 || swipeVelocity < -280) {
                     scrollNext();
-                  } else if (info.offset.x > swipeThreshold || info.velocity.x > 350) {
+                  } else if (swipeDistance > 40 || swipeVelocity > 280) {
                     scrollPrev();
                   }
                 }}
-                className="w-full h-full relative flex items-center justify-center cursor-grab active:cursor-grabbing select-none"
+                animate={{ x: trackOffset }}
+                transition={{
+                  type: "spring",
+                  stiffness: 270,
+                  damping: 28,
+                  mass: 0.75,
+                }}
+                className="flex items-center cursor-grab active:cursor-grabbing will-change-transform"
+                style={{ gap: `${gap}px` }}
               >
                 {filteredServices.map((service, idx) => {
-                  const offset = idx - selectedIndex;
-                  const isCenter = offset === 0;
-
-                  // Render center card and adjacent cards (hide faraway cards for peak performance)
-                  if (Math.abs(offset) > 2) return null;
+                  const isCenter = idx === selectedIndex;
+                  const distFromCenter = Math.abs(idx - selectedIndex);
 
                   return (
                     <motion.div
                       key={service.id}
+                      onClick={() => {
+                        if (!isCenter) {
+                          goToIndex(idx);
+                        }
+                      }}
                       animate={{
-                        x: `${offset * 105}%`,
-                        scale: isCenter ? 1 : 0.88,
-                        rotateY: offset * -14,
-                        opacity: isCenter ? 1 : 0.45,
-                        zIndex: 20 - Math.abs(offset),
-                        filter: isCenter ? "blur(0px)" : "blur(1px)",
+                        scale: isCenter ? 1 : 0.93,
+                        opacity: isCenter ? 1 : distFromCenter === 1 ? 0.60 : 0.28,
+                        y: isCenter ? 0 : 8,
+                        filter: isCenter 
+                          ? "blur(0px)" 
+                          : distFromCenter === 1 
+                            ? "blur(2.5px)" 
+                            : "blur(4.5px)",
                       }}
                       transition={{
                         type: "spring",
-                        stiffness: 320,
-                        damping: 32,
-                        mass: 0.8,
+                        stiffness: 280,
+                        damping: 28,
                       }}
-                      onClick={() => {
-                        if (!isCenter) {
-                          soundEffects.click();
-                          setSelectedIndex(idx);
-                        }
+                      style={{
+                        width: `${cardWidth}px`,
+                        minWidth: `${cardWidth}px`,
                       }}
-                      className="absolute w-[92vw] sm:w-[420px] max-w-[440px] h-[510px] top-1/2 -translate-y-1/2 will-change-transform"
+                      className={`shrink-0 will-change-transform transition-all duration-300 ${
+                        !isCenter ? "cursor-pointer hover:opacity-55" : ""
+                      }`}
                     >
                       <SpotlightCard
-                        className={`w-full h-full rounded-[30px] p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 border backdrop-blur-2xl relative overflow-hidden group ${
+                        className={`w-full rounded-[28px] p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 border backdrop-blur-2xl relative overflow-hidden min-h-[475px] sm:min-h-[490px] ${
                           isCenter
-                            ? "border-[#476D9A]/70 dark:border-[#61BE99]/60 shadow-2xl shadow-[#476D9A]/15 dark:shadow-black/60 bg-white dark:bg-[#090e1c]/95"
-                            : "border-slate-200/90 dark:border-white/10 bg-white/80 dark:bg-[#070b14]/80 hover:border-[#476D9A]/50"
+                            ? "border-[#476D9A]/90 dark:border-[#61BE99]/80 shadow-2xl shadow-[#476D9A]/15 dark:shadow-[#61BE99]/20 bg-white dark:bg-[#090e1c] ring-1 ring-[#476D9A]/20 dark:ring-[#61BE99]/30"
+                            : "border-slate-200/70 dark:border-white/10 bg-white/75 dark:bg-[#070b14]/70"
                         }`}
                       >
-                        {/* Top Accent Glint */}
-                        <span className={`absolute top-0 right-0 w-36 h-1 bg-gradient-to-l from-[#61BE99] to-transparent transition-opacity duration-300 pointer-events-none ${
-                          isCenter ? "opacity-100" : "opacity-0"
-                        }`} />
+                        {/* Top Accent Beam for Active Center Card */}
+                        <span
+                          className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#476D9A] via-[#5DC099] to-[#61BE99] transition-opacity duration-300 pointer-events-none ${
+                            isCenter ? "opacity-100" : "opacity-0"
+                          }`}
+                        />
 
                         <div>
-                          {/* Top Metadata Row */}
+                          {/* Top Metadata Header */}
                           <div className="flex items-center justify-between mb-4">
-                            <div className="flex items-center gap-3">
-                              <div className="p-3 rounded-2xl bg-slate-100 dark:bg-white/[0.06] border border-slate-200/80 dark:border-white/10 group-hover:scale-105 transition-transform duration-300">
+                            <div className="flex items-center gap-2.5">
+                              <div className={`p-2.5 rounded-xl border transition-colors ${
+                                isCenter
+                                  ? "bg-[#476D9A]/10 border-[#476D9A]/30 text-[#476D9A] dark:text-[#61BE99]"
+                                  : "bg-slate-100 dark:bg-white/[0.05] border-slate-200 dark:border-white/10 text-slate-500"
+                              }`}>
                                 {service.icon}
                               </div>
-                              <span className="text-xs font-mono font-bold tracking-widest text-[#476D9A] dark:text-[#5784b8]">
-                                CAPABILITY // {service.num}
-                              </span>
+                              <div>
+                                <span className="text-[11px] font-mono tracking-wider uppercase text-slate-500 dark:text-slate-400 font-bold block">
+                                  CAPABILITY // {service.num}
+                                </span>
+                                <span className="text-xs text-[#61BE99] font-semibold">
+                                  {service.categoryLabel}
+                                </span>
+                              </div>
                             </div>
 
-                            <Badge variant="glass" size="sm">
+                            <Badge 
+                              variant="glass" 
+                              size="sm"
+                              className={`text-[10px] font-mono font-bold ${
+                                isCenter 
+                                  ? "border-[#61BE99]/40 text-[#61BE99] bg-[#61BE99]/10" 
+                                  : ""
+                              }`}
+                            >
                               {service.badge}
                             </Badge>
                           </div>
 
-                          {/* Title */}
-                          <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white group-hover:text-[#476D9A] dark:group-hover:text-[#61BE99] transition-colors mb-2.5">
+                          {/* Title & Short Summary */}
+                          <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-snug mb-2.5">
                             {service.title}
                           </h3>
 
-                          {/* Short Description */}
-                          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5">
+                          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4 line-clamp-2">
                             {service.shortDesc}
                           </p>
 
-                          {/* Key Features List */}
-                          <div className="space-y-2.5 mb-5">
+                          {/* Key Technical Features with Verified Checkmarks */}
+                          <div className="space-y-2 mb-4">
                             {service.features.map((feat, fIdx) => (
-                              <div key={fIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium">
-                                <CheckCircle className="w-4 h-4 text-[#61BE99] shrink-0 mt-0.5" />
-                                <span className="line-clamp-1">{feat}</span>
+                              <div key={fIdx} className="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300">
+                                <CheckCircle className={`w-3.5 h-3.5 mt-0.5 shrink-0 transition-colors ${
+                                  isCenter ? "text-[#61BE99]" : "text-slate-400"
+                                }`} />
+                                <span className="font-medium leading-snug">{feat}</span>
                               </div>
                             ))}
                           </div>
+                        </div>
 
-                          {/* SLA Guarantee Box */}
-                          <div className="mb-5 p-2.5 rounded-xl bg-slate-100/90 dark:bg-white/[0.04] border border-slate-200/80 dark:border-white/10 flex items-center justify-between text-xs font-mono">
-                            <span className="flex items-center gap-1.5 text-[#61BE99] font-bold">
-                              <Sparkles className="w-3.5 h-3.5" />
+                        {/* Bottom Footer Specs & Action CTA */}
+                        <div>
+                          {/* SLA Guarantee Strip */}
+                          <div className="py-2 px-3 rounded-xl bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 flex items-center justify-between text-[11px] font-mono mb-3.5">
+                            <span className="flex items-center gap-1.5 text-[#476D9A] dark:text-[#61BE99] font-bold">
+                              <Sparkles className="w-3 h-3 text-[#61BE99]" />
                               SLA:
                             </span>
-                            <span className="text-slate-600 dark:text-slate-400 font-medium truncate max-w-[240px]">
+                            <span className="text-slate-700 dark:text-slate-200 font-medium truncate max-w-[190px]">
                               {service.sla}
                             </span>
                           </div>
-                        </div>
 
-                        {/* Bottom Technologies & Direct CTA */}
-                        <div className="pt-4 border-t border-slate-200 dark:border-white/10 space-y-4">
-                          <div className="flex flex-wrap gap-1.5">
-                            {service.technologies.map((tech, tIdx) => (
+                          {/* Technologies Tags */}
+                          <div className="flex flex-wrap gap-1.5 mb-4">
+                            {service.technologies.slice(0, 4).map((tech, tIdx) => (
                               <span
                                 key={tIdx}
-                                className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-white/[0.05] text-[11px] text-slate-600 dark:text-slate-300 font-mono border border-slate-200 dark:border-white/10"
+                                className="px-2 py-0.5 rounded-md bg-white dark:bg-white/[0.05] text-[10px] font-mono text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 font-semibold"
                               >
                                 {tech}
                               </span>
                             ))}
+                            {service.technologies.length > 4 && (
+                              <span className="px-2 py-0.5 rounded-md bg-white dark:bg-white/[0.05] text-[10px] font-mono text-slate-500 border border-slate-200 dark:border-white/10">
+                                +{service.technologies.length - 4}
+                              </span>
+                            )}
                           </div>
 
+                          {/* Consultation Button */}
                           <Button
                             variant="primary"
                             size="sm"
@@ -528,26 +610,86 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
               </motion.div>
             </div>
 
-            {/* Clickable Bullet Pagination Track (Exact, Zero Math Drift) */}
-            <div className="flex items-center justify-center gap-2.5 mt-6">
-              {filteredServices.map((_, dotIdx) => {
-                const isSelected = selectedIndex === dotIdx;
-                return (
-                  <button
-                    key={dotIdx}
-                    onClick={() => {
-                      soundEffects.click();
-                      setSelectedIndex(dotIdx);
+            {/* ========================================================
+                UNIFIED TACTILE PAGINATION DECK
+                ======================================================== */}
+            <div className="mt-5 flex flex-col items-center gap-3">
+              {/* Interactive Numbered Capsule Track */}
+              <div className="flex items-center justify-center gap-2 p-1.5 rounded-full bg-white/80 dark:bg-[#070b14]/80 border border-slate-200 dark:border-white/10 backdrop-blur-xl shadow-sm">
+                {/* Prev Button */}
+                <button
+                  onClick={scrollPrev}
+                  disabled={!canScrollLeft}
+                  className={`p-1.5 rounded-full transition-all cursor-pointer ${
+                    canScrollLeft
+                      ? "text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-white/10"
+                      : "opacity-25 cursor-not-allowed text-slate-400"
+                  }`}
+                  aria-label="Previous capability"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                </button>
+
+                {/* Numbered Pills */}
+                <div className="flex items-center gap-1.5">
+                  {filteredServices.map((service, dotIdx) => {
+                    const isSelected = selectedIndex === dotIdx;
+                    return (
+                      <button
+                        key={dotIdx}
+                        onClick={() => goToIndex(dotIdx)}
+                        className={`h-7 transition-all duration-300 rounded-full font-mono text-xs font-bold flex items-center justify-center cursor-pointer ${
+                          isSelected
+                            ? "px-3 bg-gradient-to-r from-[#476D9A] to-[#61BE99] text-white shadow-md shadow-[#61BE99]/30 gap-1.5"
+                            : "w-7 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-white/10"
+                        }`}
+                        aria-label={`Go to slide ${dotIdx + 1}: ${service.title}`}
+                      >
+                        {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                        <span>{service.num}</span>
+                        {isSelected && !isMobile && (
+                          <span className="text-[11px] font-sans font-semibold max-w-[120px] truncate ml-0.5">
+                            {service.title.split(" ")[0]}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Next Button */}
+                <button
+                  onClick={scrollNext}
+                  disabled={!canScrollRight}
+                  className={`p-1.5 rounded-full transition-all cursor-pointer ${
+                    canScrollRight
+                      ? "text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-white/10"
+                      : "opacity-25 cursor-not-allowed text-slate-400"
+                  }`}
+                  aria-label="Next capability"
+                >
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              {/* Progress Bar & Gesture Hint */}
+              <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-[11px] font-mono text-slate-400 dark:text-slate-500">
+                <div className="w-40 sm:w-56 h-1 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-[#476D9A] via-[#5DC099] to-[#61BE99]"
+                    initial={false}
+                    animate={{
+                      width: `${((selectedIndex + 1) / filteredServices.length) * 100}%`,
                     }}
-                    className={`h-2 transition-all duration-300 rounded-full cursor-pointer ${
-                      isSelected
-                        ? "w-8 bg-gradient-to-r from-[#476D9A] to-[#61BE99] shadow-[0_0_10px_rgba(97,190,153,0.6)]"
-                        : "w-2 bg-slate-300 dark:bg-white/20 hover:bg-slate-400 dark:hover:bg-white/40"
-                    }`}
-                    aria-label={`Go to slide ${dotIdx + 1}`}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
-                );
-              })}
+                </div>
+
+                <span className="flex items-center gap-1.5">
+                  <MousePointerClick className="w-3 h-3 text-[#61BE99]" />
+                  SWIPE CARDS OR CLICK PILLS • ARROWS ← →
+                </span>
+              </div>
             </div>
           </div>
         ) : (

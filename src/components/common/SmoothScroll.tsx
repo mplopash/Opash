@@ -10,28 +10,21 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     const isCoarse = window.matchMedia("(pointer: coarse)").matches;
     if (isCoarse) return;
 
+    // Ultra-optimized 60/120Hz high polling rate butter smooth settings
     const lenis = new Lenis({
-      duration: 0.85,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: "vertical",
-      gestureOrientation: "vertical",
+      lerp: 0.085, // Silky linear interpolation - eliminates input stutter & inertia lag
       smoothWheel: true,
-      wheelMultiplier: 0.95,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.2,
       syncTouch: false,
-      autoRaf: false,
+      autoRaf: true, // Let Lenis utilize internal high-precision rAF clock
     });
 
-    let rafId: number;
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-
-    rafId = requestAnimationFrame(raf);
+    (window as unknown as { lenis?: Lenis }).lenis = lenis;
 
     return () => {
-      cancelAnimationFrame(rafId);
       lenis.destroy();
+      delete (window as unknown as { lenis?: Lenis }).lenis;
     };
   }, []);
 
