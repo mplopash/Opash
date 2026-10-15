@@ -45,3 +45,4 @@ Thumbs.db
 # Git
 .git/
 .AGENTS.md
+CHAT_EXPORT_SUMMARY.md
