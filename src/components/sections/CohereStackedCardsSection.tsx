@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import { soundEffects } from "@/lib/soundEffects";
 import { MaterialRippleButton } from "@/components/effects/MaterialRippleButton";
+import { BorderBeam } from "@/components/common/BorderBeam";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 
 interface CohereStackedCardsSectionProps {
   onOpenQuoteModal: (service?: string) => void;
@@ -148,10 +150,13 @@ const contract = {
               zIndex: idx + 1,
             }}
           >
-            {/* Top Brand Accent Line */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#1d4ed8] to-[#10b981] opacity-75" />
+            {/* 21st.dev Border Beam Perimeter Glow on Featured Cards */}
+            <BorderBeam size={280} duration={12} colorFrom="#1d4ed8" colorTo="#10b981" />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Top Brand Accent Line */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#1d4ed8] to-[#10b981] opacity-75 pointer-events-none" />
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
               {/* Left Column: Narrative Details */}
               <div className="lg:col-span-7 space-y-5">
                 <div className="flex items-center justify-between">
@@ -189,17 +194,11 @@ const contract = {
                 </div>
 
                 <div className="pt-2">
-                  <MaterialRippleButton
-                    onClick={() => {
-                      soundEffects.click();
-                      onOpenQuoteModal(card.title);
-                    }}
-                    variant="accent"
-                    className="px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer"
-                  >
-                    <span>Configure {card.title}</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </MaterialRippleButton>
+                  <InteractiveHoverButton
+                    onClick={() => onOpenQuoteModal(card.title)}
+                    text={`Configure ${card.title}`}
+                    className="text-xs font-bold uppercase tracking-wider shadow-md shadow-blue-700/20"
+                  />
                 </div>
               </div>
 

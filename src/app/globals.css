@@ -702,3 +702,11 @@ html.lenis, html.lenis body {
   }
 }
 
+/* 21st.dev Border Beam Animation */
+@keyframes border-beam-run {
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+

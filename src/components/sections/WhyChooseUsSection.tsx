@@ -113,6 +113,7 @@ export function WhyChooseUsSection() {
 
   return (
     <section id="why-us" className="py-24 relative bg-[var(--bg-main)] transition-colors duration-300">
+      <div id="about" className="absolute -top-24 left-0" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="08 // Why Partner with Opash"

@@ -1,0 +1,13 @@
+"use client";
+
+import { GlobeAnalytics } from "@/components/ui/component";
+
+export default function GlobeAnalyticsDemo() {
+  return (
+    <div className="flex items-center justify-center w-full min-h-screen bg-white dark:bg-[#070b14] p-8 overflow-hidden">
+      <div className="w-full max-w-lg">
+        <GlobeAnalytics />
+      </div>
+    </div>
+  );
+}

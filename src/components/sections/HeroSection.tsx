@@ -27,6 +27,7 @@ import {
 import { HeroParticleCanvas } from "@/components/common/HeroParticleCanvas";
 import { SpotlightCard } from "@/components/common/SpotlightCard";
 import { BorderBeam } from "@/components/common/BorderBeam";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import { useTheme } from "@/context/ThemeContext";
 import { soundEffects } from "@/lib/soundEffects";
 
@@ -231,20 +232,16 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
             With the power of innovation and technology, Opash Software empowers startups, SMEs, and global enterprises to build high-performance web, mobile, and AI solutions delivered with agile sprint velocity.
           </p>
 
-          {/* Dual CTAs - 100% Working Handlers with Specular Hover Shine and Glide */}
+          {/* Dual CTAs - 21st.dev Interactive Hover Button and Cost Estimator */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Button
-              variant="gradient"
-              size="lg"
+            <InteractiveHoverButton
               onClick={() => {
                 soundEffects.click();
                 onOpenQuoteModal();
               }}
-              rightIcon={<ArrowRight className="w-4 h-4" />}
-              className="w-full sm:w-auto text-base shadow-xl shadow-blue-600/30 font-bold cursor-pointer"
-            >
-              Get Free Project Scope & Quote
-            </Button>
+              text="Get Free Project Scope & Quote"
+              className="w-full sm:w-auto text-sm sm:text-base shadow-xl shadow-blue-600/30 font-bold py-3.5 px-8"
+            />
             <Button
               variant="outline"
               size="lg"

@@ -38,7 +38,7 @@ export function BlogInsightsSection() {
   ];
 
   return (
-    <section className="py-24 relative bg-[var(--bg-secondary)]">
+    <section id="blogs" className="py-24 relative bg-[var(--bg-secondary)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Tech Insights by Opash"

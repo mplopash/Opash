@@ -3,6 +3,7 @@
 import React from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProjectShowcase } from "@/components/ui/project-showcase";
+import { BorderBeam } from "@/components/common/BorderBeam";
 
 export function ProjectShowcaseSection() {
   return (
@@ -18,7 +19,9 @@ export function ProjectShowcaseSection() {
           description="Explore our high-impact production deliveries across InsureTech, Healthcare, Industrial Automation, and Autonomous AI. Hover any project to preview live interface telemetry."
         />
 
-        <div className="mt-8 rounded-3xl glass-panel border border-[var(--border-strong)] p-2 sm:p-6 shadow-2xl relative">
+        <div className="mt-8 rounded-3xl glass-panel border border-[var(--border-strong)] p-2 sm:p-6 shadow-2xl relative overflow-hidden">
+          {/* 21st.dev Border Beam Perimeter Accent */}
+          <BorderBeam size={320} duration={12} colorFrom="#1d4ed8" colorTo="#10b981" />
           <ProjectShowcase heading="Production Portfolios // Live Verified" />
         </div>
       </div>
