@@ -7,7 +7,7 @@ import { BorderBeam } from "@/components/common/BorderBeam";
 
 export function ProjectShowcaseSection() {
   return (
-    <section id="portfolio" className="py-14 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 border-b border-[var(--border-subtle)] overflow-hidden cv-auto">
+    <section id="portfolio" className="py-14 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 overflow-hidden cv-auto">
       {/* Subtle ambient lighting */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#1d4ed8]/10 rounded-full blur-[140px] pointer-events-none" />
 

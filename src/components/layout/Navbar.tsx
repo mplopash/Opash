@@ -113,14 +113,14 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 flex justify-center ${
           isScrolled
-            ? "py-2.5 sm:py-3.5 px-3 sm:px-6 pointer-events-none"
-            : "w-full py-3.5 sm:py-4 px-4 sm:px-6 lg:px-8 bg-white/85 dark:bg-[#070b14]/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80 shadow-sm"
+            ? "py-2.5 sm:py-3.5 px-3 sm:px-6 pointer-events-none bg-transparent border-b-0 border-transparent shadow-none"
+            : "w-full py-3.5 sm:py-4 px-4 sm:px-6 lg:px-8 bg-white/85 dark:bg-[#070b14]/85 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-800/60 shadow-sm"
         }`}
       >
         <div
           className={`w-full transition-all duration-300 flex items-center justify-between ${
             isScrolled
-              ? "max-w-6xl rounded-full bg-white/95 dark:bg-[#070b14]/95 backdrop-blur-2xl border border-slate-200/90 dark:border-slate-800/90 shadow-2xl shadow-slate-900/10 dark:shadow-black/60 px-4 sm:px-6 py-2 pointer-events-auto"
+              ? "max-w-6xl rounded-full bg-white/95 dark:bg-[#070b14]/95 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-xl shadow-slate-900/5 dark:shadow-black/50 px-4 sm:px-6 py-2 pointer-events-auto"
               : "max-w-7xl mx-auto"
           }`}
         >

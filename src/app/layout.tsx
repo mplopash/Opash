@@ -58,7 +58,6 @@ export default function RootLayout({
         <SmoothScroll>
           <ThemeProvider>
             <AwwwardsCursor />
-            <ScrollProgress />
             {children}
           </ThemeProvider>
         </SmoothScroll>

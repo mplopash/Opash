@@ -111,7 +111,7 @@ export function ClientSuccessSection() {
   const current = testimonials[activeIdx];
 
   return (
-    <section id="case-studies" className="py-14 sm:py-20 relative bg-[var(--bg-main)] border-t border-[var(--border-subtle)] transition-colors duration-300 cv-auto">
+    <section id="case-studies" className="py-14 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="08 // Verified Client Voices"

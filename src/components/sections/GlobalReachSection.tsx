@@ -136,7 +136,7 @@ export function GlobalReachSection() {
   );
 
   return (
-    <section className="py-14 sm:py-20 relative bg-[var(--bg-secondary)] border-y border-[var(--border-subtle)] overflow-hidden transition-colors duration-300 cv-auto">
+    <section className="py-14 sm:py-20 relative bg-[var(--bg-secondary)] overflow-hidden transition-colors duration-300 cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
           eyebrow="06 // Global Delivery & Infrastructure Mesh"

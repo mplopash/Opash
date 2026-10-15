@@ -68,8 +68,8 @@
   --bg-secondary: #f8fafc;
   --bg-card: #ffffff;
   --bg-card-hover: #f1f5f9;
-  --border-subtle: rgba(15, 23, 42, 0.06);
-  --border-strong: rgba(15, 23, 42, 0.12);
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
   --text-main: #090d16;
   --text-muted: #475569;
   --text-dim: #64748b;
