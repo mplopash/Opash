@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { SpotlightCard } from "@/components/common/SpotlightCard";
 import { BorderBeam } from "@/components/common/BorderBeam";
+import { MagneticHover } from "@/components/effects/MagneticHover";
 import { soundEffects } from "@/lib/soundEffects";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -603,6 +604,7 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
                           <Button
                             variant="primary"
                             size="sm"
+                            magnetic={true}
                             className="w-full justify-between bg-[#476D9A] hover:bg-[#38587d] text-white font-bold cursor-pointer shadow-md shadow-[#476D9A]/20"
                             onClick={(e) => {
                               e.stopPropagation();
@@ -628,18 +630,20 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
               {/* Interactive Numbered Capsule Track */}
               <div className="flex items-center justify-center gap-2 p-1.5 rounded-full bg-white/80 dark:bg-[#070b14]/80 border border-slate-200 dark:border-white/10 backdrop-blur-xl shadow-sm">
                 {/* Prev Button */}
-                <button
-                  onClick={scrollPrev}
-                  disabled={!canScrollLeft}
-                  className={`p-1.5 rounded-full transition-all cursor-pointer ${
-                    canScrollLeft
-                      ? "text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-white/10"
-                      : "opacity-25 cursor-not-allowed text-slate-400"
-                  }`}
-                  aria-label="Previous capability"
-                >
-                  <ArrowLeft className="w-3.5 h-3.5" />
-                </button>
+                <MagneticHover pullFactor={0.2} maxPull={6}>
+                  <button
+                    onClick={scrollPrev}
+                    disabled={!canScrollLeft}
+                    className={`p-1.5 rounded-full transition-all cursor-pointer ${
+                      canScrollLeft
+                        ? "text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-white/10"
+                        : "opacity-25 cursor-not-allowed text-slate-400"
+                    }`}
+                    aria-label="Previous capability"
+                  >
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                  </button>
+                </MagneticHover>
 
                 {/* Numbered Pills */}
                 <div className="flex items-center gap-1.5">
@@ -669,18 +673,20 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
                 </div>
 
                 {/* Next Button */}
-                <button
-                  onClick={scrollNext}
-                  disabled={!canScrollRight}
-                  className={`p-1.5 rounded-full transition-all cursor-pointer ${
-                    canScrollRight
-                      ? "text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-white/10"
-                      : "opacity-25 cursor-not-allowed text-slate-400"
-                  }`}
-                  aria-label="Next capability"
-                >
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+                <MagneticHover pullFactor={0.2} maxPull={6}>
+                  <button
+                    onClick={scrollNext}
+                    disabled={!canScrollRight}
+                    className={`p-1.5 rounded-full transition-all cursor-pointer ${
+                      canScrollRight
+                        ? "text-slate-700 dark:text-white hover:bg-slate-200 dark:hover:bg-white/10"
+                        : "opacity-25 cursor-not-allowed text-slate-400"
+                    }`}
+                    aria-label="Next capability"
+                  >
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </MagneticHover>
               </div>
 
               {/* Progress Bar & Gesture Hint */}

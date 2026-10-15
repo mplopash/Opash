@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { soundEffects } from "@/lib/soundEffects";
+import { MagneticHover } from "@/components/effects/MagneticHover";
 
 interface NavbarProps {
   onOpenQuoteModal: (service?: string) => void;
@@ -295,29 +296,33 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
           {/* Action CTAs (Strict Single Line - No Vertical Wrap) */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0 flex-nowrap">
             {/* Light / Dark Mode Toggle */}
-            <button
-              onClick={() => {
-                soundEffects.click();
-                setMode(mode === "light" ? "dark" : "light");
-              }}
-              className="p-2 sm:p-2.5 rounded-full border border-white/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.08] backdrop-blur-xl hover:border-[#476D9A]/50 hover:scale-105 text-slate-800 dark:text-slate-200 transition-all duration-200 cursor-pointer shadow-sm shrink-0"
-              title={`Switch to ${mode === "light" ? "Dark" : "Light"} Mode`}
-              aria-label="Toggle theme mode"
-            >
-              {mode === "light" ? (
-                <Moon className="w-4 h-4 text-[#476D9A] shrink-0" />
-              ) : (
-                <Sun className="w-4 h-4 text-amber-400 shrink-0" />
-              )}
-            </button>
+            <MagneticHover pullFactor={0.2} maxPull={6}>
+              <button
+                onClick={() => {
+                  soundEffects.click();
+                  setMode(mode === "light" ? "dark" : "light");
+                }}
+                className="p-2 sm:p-2.5 rounded-full border border-white/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.08] backdrop-blur-xl hover:border-[#476D9A]/50 hover:scale-105 text-slate-800 dark:text-slate-200 transition-all duration-200 cursor-pointer shadow-sm shrink-0"
+                title={`Switch to ${mode === "light" ? "Dark" : "Light"} Mode`}
+                aria-label="Toggle theme mode"
+              >
+                {mode === "light" ? (
+                  <Moon className="w-4 h-4 text-[#476D9A] shrink-0" />
+                ) : (
+                  <Sun className="w-4 h-4 text-amber-400 shrink-0" />
+                )}
+              </button>
+            </MagneticHover>
 
             {/* 21st.dev Interactive Hover Button */}
             <div className="hidden sm:block shrink-0">
-              <InteractiveHoverButton
-                onClick={() => onOpenQuoteModal()}
-                text="Get a Quote"
-                className="text-xs font-bold shadow-md shadow-[#476D9A]/20 whitespace-nowrap shrink-0"
-              />
+              <MagneticHover pullFactor={0.16} maxPull={8}>
+                <InteractiveHoverButton
+                  onClick={() => onOpenQuoteModal()}
+                  text="Get a Quote"
+                  className="text-xs font-bold shadow-md shadow-[#476D9A]/20 whitespace-nowrap shrink-0"
+                />
+              </MagneticHover>
             </div>
 
             {/* Mobile Menu Toggle Button */}

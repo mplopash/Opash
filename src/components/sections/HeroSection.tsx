@@ -28,6 +28,7 @@ import { HeroParticleCanvas } from "@/components/common/HeroParticleCanvas";
 import { SpotlightCard } from "@/components/common/SpotlightCard";
 import { BorderBeam } from "@/components/common/BorderBeam";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
+import { MagneticHover } from "@/components/effects/MagneticHover";
 import { useTheme } from "@/context/ThemeContext";
 import { soundEffects } from "@/lib/soundEffects";
 
@@ -276,25 +277,29 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
             With the power of innovation and technology, Opash Software empowers startups, SMEs, and global enterprises to build high-performance web, mobile, and AI solutions delivered with agile sprint velocity.
           </p>
 
-          {/* Dual CTAs - 21st.dev Interactive Hover Button and Cost Estimator */}
+          {/* Dual CTAs - 21st.dev Interactive Hover Button and Cost Estimator with Minimal Magnetic Pull */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <InteractiveHoverButton
-              onClick={() => {
-                soundEffects.click();
-                onOpenQuoteModal();
-              }}
-              text="Get Free Project Scope & Quote"
-              className="w-full sm:w-auto text-sm sm:text-base shadow-xl shadow-blue-600/30 font-bold py-3.5 px-8"
-            />
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={handleScrollToEstimator}
-              leftIcon={<Sparkles className="w-4 h-4 text-[var(--accent)]" />}
-              className="w-full sm:w-auto text-base bg-[var(--bg-card)]/80 backdrop-blur-md text-[var(--text-main)] font-semibold cursor-pointer"
-            >
-              Interactive Cost Estimator
-            </Button>
+            <MagneticHover pullFactor={0.16} maxPull={9}>
+              <InteractiveHoverButton
+                onClick={() => {
+                  soundEffects.click();
+                  onOpenQuoteModal();
+                }}
+                text="Get Free Project Scope & Quote"
+                className="w-full sm:w-auto text-sm sm:text-base shadow-xl shadow-blue-600/30 font-bold py-3.5 px-8"
+              />
+            </MagneticHover>
+            <MagneticHover pullFactor={0.14} maxPull={8}>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={handleScrollToEstimator}
+                leftIcon={<Sparkles className="w-4 h-4 text-[var(--accent)]" />}
+                className="w-full sm:w-auto text-base bg-[var(--bg-card)]/80 backdrop-blur-md text-[var(--text-main)] font-semibold cursor-pointer"
+              >
+                Interactive Cost Estimator
+              </Button>
+            </MagneticHover>
           </div>
 
           {/* Trust badges - interactive on click */}

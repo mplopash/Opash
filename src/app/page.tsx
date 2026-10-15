@@ -127,7 +127,7 @@ export default function Home() {
         <IndustriesSection onExploreIndustry={(ind) => handleOpenQuoteModal(`Industry Solution: ${ind}`)} />
 
         {/* 11. Technology Matrix: Next.js, React, Node, Python, Flutter, Go, AWS */}
-        <TechStackSection />
+        <TechStackSection onSelectTech={(tech) => handleOpenQuoteModal(`Technology Architecture: ${tech}`)} />
 
         {/* 12. Engineering Manifesto Statement */}
         <CohereScrollTextReveal 

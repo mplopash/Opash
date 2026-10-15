@@ -1,5 +1,6 @@
 import React from "react";
 import { Loader2 } from "lucide-react";
+import { MagneticHover } from "@/components/effects/MagneticHover";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "outline" | "ghost" | "gradient" | "glow";
@@ -7,6 +8,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  magnetic?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -19,6 +21,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       isLoading = false,
       leftIcon,
       rightIcon,
+      magnetic = false,
       disabled,
       ...props
     },
@@ -46,7 +49,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         "btn-shine-sweep bg-[var(--primary)] text-white shadow-lg shadow-[var(--primary)]/40 hover:shadow-xl hover:shadow-[var(--primary)]/60 active:scale-[0.98]",
     }[variant];
 
-    return (
+    const btnElement = (
       <button
         ref={ref}
         disabled={disabled || isLoading}
@@ -66,6 +69,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
       </button>
     );
+
+    if (magnetic && !disabled && !isLoading) {
+      return <MagneticHover pullFactor={0.16} maxPull={8}>{btnElement}</MagneticHover>;
+    }
+
+    return btnElement;
   }
 );
 
