@@ -39,13 +39,15 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/logos/opash-icon.png", sizes: "32x32", type: "image/png" },
-      { url: "/logos/opash-icon.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icon.png", sizes: "192x192", type: "image/png" },
+      { url: "/logos/opash-icon.png", sizes: "512x512", type: "image/png" },
     ],
-    shortcut: "/logos/opash-icon.png",
+    shortcut: "/favicon.ico",
     apple: [
-      { url: "/logos/opash-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
 };
@@ -84,9 +86,10 @@ export default function RootLayout({
             `,
           }}
         />
-        <link rel="icon" href="/logos/opash-icon.png" type="image/png" sizes="32x32" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/logos/opash-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

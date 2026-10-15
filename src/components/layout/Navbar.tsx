@@ -126,7 +126,7 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
           <div
             className={`w-full rounded-full transition-[background-color,border-color,box-shadow,backdrop-filter,padding] duration-300 flex items-center justify-between pointer-events-auto border ${
               isScrolled
-                ? "px-4 sm:px-6 py-2 sm:py-2.5 bg-white/95 dark:bg-[#070b14]/95 backdrop-blur-2xl border-slate-200/80 dark:border-slate-800/80 shadow-lg shadow-black/5 dark:shadow-black/50"
+                ? "px-4 sm:px-6 py-2 sm:py-2.5 bg-white/65 dark:bg-[#070b14]/70 backdrop-blur-2xl backdrop-saturate-180 border-white/80 dark:border-white/10 shadow-[0_8px_32px_0_rgba(71,109,154,0.08),inset_0_1px_1px_0_rgba(255,255,255,0.9)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5),inset_0_1px_1px_0_rgba(255,255,255,0.08)]"
                 : "px-0 sm:px-1 py-1.5 bg-transparent border-transparent shadow-none"
             }`}
           >
@@ -163,7 +163,7 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
           >
             <div 
               ref={navContainerRef}
-              className="relative flex items-center p-1 rounded-full bg-slate-100/70 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-md flex-nowrap"
+              className="relative flex items-center p-1 rounded-full bg-slate-200/45 dark:bg-white/[0.05] border border-white/60 dark:border-white/10 backdrop-blur-xl flex-nowrap shadow-inner"
             >
               {/* Sliding Pill Cursor */}
               <motion.div
@@ -177,7 +177,7 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                   stiffness: 450,
                   damping: 32,
                 }}
-                className="absolute top-1 bottom-1 rounded-full bg-white dark:bg-[#131f38] shadow-sm border border-slate-200/90 dark:border-slate-700/80 pointer-events-none"
+                className="absolute top-1 bottom-1 rounded-full bg-white/85 dark:bg-[#131f38]/90 shadow-sm border border-white/90 dark:border-white/15 pointer-events-none"
               />
 
               {navItems.map((item, idx) => {
@@ -300,12 +300,12 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                 soundEffects.click();
                 setMode(mode === "light" ? "dark" : "light");
               }}
-              className="p-2 sm:p-2.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-blue-500/50 hover:scale-105 text-slate-800 dark:text-slate-200 transition-all duration-200 cursor-pointer shadow-sm shrink-0"
+              className="p-2 sm:p-2.5 rounded-full border border-white/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.08] backdrop-blur-xl hover:border-[#476D9A]/50 hover:scale-105 text-slate-800 dark:text-slate-200 transition-all duration-200 cursor-pointer shadow-sm shrink-0"
               title={`Switch to ${mode === "light" ? "Dark" : "Light"} Mode`}
               aria-label="Toggle theme mode"
             >
               {mode === "light" ? (
-                <Moon className="w-4 h-4 text-blue-600 shrink-0" />
+                <Moon className="w-4 h-4 text-[#476D9A] shrink-0" />
               ) : (
                 <Sun className="w-4 h-4 text-amber-400 shrink-0" />
               )}
@@ -316,7 +316,7 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
               <InteractiveHoverButton
                 onClick={() => onOpenQuoteModal()}
                 text="Get a Quote"
-                className="text-xs font-bold shadow-md shadow-blue-700/20 whitespace-nowrap shrink-0"
+                className="text-xs font-bold shadow-md shadow-[#476D9A]/20 whitespace-nowrap shrink-0"
               />
             </div>
 
