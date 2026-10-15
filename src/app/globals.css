@@ -240,7 +240,7 @@ html.lenis, html.lenis body {
   100% { background-position: 200% 0; }
 }
 .shiny-text {
-  background: linear-gradient(110deg, #3b82f6 25%, #ffffff 50%, #3b82f6 75%);
+  background: linear-gradient(110deg, #476D9A 25%, #ffffff 50%, #476D9A 75%);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

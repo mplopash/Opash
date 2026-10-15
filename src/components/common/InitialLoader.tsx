@@ -61,11 +61,11 @@ export function InitialLoader() {
       }`}
     >
       {/* Background ambient glow highlights */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-blue-600/15 via-emerald-500/10 to-blue-600/15 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-[#476D9A]/15 via-[#61BE99]/10 to-[#476D9A]/15 blur-[120px] rounded-full pointer-events-none" />
 
       {/* Subtle modern enterprise top badge */}
       <div className="absolute top-8 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-md">
-        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+        <span className="w-2 h-2 rounded-full bg-[#61BE99] animate-ping" />
         <span className="text-[11px] font-mono tracking-widest text-white/70 uppercase">
           OPASH SOFTWARE • SYSTEM READY
         </span>
@@ -103,7 +103,7 @@ export function InitialLoader() {
       <div className="w-full max-w-xs px-6 mt-4 flex flex-col items-center gap-2.5">
         <div className="w-full h-[2px] bg-white/10 rounded-full overflow-hidden relative">
           <div
-            className="h-full bg-gradient-to-r from-blue-500 to-emerald-400 transition-all duration-150 ease-out"
+            className="h-full bg-gradient-to-r from-[#476D9A] to-[#61BE99] transition-all duration-150 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>

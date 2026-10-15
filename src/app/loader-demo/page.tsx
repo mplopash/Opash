@@ -12,7 +12,7 @@ export default function LoaderDemoPage() {
   return (
     <div className="min-h-screen bg-[#030712] text-white flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden select-none">
       {/* Background ambient radial glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-gradient-to-r from-blue-600/20 via-emerald-500/15 to-blue-600/20 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-gradient-to-r from-[#476D9A]/20 via-[#61BE99]/15 to-[#476D9A]/20 blur-[150px] rounded-full pointer-events-none" />
 
       {/* Navigation header */}
       <div className="absolute top-6 left-6 right-6 flex items-center justify-between z-20">
@@ -22,8 +22,8 @@ export default function LoaderDemoPage() {
         >
           ← BACK TO HOME
         </Link>
-        <span className="text-xs font-mono text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full bg-emerald-500/10 flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+        <span className="text-xs font-mono text-[#61BE99] border border-[#61BE99]/20 px-3 py-1 rounded-full bg-[#61BE99]/10 flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#61BE99] animate-pulse" />
           OPASH VAPORIZE TEXT ENGINE
         </span>
       </div>

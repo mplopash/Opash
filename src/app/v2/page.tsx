@@ -388,7 +388,7 @@ export default function TactileHardwareV2Page() {
                 <div className="flex gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#61BE99]" />
                   <span className="w-2.5 h-2.5 rounded-full bg-cyan-500 shadow-[0_0_8px_#06b6d4]" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_#3b82f6]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_#476D9A]" />
                 </div>
               </div>
 

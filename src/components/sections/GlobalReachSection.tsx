@@ -220,7 +220,7 @@ export function GlobalReachSection() {
                 </button>
               )}
               <span className="px-3.5 py-1.5 rounded-full bg-[var(--bg-main)] border border-[var(--border-subtle)] text-[var(--text-main)] flex items-center gap-1.5 font-bold shadow-sm whitespace-nowrap">
-                <Globe2 className="w-3.5 h-3.5 text-[#3b82f6]" />
+                <Globe2 className="w-3.5 h-3.5 text-[#476D9A] dark:text-[#61BE99]" />
                 {activeHub ? `Target: ${activeHub.country} (${activeHub.latency})` : "Target: Worldwide Mesh (All 8 Markets)"}
               </span>
             </div>
