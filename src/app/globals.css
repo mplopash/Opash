@@ -711,8 +711,8 @@ html.lenis, html.lenis body {
 
 /* High-Performance Rendering & INP Optimizations */
 .cv-auto {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 600px;
+  /* Disabled content-visibility: auto to eliminate Chromium compositor black border/containment glitches */
+  contain: none;
 }
 
 .gpu-accelerated {

@@ -112,7 +112,7 @@ export function WhyChooseUsSection() {
   ];
 
   return (
-    <section id="why-us" className="py-14 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 cv-auto">
+    <section id="why-us" className="py-14 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300">
       <div id="about" className="absolute -top-20 left-0" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
@@ -130,7 +130,7 @@ export function WhyChooseUsSection() {
                 soundEffects.hover();
                 setActiveTab("pillars");
               }}
-              className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold tracking-wide transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold tracking-wide transition-all cursor-pointer outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] ${
                 activeTab === "pillars"
                   ? "bg-[var(--primary)] text-white shadow-md shadow-[var(--brand-glow)]"
                   : "text-[var(--text-muted)] hover:text-[var(--text-main)]"
@@ -143,7 +143,7 @@ export function WhyChooseUsSection() {
                 soundEffects.hover();
                 setActiveTab("comparison");
               }}
-              className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold tracking-wide transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold tracking-wide transition-all cursor-pointer outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] ${
                 activeTab === "comparison"
                   ? "bg-[var(--primary)] text-white shadow-md shadow-[var(--brand-glow)]"
                   : "text-[var(--text-muted)] hover:text-[var(--text-main)]"
@@ -156,7 +156,7 @@ export function WhyChooseUsSection() {
 
         {activeTab === "pillars" ? (
           /* Bento Grid with 3D Spotlight Cards */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 outline-none border-0 ring-0">
             {reasons.map((item, idx) => (
               <SpotlightCard
                 key={idx}
@@ -196,7 +196,7 @@ export function WhyChooseUsSection() {
           </div>
         ) : (
           /* Interactive Comparison Matrix */
-          <div className="max-w-5xl mx-auto overflow-x-auto rounded-3xl glass-panel border border-[var(--border-strong)] p-6 sm:p-8 shadow-2xl animate-in fade-in duration-300">
+          <div className="max-w-5xl mx-auto overflow-x-auto rounded-3xl glass-panel border border-[var(--border-strong)] p-6 sm:p-8 shadow-2xl outline-none ring-0">
             <table className="w-full text-left border-collapse text-xs sm:text-sm">
               <thead>
                 <tr className="border-b border-[var(--border-strong)] text-[var(--text-dim)] font-mono uppercase text-xs">

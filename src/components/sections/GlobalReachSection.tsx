@@ -105,15 +105,27 @@ const hubs: GlobalHub[] = [
 ];
 
 export function GlobalReachSection() {
-  const [activeHubId, setActiveHubId] = useState<string>("us");
+  // Default to null (show ALL 8 markets and all radiating trajectories from Opash India)
+  const [activeHubId, setActiveHubId] = useState<string | null>(null);
   const { mode } = useTheme();
 
   const isDark = mode === "dark" || mode === "midnight";
   const hq = hubs[0]; // Surat HQ
-  const activeHub = hubs.find((h) => h.id === activeHubId) || hubs[1];
+  const activeHub = hubs.find((h) => h.id === activeHubId) || null;
 
-  // Dynamic markers: ONLY show Surat HQ and the clicked country!
+  // Dynamic markers: Default show ALL 8 hubs; when selected, show Surat HQ + clicked country!
   const globeMarkers: AnalyticsMarker[] = useMemo(() => {
+    if (!activeHubId || !activeHub) {
+      // Default: Show all 8 hubs across the globe
+      return hubs.map((h) => ({
+        id: `vis-${h.id}`,
+        location: h.geo,
+        visitors: h.id === "in" ? 1557 : (parseInt(h.projects.replace(/\D/g, "")) * 35 || 650),
+        trend: h.id === "in" ? 24 : 15,
+        label: h.id === "in" ? "Surat HQ" : h.country.split(" ")[0].toUpperCase(),
+      }));
+    }
+
     const isIndiaHQ = activeHub.id === "in";
     if (isIndiaHQ) {
       return [
@@ -126,6 +138,7 @@ export function GlobalReachSection() {
         },
       ];
     }
+
     return [
       {
         id: "vis-in",
@@ -142,21 +155,33 @@ export function GlobalReachSection() {
         label: activeHub.country.split(" ")[0].toUpperCase(),
       },
     ];
-  }, [activeHub, hq.geo]);
+  }, [activeHubId, activeHub, hq.geo]);
 
-  // Dynamic arcs: ONLY draw the trajectory from Surat HQ to the clicked country!
+  // Dynamic arcs: Default show trajectories from Surat HQ to ALL countries!
+  // When selected, ONLY draw the trajectory from Surat HQ to that selected country!
   const globeArcs: AnalyticsArc[] = useMemo(() => {
+    if (!activeHubId || !activeHub) {
+      // Default: All trajectories radiating from Opash India HQ
+      return hubs
+        .filter((h) => h.id !== "in")
+        .map((h) => ({
+          from: hq.geo,
+          to: h.geo,
+        }));
+    }
+
     if (activeHub.id === "in") return [];
+
     return [
       {
         from: hq.geo,
         to: activeHub.geo,
       },
     ];
-  }, [activeHub, hq.geo]);
+  }, [activeHubId, activeHub, hq.geo]);
 
   return (
-    <section className="py-14 sm:py-20 relative bg-[var(--bg-secondary)] overflow-hidden transition-colors duration-300 cv-auto">
+    <section className="py-14 sm:py-20 relative bg-[var(--bg-secondary)] overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
           eyebrow="06 // Global Delivery & Infrastructure Mesh"
@@ -178,14 +203,25 @@ export function GlobalReachSection() {
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#10b981] animate-ping" />
               <span className="text-xs font-mono text-[var(--text-dim)] uppercase tracking-wider">
-                LIVE TRAJECTORY // SURAT HQ ACTIVE BEACON
+                {activeHub ? `LIVE TRAJECTORY // SURAT HQ -> ${activeHub.country.toUpperCase()}` : "LIVE TRAJECTORY // SURAT HQ ACTIVE BEACON (ALL ROUTES)"}
               </span>
             </div>
 
-            <div className="flex items-center gap-3 text-xs font-mono">
+            <div className="flex items-center gap-2.5 text-xs font-mono">
+              {activeHub && (
+                <button
+                  onClick={() => {
+                    soundEffects.click();
+                    setActiveHubId(null);
+                  }}
+                  className="px-2.5 py-1 rounded-full bg-[var(--primary)]/10 text-[var(--primary-light)] hover:bg-[var(--primary)]/20 border border-[var(--primary)]/30 font-semibold cursor-pointer transition-colors"
+                >
+                  Reset to All
+                </button>
+              )}
               <span className="px-3.5 py-1.5 rounded-full bg-[var(--bg-main)] border border-[var(--border-subtle)] text-[var(--text-main)] flex items-center gap-1.5 font-bold shadow-sm whitespace-nowrap">
                 <Globe2 className="w-3.5 h-3.5 text-[#3b82f6]" />
-                Target: {activeHub.country} ({activeHub.latency})
+                {activeHub ? `Target: ${activeHub.country} (${activeHub.latency})` : "Target: Worldwide Mesh (All 8 Markets)"}
               </span>
             </div>
           </div>
@@ -200,13 +236,13 @@ export function GlobalReachSection() {
                   dark={isDark ? 1 : 0}
                   markers={globeMarkers}
                   arcs={globeArcs}
-                  activeLocation={activeHub.geo}
+                  activeLocation={activeHub ? activeHub.geo : hq.geo}
                   className="w-full h-full"
                 />
                 {/* Subtle interaction tip */}
                 <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-center pointer-events-none whitespace-nowrap">
                   <span className="text-[10px] font-mono text-[var(--text-dim)] bg-[var(--bg-main)]/90 backdrop-blur-md px-3 py-1 rounded-full border border-[var(--border-subtle)] shadow-sm">
-                    Drag globe to rotate • Click market cards below to steer trajectory
+                    Drag globe to rotate • Click market cards below to isolate route
                   </span>
                 </div>
               </div>
@@ -234,14 +270,14 @@ export function GlobalReachSection() {
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-[var(--text-dim)] font-medium">Destination:</span>
                     <span className="font-bold text-[#3b82f6] font-mono flex items-center gap-1">
-                      {activeHub.flag} {activeHub.country}
+                      {activeHub ? `${activeHub.flag} ${activeHub.country}` : "🌐 Worldwide (8 Active Hubs)"}
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-[var(--text-dim)] font-medium">Regional Coverage:</span>
                     <span className="font-semibold text-[var(--text-main)] text-right">
-                      {activeHub.city}
+                      {activeHub ? activeHub.city : "North America, Europe, MENA, APAC, LATAM"}
                     </span>
                   </div>
 
@@ -249,14 +285,14 @@ export function GlobalReachSection() {
                     <span className="text-[var(--text-dim)] font-medium">Round-trip Latency:</span>
                     <span className="font-bold text-[#10b981] font-mono flex items-center gap-1">
                       <Activity className="w-3.5 h-3.5" />
-                      {activeHub.latency}
+                      {activeHub ? activeHub.latency : "< 5ms Core to Edge"}
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-[var(--text-dim)] font-medium">Dedicated Capacity:</span>
                     <span className="font-mono text-[var(--text-main)] font-semibold">
-                      {activeHub.projects}
+                      {activeHub ? activeHub.projects : "50+ Devs Active"}
                     </span>
                   </div>
                 </div>
@@ -288,7 +324,7 @@ export function GlobalReachSection() {
                 key={hub.id}
                 onClick={() => {
                   soundEffects.click();
-                  setActiveHubId(hub.id);
+                  setActiveHubId((prev) => (prev === hub.id ? null : hub.id));
                 }}
                 onMouseEnter={() => {
                   soundEffects.hover();
