@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { SmoothScroll } from "@/components/common/SmoothScroll";
 import { ScrollProgress } from "@/components/common/ScrollProgress";
+import { AwwwardsCursor } from "@/components/common/AwwwardsCursor";
 
 export const metadata: Metadata = {
   title: "Opash Software | Custom Software Development, AI & Web Engineering",
@@ -56,6 +57,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col antialiased selection:bg-[var(--primary)] selection:text-white">
         <SmoothScroll>
           <ThemeProvider>
+            <AwwwardsCursor />
             <ScrollProgress />
             {children}
           </ThemeProvider>

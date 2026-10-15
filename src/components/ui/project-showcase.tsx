@@ -174,6 +174,7 @@ export function ProjectShowcase({
             target={project.link.startsWith("http") ? "_blank" : undefined}
             rel={project.link.startsWith("http") ? "noopener noreferrer" : undefined}
             className="group block"
+            data-cursor="PREVIEW"
             onMouseEnter={(e) => handleMouseEnter(index, e)}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
