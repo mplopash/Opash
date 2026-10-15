@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback, useState } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import createGlobe from "cobe";
 
 export interface AnalyticsMarker {
@@ -49,7 +49,7 @@ export const defaultGlobeArcs: AnalyticsArc[] = [
 export function GlobeAnalytics({
   markers: initialMarkers = defaultGlobeMarkers,
   className = "",
-  speed = 0.003,
+  speed = 0.0025,
   dark = 0,
   arcs: customArcs = defaultGlobeArcs,
   activeLocation = null,
@@ -58,11 +58,27 @@ export function GlobeAnalytics({
   const pointerInteracting = useRef<{ x: number; y: number } | null>(null);
   const dragOffset = useRef({ phi: 0, theta: 0 });
   const phiOffsetRef = useRef(0);
-  const thetaOffsetRef = useRef(0);
+  const thetaOffsetRef = useRef(0.2);
   const isPausedRef = useRef(false);
+  const globeRef = useRef<ReturnType<typeof createGlobe> | null>(null);
   const [data, setData] = useState(initialMarkers);
 
-  // Live simulation of traffic numbers
+  const activeLocRef = useRef(activeLocation);
+  useEffect(() => {
+    activeLocRef.current = activeLocation;
+  }, [activeLocation]);
+
+  const markersRef = useRef(initialMarkers);
+  useEffect(() => {
+    markersRef.current = initialMarkers;
+  }, [initialMarkers]);
+
+  const arcsRef = useRef(customArcs);
+  useEffect(() => {
+    arcsRef.current = customArcs;
+  }, [customArcs]);
+
+  // Live simulation of traffic numbers without recreating globe
   useEffect(() => {
     const interval = setInterval(() => {
       setData((prev) =>
@@ -72,7 +88,7 @@ export function GlobeAnalytics({
           trend: Math.max(-20, Math.min(20, m.trend + Math.floor(Math.random() * 5) - 2)),
         }))
       );
-    }, 3000);
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
 
@@ -110,18 +126,38 @@ export function GlobeAnalytics({
     };
   }, [handlePointerUp]);
 
+  // Update active markers on globe without re-initializing WebGL
+  useEffect(() => {
+    if (!globeRef.current) return;
+    globeRef.current.update({
+      markers: markersRef.current.map((m) => {
+        const isHQ = m.id === "vis-4" || m.label?.includes("HQ");
+        const isActive =
+          activeLocation &&
+          Math.abs(m.location[0] - activeLocation[0]) < 2 &&
+          Math.abs(m.location[1] - activeLocation[1]) < 2;
+        return {
+          location: m.location,
+          size: isHQ ? 0.08 : isActive ? 0.075 : 0.045,
+          id: m.id,
+        };
+      }),
+    });
+  }, [activeLocation]);
+
+  // WebGL Globe lifecycle (mounts once and on dark change)
   useEffect(() => {
     if (!canvasRef.current) return;
     const canvas = canvasRef.current;
-    let globe: ReturnType<typeof createGlobe> | null = null;
     let animationId: number;
     let phi = 0;
+    let theta = 0.2;
 
     function init() {
       const width = canvas.offsetWidth;
-      if (width === 0 || globe) return;
+      if (width === 0 || globeRef.current) return;
 
-      globe = createGlobe(canvas, {
+      globeRef.current = createGlobe(canvas, {
         devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
         width,
         height: width,
@@ -135,18 +171,19 @@ export function GlobeAnalytics({
         markerColor: [0.1, 0.85, 0.45], // Opash brand emerald accent
         glowColor: dark ? [0.11, 0.25, 0.5] : [0.85, 0.92, 1], // Opash brand blue glow
         markerElevation: 0,
-        markers: initialMarkers.map((m) => {
+        markers: markersRef.current.map((m) => {
           const isHQ = m.id === "vis-4" || m.label?.includes("HQ");
-          const isActive = activeLocation && 
-            Math.abs(m.location[0] - activeLocation[0]) < 2 && 
-            Math.abs(m.location[1] - activeLocation[1]) < 2;
+          const isActive =
+            activeLocRef.current &&
+            Math.abs(m.location[0] - activeLocRef.current[0]) < 2 &&
+            Math.abs(m.location[1] - activeLocRef.current[1]) < 2;
           return {
             location: m.location,
-            size: isHQ ? 0.08 : isActive ? 0.07 : 0.045,
+            size: isHQ ? 0.08 : isActive ? 0.075 : 0.045,
             id: m.id,
           };
         }),
-        arcs: customArcs.map((arc) => ({
+        arcs: arcsRef.current.map((arc) => ({
           from: arc.from,
           to: arc.to,
         })),
@@ -157,15 +194,32 @@ export function GlobeAnalytics({
       });
 
       function animate() {
-        if (!isPausedRef.current) phi += speed;
-        globe!.update({
+        if (!isPausedRef.current) {
+          phi += speed;
+        }
+
+        // Smooth rotation when activeLocation is set
+        if (activeLocRef.current && !pointerInteracting.current) {
+          const [lat, lng] = activeLocRef.current;
+          const targetPhi = ((-lng - 90) * Math.PI) / 180;
+          const targetTheta = Math.max(-0.4, Math.min(0.4, (lat * Math.PI) / 180 * 0.35));
+          
+          // Smooth angular interpolation
+          const diffPhi = ((targetPhi - phiOffsetRef.current + Math.PI) % (Math.PI * 2)) - Math.PI;
+          phiOffsetRef.current += diffPhi * 0.035;
+          thetaOffsetRef.current += (targetTheta - thetaOffsetRef.current) * 0.035;
+        }
+
+        globeRef.current?.update({
           phi: phi + phiOffsetRef.current + dragOffset.current.phi,
-          theta: 0.2 + thetaOffsetRef.current + dragOffset.current.theta,
+          theta: thetaOffsetRef.current + dragOffset.current.theta,
         });
+
         animationId = requestAnimationFrame(animate);
       }
+
       animate();
-      setTimeout(() => canvas && (canvas.style.opacity = "1"));
+      setTimeout(() => canvas && (canvas.style.opacity = "1"), 50);
     }
 
     if (canvas.offsetWidth > 0) {
@@ -182,9 +236,12 @@ export function GlobeAnalytics({
 
     return () => {
       if (animationId) cancelAnimationFrame(animationId);
-      if (globe) globe.destroy();
+      if (globeRef.current) {
+        globeRef.current.destroy();
+        globeRef.current = null;
+      }
     };
-  }, [initialMarkers, speed, dark, customArcs, activeLocation]);
+  }, [speed, dark]);
 
   return (
     <div className={`relative aspect-square select-none ${className}`}>
@@ -196,7 +253,7 @@ export function GlobeAnalytics({
           height: "100%",
           cursor: "grab",
           opacity: 0,
-          transition: "opacity 1.2s ease",
+          transition: "opacity 0.6s ease",
           borderRadius: "50%",
           touchAction: "none",
         }}

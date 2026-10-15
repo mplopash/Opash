@@ -60,6 +60,7 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdown, setServicesDropdown] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
 
   // SlideTabs Pill cursor state
@@ -87,7 +88,8 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -109,13 +111,19 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 flex justify-center ${
           isScrolled
-            ? "bg-white/90 dark:bg-[#070b14]/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 shadow-md shadow-slate-900/5 py-3"
-            : "bg-transparent py-4 sm:py-5"
+            ? "py-2.5 sm:py-3.5 px-3 sm:px-6 pointer-events-none"
+            : "w-full py-3.5 sm:py-4 px-4 sm:px-6 lg:px-8 bg-white/85 dark:bg-[#070b14]/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80 shadow-sm"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div
+          className={`w-full transition-all duration-300 flex items-center justify-between ${
+            isScrolled
+              ? "max-w-6xl rounded-full bg-white/95 dark:bg-[#070b14]/95 backdrop-blur-2xl border border-slate-200/90 dark:border-slate-800/90 shadow-2xl shadow-slate-900/10 dark:shadow-black/60 px-4 sm:px-6 py-2 pointer-events-auto"
+              : "max-w-7xl mx-auto"
+          }`}
+        >
           {/* Opash Logo */}
           <Link 
             href="/" 
@@ -125,31 +133,31 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
             <Image
               src="/logos/opash-logo-dark.png"
               alt="Opash Software"
-              width={170}
-              height={40}
+              width={160}
+              height={38}
               priority
-              className="h-8 sm:h-9 w-auto object-contain hidden dark:block transition-transform duration-200 group-hover:scale-102"
+              className="h-7 sm:h-8 w-auto object-contain hidden dark:block transition-transform duration-200 group-hover:scale-102"
             />
             <Image
               src="/logos/opash-logo-light.png"
               alt="Opash Software"
-              width={170}
-              height={40}
+              width={160}
+              height={38}
               priority
-              className="h-8 sm:h-9 w-auto object-contain block dark:hidden transition-transform duration-200 group-hover:scale-102"
+              className="h-7 sm:h-8 w-auto object-contain block dark:hidden transition-transform duration-200 group-hover:scale-102"
             />
           </Link>
 
-          {/* Desktop SlideTabs Navigation */}
+          {/* Desktop SlideTabs Navigation (Strict single-line, no wrap) */}
           <nav 
-            className="hidden lg:flex items-center relative"
+            className="hidden lg:flex items-center relative shrink-0"
             onMouseLeave={() => {
               resetPillToActive();
             }}
           >
             <div 
               ref={navContainerRef}
-              className="relative flex items-center p-1 rounded-full bg-slate-100/70 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-md"
+              className="relative flex items-center p-1 rounded-full bg-slate-100/70 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-md flex-nowrap"
             >
               {/* Sliding Pill Cursor */}
               <motion.div
@@ -173,7 +181,7 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                   return (
                     <div
                       key={item.id}
-                      className="relative"
+                      className="relative shrink-0"
                       onMouseEnter={() => {
                         setServicesDropdown(true);
                         setPillForElement(tabsRef.current[idx]);
@@ -194,21 +202,21 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                           setPillForElement(e.currentTarget);
                           setServicesDropdown(true);
                         }}
-                        className={`relative z-10 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 cursor-pointer ${
+                        className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-sm font-semibold transition-colors duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
                           isSelected
                             ? "text-[#1d4ed8] dark:text-[#3b82f6] font-bold"
                             : "text-slate-700 dark:text-slate-200 hover:text-[#1d4ed8] dark:hover:text-[#3b82f6]"
                         }`}
                       >
-                        <span>{item.name}</span>
+                        <span className="whitespace-nowrap">{item.name}</span>
                         <ChevronDown 
-                          className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                          className={`w-3.5 h-3.5 transition-transform duration-200 shrink-0 ${
                             servicesDropdown ? "rotate-180 text-[#1d4ed8] dark:text-[#3b82f6]" : "opacity-70"
                           }`} 
                         />
                       </button>
 
-                      {/* Dropdown Menu (Styled exactly as in the reference image) */}
+                      {/* Dropdown Menu */}
                       <AnimatePresence>
                         {servicesDropdown && (
                           <div 
@@ -234,10 +242,10 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                                       setActiveTab(idx);
                                       onOpenQuoteModal(serviceName);
                                     }}
-                                    className="group flex items-center justify-between px-3.5 py-2 rounded-xl text-[14.5px] font-medium text-slate-800 dark:text-slate-200 hover:text-[#1d4ed8] dark:hover:text-[#3b82f6] hover:bg-blue-50/70 dark:hover:bg-blue-950/40 hover:translate-x-1.5 transition-all duration-200 cursor-pointer"
+                                    className="group flex items-center justify-between px-3.5 py-2 rounded-xl text-[14px] font-medium text-slate-800 dark:text-slate-200 hover:text-[#1d4ed8] dark:hover:text-[#3b82f6] hover:bg-blue-50/70 dark:hover:bg-blue-950/40 hover:translate-x-1.5 transition-all duration-200 cursor-pointer"
                                   >
-                                    <span>{serviceName}</span>
-                                    <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-[#1d4ed8] dark:text-[#3b82f6]" />
+                                    <span className="whitespace-nowrap">{serviceName}</span>
+                                    <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-[#1d4ed8] dark:text-[#3b82f6] shrink-0" />
                                   </Link>
                                 ))}
                               </div>
@@ -265,74 +273,60 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                       setPillForElement(e.currentTarget);
                       setServicesDropdown(false);
                     }}
-                    className={`relative z-10 block px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 ${
+                    className={`relative z-10 block px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-sm font-semibold transition-colors duration-200 whitespace-nowrap shrink-0 ${
                       isSelected
                         ? "text-[#1d4ed8] dark:text-[#3b82f6] font-bold"
                         : "text-slate-700 dark:text-slate-200 hover:text-[#1d4ed8] dark:hover:text-[#3b82f6]"
                     }`}
                   >
-                    {item.name}
+                    <span className="whitespace-nowrap">{item.name}</span>
                   </Link>
                 );
               })}
             </div>
           </nav>
 
-          {/* Action CTAs */}
-          <div className="hidden sm:flex items-center gap-3">
-            <Link
-              href="#estimator"
-              className="px-3 py-1.5 rounded-full text-xs font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 hover:border-[#1d4ed8]/50 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all duration-200 flex items-center gap-1.5 shadow-sm"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#10b981]" />
-              <span>Estimator</span>
-            </Link>
-
-            <a
-              href="tel:+919537222266"
-              className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-[#1d4ed8] dark:hover:text-[#3b82f6] transition-all duration-200"
-            >
-              <PhoneCall className="w-3.5 h-3.5 text-[#10b981] group-hover:scale-110 transition-transform" />
-              <span>+91 95372-22266</span>
-            </a>
-
+          {/* Action CTAs (Strict Single Line - No Vertical Wrap) */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0 flex-nowrap">
             {/* Light / Dark Mode Toggle */}
             <button
               onClick={() => {
                 soundEffects.click();
                 setMode(mode === "light" ? "dark" : "light");
               }}
-              className="p-2.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-blue-500/50 hover:scale-105 text-slate-800 dark:text-slate-200 transition-all duration-200 cursor-pointer shadow-sm"
+              className="p-2 sm:p-2.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-blue-500/50 hover:scale-105 text-slate-800 dark:text-slate-200 transition-all duration-200 cursor-pointer shadow-sm shrink-0"
               title={`Switch to ${mode === "light" ? "Dark" : "Light"} Mode`}
               aria-label="Toggle theme mode"
             >
               {mode === "light" ? (
-                <Moon className="w-4 h-4 text-blue-600" />
+                <Moon className="w-4 h-4 text-blue-600 shrink-0" />
               ) : (
-                <Sun className="w-4 h-4 text-amber-400" />
+                <Sun className="w-4 h-4 text-amber-400 shrink-0" />
               )}
             </button>
 
             {/* 21st.dev Interactive Hover Button */}
-            <InteractiveHoverButton
-              onClick={() => onOpenQuoteModal()}
-              text="Get a Quote"
-              className="text-xs font-bold shadow-md shadow-blue-700/20"
-            />
-          </div>
+            <div className="hidden sm:block shrink-0">
+              <InteractiveHoverButton
+                onClick={() => onOpenQuoteModal()}
+                text="Get a Quote"
+                className="text-xs font-bold shadow-md shadow-blue-700/20 whitespace-nowrap shrink-0"
+              />
+            </div>
 
-          {/* Mobile Menu Toggle Button */}
-          <div className="flex items-center lg:hidden">
-            <button
-              onClick={() => {
-                soundEffects.click();
-                setMobileMenuOpen(!mobileMenuOpen);
-              }}
-              className="p-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-slate-900 bg-slate-100 dark:bg-slate-800"
-              aria-label="Toggle navigation menu"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            {/* Mobile Menu Toggle Button */}
+            <div className="flex items-center lg:hidden shrink-0">
+              <button
+                onClick={() => {
+                  soundEffects.click();
+                  setMobileMenuOpen(!mobileMenuOpen);
+                }}
+                className="p-2 rounded-full text-slate-700 dark:text-slate-200 hover:text-slate-900 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
+                aria-label="Toggle navigation menu"
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -345,115 +339,114 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", stiffness: 350, damping: 30 }}
-            className="fixed inset-0 z-50 lg:hidden flex flex-col bg-white dark:bg-[#070b14]"
+            className="fixed inset-0 z-50 lg:hidden flex flex-col bg-white dark:bg-[#070b14] overflow-y-auto"
           >
-            <div className="flex items-center justify-between p-5 border-b border-slate-200 dark:border-slate-800">
+            {/* Mobile Header Bar */}
+            <div className="flex items-center justify-between p-5 border-b border-slate-200 dark:border-slate-800 shrink-0">
               <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                 <Image
                   src="/logos/opash-logo-dark.png"
                   alt="Opash Software"
-                  width={150}
-                  height={36}
+                  width={140}
+                  height={32}
                   className="h-7 w-auto object-contain hidden dark:block"
                 />
                 <Image
                   src="/logos/opash-logo-light.png"
                   alt="Opash Software"
-                  width={150}
-                  height={36}
+                  width={140}
+                  height={32}
                   className="h-7 w-auto object-contain block dark:hidden"
                 />
               </Link>
-              <button
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
-              <Link
-                href="#"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 text-lg font-bold text-slate-900 dark:text-white"
-              >
-                Home
-              </Link>
-
-              {/* Mobile Services Accordion */}
-              <div>
+              <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setServicesDropdown(!servicesDropdown)}
-                  className="flex items-center justify-between w-full py-2 text-lg font-bold text-slate-900 dark:text-white"
+                  onClick={() => {
+                    soundEffects.click();
+                    setMode(mode === "light" ? "dark" : "light");
+                  }}
+                  className="p-2 rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900"
+                  aria-label="Toggle theme"
                 >
-                  <span>Services</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform ${servicesDropdown ? "rotate-180" : ""}`} />
+                  {mode === "light" ? <Moon className="w-4 h-4 text-blue-600" /> : <Sun className="w-4 h-4 text-amber-400" />}
                 </button>
-                {servicesDropdown && (
-                  <div className="pl-4 py-2 space-y-2 border-l-2 border-blue-500/40 mt-1">
-                    {serviceDropdownItems.map((svc, i) => (
-                      <Link
-                        key={i}
-                        href="#services"
-                        onClick={() => {
-                          setMobileMenuOpen(false);
-                          onOpenQuoteModal(svc);
-                        }}
-                        className="block py-1.5 text-sm text-slate-600 dark:text-slate-300 hover:text-blue-600 font-medium"
-                      >
-                        {svc}
-                      </Link>
-                    ))}
-                  </div>
-                )}
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-2 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                >
+                  <X className="w-6 h-6" />
+                </button>
               </div>
-
-              <Link
-                href="#about"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 text-lg font-bold text-slate-900 dark:text-white"
-              >
-                Company
-              </Link>
-              <Link
-                href="#blogs"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 text-lg font-bold text-slate-900 dark:text-white"
-              >
-                Blogs
-              </Link>
-              <Link
-                href="#why-us"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 text-lg font-bold text-slate-900 dark:text-white"
-              >
-                Career
-              </Link>
-              <Link
-                href="#contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 text-lg font-bold text-slate-900 dark:text-white"
-              >
-                Contact Us
-              </Link>
             </div>
 
-            <div className="p-6 border-t border-slate-200 dark:border-slate-800 space-y-3">
-              <InteractiveHoverButton
+            {/* Mobile Navigation List */}
+            <div className="flex-1 p-6 space-y-4">
+              {navItems.map((item, idx) => {
+                if (item.hasDropdown) {
+                  return (
+                    <div key={item.id} className="border-b border-slate-100 dark:border-slate-800/80 pb-3">
+                      <button
+                        onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                        className="w-full flex items-center justify-between py-2 text-lg font-bold text-slate-800 dark:text-slate-100"
+                      >
+                        <span>{item.name}</span>
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileServicesOpen ? "rotate-180 text-blue-600" : ""}`} />
+                      </button>
+                      <AnimatePresence>
+                        {mobileServicesOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden pl-4 mt-2 space-y-2 border-l-2 border-blue-500/30"
+                          >
+                            {serviceDropdownItems.map((svc, sIdx) => (
+                              <Link
+                                key={sIdx}
+                                href="#services"
+                                onClick={() => {
+                                  setMobileMenuOpen(false);
+                                  onOpenQuoteModal(svc);
+                                }}
+                                className="block py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
+                              >
+                                {svc}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    onClick={() => {
+                      setActiveTab(idx);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="block py-2 text-lg font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 dark:border-slate-800/80"
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Mobile Footer CTA */}
+            <div className="p-6 border-t border-slate-200 dark:border-slate-800 shrink-0">
+              <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onOpenQuoteModal();
                 }}
-                text="Get a Quote"
-                className="w-full justify-center"
-              />
-              <a
-                href="tel:+919537222266"
-                className="block text-center text-sm font-semibold text-slate-600 dark:text-slate-400 py-2"
+                className="w-full py-3.5 rounded-full bg-gradient-to-r from-[#1d4ed8] to-[#10b981] text-white font-bold text-sm shadow-lg shadow-blue-600/20"
               >
-                Direct Line: +91 95372-22266
-              </a>
+                Get a Quote
+              </button>
             </div>
           </motion.div>
         )}
