@@ -709,4 +709,15 @@ html.lenis, html.lenis body {
   }
 }
 
+/* High-Performance Rendering & INP Optimizations */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 600px;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
 

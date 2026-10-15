@@ -80,10 +80,10 @@ export function TechStackSection() {
   });
 
   return (
-    <section id="tech-stack" className="py-24 relative bg-[var(--bg-secondary)] transition-colors duration-300">
+    <section id="tech-stack" className="py-14 sm:py-20 relative bg-[var(--bg-secondary)] transition-colors duration-300 cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="07 // Modern Technology Matrix"
+          eyebrow="11 // Technology Matrix"
           title="Battle-Tested Stacks for"
           highlight="Uncompromising Scale"
           description="We select the ideal platform architecture to guarantee maximum performance, security, and developer velocity for your project."

@@ -7,13 +7,13 @@ import { BorderBeam } from "@/components/common/BorderBeam";
 
 export function ProjectShowcaseSection() {
   return (
-    <section id="portfolio" className="py-24 relative bg-[var(--bg-main)] transition-colors duration-300 border-b border-[var(--border-subtle)] overflow-hidden">
+    <section id="portfolio" className="py-14 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 border-b border-[var(--border-subtle)] overflow-hidden cv-auto">
       {/* Subtle ambient lighting */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#1d4ed8]/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
-          eyebrow="06 // Production Deployments & Case Studies"
+          eyebrow="04 // Flagship Deployments & Case Studies"
           title="Flagship Software Engineered for"
           highlight="Enterprise Scale"
           description="Explore our high-impact production deliveries across InsureTech, Healthcare, Industrial Automation, and Autonomous AI. Hover any project to preview live interface telemetry."

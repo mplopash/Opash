@@ -166,7 +166,7 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
   });
 
   return (
-    <section id="services" className="py-24 relative bg-[var(--bg-secondary)] transition-colors duration-300">
+    <section id="services" className="py-14 sm:py-20 relative bg-[var(--bg-secondary)] transition-colors duration-300 cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="03 // Core Capabilities"

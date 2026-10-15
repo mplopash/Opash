@@ -112,11 +112,11 @@ export function WhyChooseUsSection() {
   ];
 
   return (
-    <section id="why-us" className="py-24 relative bg-[var(--bg-main)] transition-colors duration-300">
-      <div id="about" className="absolute -top-24 left-0" />
+    <section id="why-us" className="py-14 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 cv-auto">
+      <div id="about" className="absolute -top-20 left-0" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="08 // Why Partner with Opash"
+          eyebrow="07 // Institutional Guarantees"
           title="The Reliability of an Enterprise Partner,"
           highlight="The Speed of a Startup"
           description="We combine engineering rigor, open communication, and high emotional investment into every software product we deliver."

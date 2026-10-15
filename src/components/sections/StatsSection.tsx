@@ -67,9 +67,9 @@ export function StatsSection() {
   const currentStats = telemetryMode === "milestones" ? milestones : telemetry;
 
   return (
-    <section id="stats" className="py-16 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300">
+    <section id="stats" className="py-10 sm:py-14 relative bg-[var(--bg-main)] transition-colors duration-300 cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SpotlightCard className="p-8 sm:p-12 rounded-3xl glass-panel border border-[var(--border-strong)] relative overflow-hidden shadow-2xl">
+        <SpotlightCard className="p-6 sm:p-10 rounded-3xl glass-panel border border-[var(--border-strong)] relative overflow-hidden shadow-2xl">
           {/* Subtle perimeter border beam in Opash Blue & Minimal Green */}
           <BorderBeam size={280} duration={14} colorFrom="#3b82f6" colorTo="#10b981" />
 

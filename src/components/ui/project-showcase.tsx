@@ -59,62 +59,76 @@ export function ProjectShowcase({
   className = "",
 }: ProjectShowcaseProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [smoothPosition, setSmoothPosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number | null>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  const targetPos = useRef({ x: 0, y: 0 });
+  const currentPos = useRef({ x: 0, y: 0 });
+  const animFrameRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    const lerp = (start: number, end: number, factor: number) => {
-      return start + (end - start) * factor;
-    };
+  const updateCardPosition = () => {
+    // Smooth lerp
+    currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.18;
+    currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.18;
 
-    const animate = () => {
-      setSmoothPosition((prev) => ({
-        x: lerp(prev.x, mousePosition.x, 0.15),
-        y: lerp(prev.y, mousePosition.y, 0.15),
-      }));
-      animationRef.current = requestAnimationFrame(animate);
-    };
+    if (previewRef.current) {
+      previewRef.current.style.transform = `translate3d(${currentPos.current.x + 24}px, ${currentPos.current.y - 95}px, 0)`;
+    }
 
-    animationRef.current = requestAnimationFrame(animate);
+    const dx = Math.abs(targetPos.current.x - currentPos.current.x);
+    const dy = Math.abs(targetPos.current.y - currentPos.current.y);
 
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, [mousePosition]);
+    if (dx > 0.1 || dy > 0.1) {
+      animFrameRef.current = requestAnimationFrame(updateCardPosition);
+    } else {
+      animFrameRef.current = null;
+    }
+  };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    setMousePosition({
-      x: e.clientX,
-      y: e.clientY,
-    });
+    targetPos.current.x = e.clientX;
+    targetPos.current.y = e.clientY;
+
+    if (!animFrameRef.current) {
+      animFrameRef.current = requestAnimationFrame(updateCardPosition);
+    }
   };
 
   const handleMouseEnter = (index: number, e: React.MouseEvent) => {
     setHoveredIndex(index);
-    setMousePosition({
-      x: e.clientX,
-      y: e.clientY,
-    });
-    setSmoothPosition({
-      x: e.clientX,
-      y: e.clientY,
-    });
+    targetPos.current.x = e.clientX;
+    targetPos.current.y = e.clientY;
+    currentPos.current.x = e.clientX;
+    currentPos.current.y = e.clientY;
+
+    if (previewRef.current) {
+      previewRef.current.style.transform = `translate3d(${e.clientX + 24}px, ${e.clientY - 95}px, 0)`;
+    }
     setIsVisible(true);
+
+    if (!animFrameRef.current) {
+      animFrameRef.current = requestAnimationFrame(updateCardPosition);
+    }
   };
 
   const handleMouseLeave = () => {
     setHoveredIndex(null);
     setIsVisible(false);
+    if (animFrameRef.current) {
+      cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = null;
+    }
   };
+
+  useEffect(() => {
+    return () => {
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
+      }
+    };
+  }, []);
 
   return (
     <section 
-      ref={containerRef} 
       onMouseMove={handleMouseMove} 
       className={`relative w-full max-w-4xl mx-auto px-4 sm:px-6 py-12 ${className}`}
     >
@@ -131,12 +145,14 @@ export function ProjectShowcase({
 
       {/* Floating Smooth Cursor-Follow Image Preview Card (Fixed Viewport Layer) */}
       <div
-        className="pointer-events-none fixed z-50 overflow-hidden rounded-2xl shadow-2xl transition-[opacity,transform] duration-200 ease-out border border-white/20 bg-[#090d16]"
+        ref={previewRef}
+        className={`pointer-events-none fixed z-50 overflow-hidden rounded-2xl shadow-2xl transition-opacity duration-200 ease-out border border-white/20 bg-[#090d16] ${
+          isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"
+        }`}
         style={{
           left: 0,
           top: 0,
-          transform: `translate3d(${smoothPosition.x + 24}px, ${smoothPosition.y - 95}px, 0) scale(${isVisible ? 1 : 0.8})`,
-          opacity: isVisible ? 1 : 0,
+          willChange: "transform",
         }}
       >
         <div className="relative w-[320px] h-[190px] rounded-2xl overflow-hidden bg-slate-900 shadow-2xl">

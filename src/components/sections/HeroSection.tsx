@@ -155,7 +155,7 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
   };
 
   return (
-    <section id="hero" className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden bg-[var(--bg-main)] transition-colors duration-300">
+    <section id="hero" className="relative pt-28 pb-12 md:pt-36 md:pb-16 overflow-hidden bg-[var(--bg-main)] transition-colors duration-300">
       {/* High-Definition 3D Liquid Metal / Fluid Glass Background Video in Opash Brand Colors */}
       {isLight ? (
         <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden bg-white">

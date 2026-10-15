@@ -38,10 +38,10 @@ export function BlogInsightsSection() {
   ];
 
   return (
-    <section id="blogs" className="py-24 relative bg-[var(--bg-secondary)]">
+    <section id="blogs" className="py-14 sm:py-20 relative bg-[var(--bg-secondary)] cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Tech Insights by Opash"
+          eyebrow="13 // Engineering Insights"
           title="From Emerging Trends to"
           highlight="Enterprise Transformations"
           description="Read our latest engineering articles, architectural post-mortems, and technology blueprints."

@@ -158,14 +158,14 @@ export function GlobeAnalytics({
       if (width === 0 || globeRef.current) return;
 
       globeRef.current = createGlobe(canvas, {
-        devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+        devicePixelRatio: Math.min(window.devicePixelRatio || 1, 1.75),
         width,
         height: width,
         phi: 0,
         theta: 0.2,
         dark: dark,
-        diffuse: 1.5,
-        mapSamples: 16000,
+        diffuse: 1.4,
+        mapSamples: 10000,
         mapBrightness: 10,
         baseColor: dark ? [0.12, 0.18, 0.32] : [0.94, 0.96, 1],
         markerColor: [0.1, 0.85, 0.45], // Opash brand emerald accent
@@ -193,7 +193,11 @@ export function GlobeAnalytics({
         opacity: 0.85,
       });
 
+      let isVisible = true;
+
       function animate() {
+        if (!isVisible) return;
+
         if (!isPausedRef.current) {
           phi += speed;
         }
@@ -218,23 +222,48 @@ export function GlobeAnalytics({
         animationId = requestAnimationFrame(animate);
       }
 
+      // IntersectionObserver to pause WebGL when scrolled away
+      const io = new IntersectionObserver((entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          if (!isVisible) {
+            isVisible = true;
+            animationId = requestAnimationFrame(animate);
+          }
+        } else {
+          isVisible = false;
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+          }
+        }
+      }, { threshold: 0.05 });
+
+      io.observe(canvas);
+
       animate();
       setTimeout(() => canvas && (canvas.style.opacity = "1"), 50);
+
+      return () => {
+        io.disconnect();
+      };
     }
 
+    let cleanupIo: (() => void) | undefined;
+
     if (canvas.offsetWidth > 0) {
-      init();
+      cleanupIo = init();
     } else {
       const ro = new ResizeObserver((entries) => {
         if (entries[0]?.contentRect.width > 0) {
           ro.disconnect();
-          init();
+          cleanupIo = init();
         }
       });
       ro.observe(canvas);
     }
 
     return () => {
+      if (cleanupIo) cleanupIo();
       if (animationId) cancelAnimationFrame(animationId);
       if (globeRef.current) {
         globeRef.current.destroy();
