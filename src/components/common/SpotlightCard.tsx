@@ -50,9 +50,9 @@ export function SpotlightCard({
       } ${className}`}
       {...props}
     >
-      {/* Top Edge Specular Glint catching light */}
+      {/* Top Ambient Specular Sheen (Curved, zero corner clipping) */}
       <div 
-        className={`pointer-events-none absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#476D9A]/80 to-[#61BE99]/80 transition-opacity duration-300 ${
+        className={`pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 w-44 h-16 bg-[radial-gradient(ellipse_at_center,rgba(97,190,153,0.25)_0%,transparent_70%)] rounded-full blur-md transition-opacity duration-300 ${
           isHovered ? "opacity-100" : "opacity-0"
         }`} 
       />

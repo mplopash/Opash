@@ -25,6 +25,7 @@ import {
   Hand
 } from "lucide-react";
 import { SpotlightCard } from "@/components/common/SpotlightCard";
+import { BorderBeam } from "@/components/common/BorderBeam";
 import { soundEffects } from "@/lib/soundEffects";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -491,16 +492,26 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
                       <SpotlightCard
                         className={`w-full rounded-[28px] p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 border backdrop-blur-2xl relative overflow-hidden min-h-[475px] sm:min-h-[490px] ${
                           isCenter
-                            ? "border-[#476D9A]/90 dark:border-[#61BE99]/80 shadow-2xl shadow-[#476D9A]/15 dark:shadow-[#61BE99]/20 bg-white dark:bg-[#090e1c] ring-1 ring-[#476D9A]/20 dark:ring-[#61BE99]/30"
-                            : "border-slate-200/70 dark:border-white/10 bg-white/75 dark:bg-[#070b14]/70"
+                            ? "border-[#476D9A]/50 dark:border-[#61BE99]/50 shadow-2xl shadow-[#476D9A]/15 dark:shadow-[#61BE99]/20 bg-white dark:bg-[#090e1c]"
+                            : "border-slate-200/80 dark:border-white/10 bg-white/75 dark:bg-[#070b14]/70"
                         }`}
                       >
-                        {/* Top Accent Beam for Active Center Card */}
-                        <span
-                          className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#476D9A] via-[#5DC099] to-[#61BE99] transition-opacity duration-300 pointer-events-none ${
-                            isCenter ? "opacity-100" : "opacity-0"
-                          }`}
-                        />
+                        {/* Dynamic Perimeter Border Beam for Active Center Card */}
+                        {isCenter && (
+                          <>
+                            <BorderBeam 
+                              size={260} 
+                              duration={8} 
+                              borderWidth={1.8} 
+                              colorFrom="#476D9A" 
+                              colorTo="#61BE99" 
+                            />
+                            {/* Curved Ambient Top Glow (perfectly shaped, zero corner clipping) */}
+                            <div 
+                              className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 w-56 h-16 bg-[radial-gradient(ellipse_at_center,rgba(97,190,153,0.18)_0%,transparent_70%)] rounded-full blur-lg" 
+                            />
+                          </>
+                        )}
 
                         <div>
                           {/* Top Metadata Header */}
@@ -752,7 +763,8 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
                   transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                   className="rounded-3xl p-6 sm:p-8 bg-white/95 dark:bg-[#080d19]/90 border border-slate-200 dark:border-white/10 backdrop-blur-2xl shadow-xl flex flex-col justify-between h-full relative overflow-hidden"
                 >
-                  <span className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#476D9A] via-[#5784b8] to-[#61BE99]" />
+                  <BorderBeam size={320} duration={12} borderWidth={1.5} colorFrom="#476D9A" colorTo="#61BE99" />
+                  <div className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 w-64 h-16 bg-[radial-gradient(ellipse_at_center,rgba(97,190,153,0.15)_0%,transparent_70%)] rounded-full blur-lg" />
 
                   <div>
                     <div className="flex flex-wrap items-center justify-between gap-3 pb-5 mb-5 border-b border-slate-200 dark:border-white/10">
