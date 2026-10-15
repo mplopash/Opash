@@ -162,37 +162,50 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
           <div className="relative w-full h-full">
             <video
               className="w-full h-full object-cover hero-video-light opacity-80"
-              src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4"
+              src="/hero-bg.mp4"
               autoPlay
               muted
               loop
               playsInline
+              preload="auto"
+              disablePictureInPicture
+              onEnded={(e) => {
+                e.currentTarget.currentTime = 0;
+                e.currentTarget.play().catch(() => {});
+              }}
             />
             {/* Spotless Crystal Brand Blue with Minimal Green Highlight */}
             <div className="absolute inset-0 hero-video-light-tint" />
           </div>
           {/* Clean ambient radial illumination */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-15%,rgba(29,78,216,0.06),rgba(255,255,255,0))]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-15%,rgba(71,109,154,0.08),rgba(255,255,255,0))]" />
         </div>
       ) : (
         <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden bg-[#060913]">
           <div className="relative w-full h-full">
             <video
               className="w-full h-full object-cover hero-video-dark opacity-85"
-              src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4"
+              src="/hero-bg.mp4"
               autoPlay
               muted
               loop
               playsInline
+              preload="auto"
+              disablePictureInPicture
+              onEnded={(e) => {
+                e.currentTarget.currentTime = 0;
+                e.currentTarget.play().catch(() => {});
+              }}
             />
             {/* Pure Brand Blue + Minimal Green Color Matrix Tint */}
             <div className="absolute inset-0 hero-video-dark-tint" />
             <div className="absolute inset-0 hero-video-dark-glow" />
           </div>
+          {/* Hardware-accelerated radial gradients (0% CPU blur cost) */}
           <div className="absolute inset-0 bg-radial-[circle_at_50%_40%_rgba(6,9,19,0.3)_0%,rgba(6,9,19,0.85)_70%,#060913_100%]" />
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#476D9A]/25 rounded-full blur-[140px] animate-pulse" />
-          <div className="absolute top-10 left-10 w-[300px] h-[300px] bg-[#476D9A]/20 rounded-full blur-[120px]" />
-          <div className="absolute top-20 right-10 w-[350px] h-[350px] bg-[#61BE99]/15 rounded-full blur-[130px]" />
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[radial-gradient(ellipse_at_center,rgba(71,109,154,0.22)_0%,transparent_70%)] pointer-events-none" />
+          <div className="absolute top-10 left-10 w-[300px] h-[300px] bg-[radial-gradient(circle_at_center,rgba(71,109,154,0.18)_0%,transparent_70%)] pointer-events-none" />
+          <div className="absolute top-20 right-10 w-[350px] h-[350px] bg-[radial-gradient(circle_at_center,rgba(97,190,153,0.12)_0%,transparent_70%)] pointer-events-none" />
         </div>
       )}
 

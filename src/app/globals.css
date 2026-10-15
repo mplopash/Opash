@@ -450,30 +450,38 @@ html.lenis, html.lenis body {
   box-shadow: 0 8px 20px -4px rgba(71, 109, 154, 0.3);
 }
 
-/* 6. Hero 3D Fluid Brand Video Tint */
+/* 6. Hero 3D Fluid Brand Video Tint (Hardware Accelerated GPU Layer) */
 .hero-video-dark {
-  filter: grayscale(1) contrast(1.2) brightness(0.95);
+  filter: grayscale(1) contrast(1.15) brightness(0.95);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
 }
 .hero-video-dark-tint {
   background: linear-gradient(135deg, #476D9A 0%, #38587d 75%, #61BE99 100%);
   mix-blend-mode: color;
   pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
 }
 .hero-video-dark-glow {
-  background: radial-gradient(circle at 75% 35%, rgba(97, 190, 153, 0.14), transparent 45%),
-              radial-gradient(circle at 35% 65%, rgba(71, 109, 154, 0.28), transparent 55%);
+  background: radial-gradient(circle at 75% 35%, rgba(97, 190, 153, 0.12), transparent 45%),
+              radial-gradient(circle at 35% 65%, rgba(71, 109, 154, 0.22), transparent 55%);
   mix-blend-mode: screen;
   pointer-events: none;
+  transform: translate3d(0, 0, 0);
 }
 
 .hero-video-light {
-  filter: invert(1) grayscale(1) contrast(1.18) brightness(1.02);
+  filter: invert(1) grayscale(1) contrast(1.15) brightness(1.02);
   mix-blend-mode: multiply;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
 }
 .hero-video-light-tint {
   background: linear-gradient(135deg, #476D9A 0%, #5784b8 80%, #5DC099 100%);
   mix-blend-mode: screen;
   pointer-events: none;
+  transform: translate3d(0, 0, 0);
 }
 
 .grid-mesh {
