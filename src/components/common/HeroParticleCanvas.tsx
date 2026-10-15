@@ -179,10 +179,10 @@ export function HeroParticleCanvas() {
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     document.addEventListener("mouseleave", handleMouseLeave, { passive: true });
 
-    // Balanced particle count: 34 on desktop, 18 on mobile
+    // Slightly increased particle count as requested (48 on desktop, 24 on mobile)
     const particleCount = Math.min(
-      Math.max(16, Math.floor((width * height) / 38000)),
-      34
+      Math.max(24, Math.floor((width * height) / 25000)),
+      48
     );
     const particles: Particle[] = [];
 
@@ -191,17 +191,17 @@ export function HeroParticleCanvas() {
     const brandAccent = isLight ? "#5DC099" : "#61BE99";
 
     for (let i = 0; i < particleCount; i++) {
-      const isBeacon = i % 8 === 0;
-      const isEmerald = isBeacon ? i % 16 === 0 : i % 5 === 0;
+      const isBeacon = i % 6 === 0;
+      const isEmerald = isBeacon ? true : i % 3 === 0;
 
       const color = isEmerald ? brandAccent : brandPrimary;
       const glowColor = isEmerald
-        ? (isLight ? "rgba(93, 192, 153, 0.28)" : "rgba(97, 190, 153, 0.35)")
-        : (isLight ? "rgba(71, 109, 154, 0.24)" : "rgba(71, 109, 154, 0.32)");
+        ? (isLight ? "rgba(93, 192, 153, 0.32)" : "rgba(97, 190, 153, 0.4)")
+        : (isLight ? "rgba(71, 109, 154, 0.28)" : "rgba(71, 109, 154, 0.35)");
 
       const r = isBeacon
-        ? (isLight ? 3.2 : 2.8)
-        : (isLight ? Math.random() * 1.2 + 1.8 : Math.random() * 1.2 + 1.4);
+        ? (isLight ? 3.4 : 3.0)
+        : (isLight ? Math.random() * 1.3 + 1.8 : Math.random() * 1.3 + 1.4);
 
       particles.push({
         x: Math.random() * width,
@@ -219,9 +219,9 @@ export function HeroParticleCanvas() {
     }
 
     let tick = 0;
-    const maxDistance = 115;
+    const maxDistance = 125;
     const maxDistanceSq = maxDistance * maxDistance;
-    const cursorConnectDist = 150;
+    const cursorConnectDist = 155;
     const cursorConnectDistSq = cursorConnectDist * cursorConnectDist;
 
     const render = () => {
@@ -337,20 +337,29 @@ export function HeroParticleCanvas() {
         ctx.fill();
       }
 
-      // 5. Render Beacon Pulse Rings
+      // 5. Render Beacon Pulse Rings & Glass Aura (Matching Image 2)
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         if (p.isBeacon) {
           const pulseScale = 1 + Math.sin(tick + p.pulseOffset) * 0.25;
-          const ringRadius = p.radius * 3.2 * pulseScale;
-          const ringAlpha = 0.35 + Math.sin(tick + p.pulseOffset) * 0.18;
+          const ringRadius = p.radius * 3.4 * pulseScale;
+          const ringAlpha = 0.38 + Math.sin(tick + p.pulseOffset) * 0.2;
 
+          // Inner soft glowing aura disk (as seen in user reference Image 2)
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, ringRadius * 0.9, 0, Math.PI * 2);
+          ctx.fillStyle = p.isEmerald
+            ? (isLight ? "rgba(93, 192, 153, 0.12)" : "rgba(97, 190, 153, 0.14)")
+            : (isLight ? "rgba(71, 109, 154, 0.1)" : "rgba(71, 109, 154, 0.12)");
+          ctx.fill();
+
+          // Outer radiant pulse ring
           ctx.beginPath();
           ctx.arc(p.x, p.y, ringRadius, 0, Math.PI * 2);
           ctx.strokeStyle = p.isEmerald
-            ? `rgba(97, 190, 153, ${ringAlpha})`
-            : `rgba(71, 109, 154, ${ringAlpha})`;
-          ctx.lineWidth = 1.0;
+            ? `rgba(97, 190, 153, ${ringAlpha.toFixed(3)})`
+            : `rgba(71, 109, 154, ${ringAlpha.toFixed(3)})`;
+          ctx.lineWidth = 1.2;
           ctx.stroke();
         }
       }
