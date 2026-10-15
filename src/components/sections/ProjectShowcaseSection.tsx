@@ -9,7 +9,7 @@ export function ProjectShowcaseSection() {
   return (
     <section id="portfolio" className="py-14 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 overflow-hidden cv-auto">
       {/* Subtle ambient lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#1d4ed8]/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#476D9A]/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
@@ -21,7 +21,7 @@ export function ProjectShowcaseSection() {
 
         <div className="mt-8 rounded-3xl glass-panel border border-[var(--border-strong)] p-2 sm:p-6 shadow-2xl relative overflow-hidden">
           {/* 21st.dev Border Beam Perimeter Accent */}
-          <BorderBeam size={320} duration={12} colorFrom="#1d4ed8" colorTo="#10b981" />
+          <BorderBeam size={320} duration={12} colorFrom="#476D9A" colorTo="#61BE99" />
           <ProjectShowcase heading="Production Portfolios // Live Verified" />
         </div>
       </div>

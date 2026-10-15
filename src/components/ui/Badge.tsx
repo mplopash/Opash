@@ -37,7 +37,7 @@ export function Badge({
       {...props}
     >
       {variant === "dot" && (
-        <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
+        <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
       )}
       {children}
     </span>

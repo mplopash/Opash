@@ -193,15 +193,15 @@ export function GlobalReachSection() {
         {/* Interactive Global Network Map Visualizer */}
         <div className="relative mb-12 rounded-3xl p-6 sm:p-8 glass-panel border border-[var(--border-strong)] shadow-2xl overflow-hidden bg-[var(--bg-card)]/80">
           {/* 21st.dev Border Beam Perimeter Accent */}
-          <BorderBeam size={320} duration={14} colorFrom="#1d4ed8" colorTo="#10b981" />
+          <BorderBeam size={320} duration={14} colorFrom="#476D9A" colorTo="#61BE99" />
 
           {/* Subtle Ambient Radial Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#1d4ed8]/10 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#476D9A]/10 rounded-full blur-[100px] pointer-events-none" />
 
           {/* Telemetry Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 mb-6 border-b border-[var(--border-subtle)] relative z-20">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#10b981] animate-ping" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#5DC099] dark:bg-[#61BE99] animate-ping" />
               <span className="text-xs font-mono text-[var(--text-dim)] uppercase tracking-wider">
                 {activeHub ? `LIVE TRAJECTORY // SURAT HQ -> ${activeHub.country.toUpperCase()}` : "LIVE TRAJECTORY // SURAT HQ ACTIVE BEACON (ALL ROUTES)"}
               </span>
@@ -253,10 +253,10 @@ export function GlobalReachSection() {
               <div className="p-5 sm:p-6 rounded-2xl bg-[var(--bg-main)]/80 border border-[var(--border-subtle)] backdrop-blur-md shadow-sm">
                 <div className="flex items-center justify-between pb-3.5 border-b border-[var(--border-subtle)] text-xs font-mono">
                   <span className="text-[var(--text-dim)] flex items-center gap-1.5">
-                    <Radio className="w-3.5 h-3.5 text-[#10b981] animate-pulse" />
+                    <Radio className="w-3.5 h-3.5 text-[#5DC099] dark:text-[#61BE99] animate-pulse" />
                     ACTIVE ROUTE TELEMETRY
                   </span>
-                  <span className="text-[#10b981] font-bold">ONLINE</span>
+                  <span className="text-[#5DC099] dark:text-[#61BE99] font-bold">ONLINE</span>
                 </div>
 
                 <div className="mt-4 space-y-3.5">
@@ -269,7 +269,7 @@ export function GlobalReachSection() {
 
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-[var(--text-dim)] font-medium">Destination:</span>
-                    <span className="font-bold text-[#3b82f6] font-mono flex items-center gap-1">
+                    <span className="font-bold text-[#476D9A] dark:text-[#61BE99] font-mono flex items-center gap-1">
                       {activeHub ? `${activeHub.flag} ${activeHub.country}` : "🌐 Worldwide (8 Active Hubs)"}
                     </span>
                   </div>
@@ -283,7 +283,7 @@ export function GlobalReachSection() {
 
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-[var(--text-dim)] font-medium">Round-trip Latency:</span>
-                    <span className="font-bold text-[#10b981] font-mono flex items-center gap-1">
+                    <span className="font-bold text-[#5DC099] dark:text-[#61BE99] font-mono flex items-center gap-1">
                       <Activity className="w-3.5 h-3.5" />
                       {activeHub ? activeHub.latency : "< 5ms Core to Edge"}
                     </span>
@@ -301,13 +301,13 @@ export function GlobalReachSection() {
                 <div className="mt-5 pt-4 border-t border-[var(--border-subtle)]">
                   <div className="text-[11px] font-mono text-[var(--text-dim)] flex items-center justify-between mb-2">
                     <span className="flex items-center gap-1.5">
-                      <Zap className="w-3 h-3 text-[#3b82f6]" />
+                      <Zap className="w-3 h-3 text-[#476D9A] dark:text-[#61BE99]" />
                       Mesh Protocol: TLS 1.3
                     </span>
-                    <span className="text-[#10b981] font-semibold text-[10px]">WireGuard Encrypted</span>
+                    <span className="text-[#5DC099] dark:text-[#61BE99] font-semibold text-[10px]">WireGuard Encrypted</span>
                   </div>
                   <div className="w-full bg-[var(--bg-secondary)] h-1.5 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-[#1d4ed8] via-[#3b82f6] to-[#10b981] w-full animate-flow-dash" />
+                    <div className="h-full bg-gradient-to-r from-[#476D9A] via-[#5784b8] to-[#61BE99] w-full animate-flow-dash" />
                   </div>
                 </div>
               </div>
@@ -331,13 +331,13 @@ export function GlobalReachSection() {
                 }}
                 className={`p-5 flex flex-col justify-between group cursor-pointer transition-all duration-300 relative overflow-hidden ${
                   isSelected
-                    ? "border-[#1d4ed8] bg-[var(--primary)]/5 shadow-xl shadow-blue-600/10 -translate-y-1"
+                    ? "border-[#476D9A] bg-[var(--primary)]/5 shadow-xl shadow-[#476D9A]/10 -translate-y-1"
                     : "hover:border-[var(--primary)]/60 hover:-translate-y-0.5"
                 }`}
               >
                 {/* Active Hub Minimal Green Sheen */}
                 {isSelected && (
-                  <span className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#1d4ed8] via-[#3b82f6] to-[#10b981]" />
+                  <span className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#476D9A] via-[#5784b8] to-[#61BE99]" />
                 )}
 
                 <div>

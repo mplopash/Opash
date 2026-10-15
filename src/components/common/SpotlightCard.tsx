@@ -45,14 +45,14 @@ export function SpotlightCard({
         transform: isHovered ? "translateY(-4px)" : "translateY(0px)",
         transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease",
       }}
-      className={`spotlight-card relative overflow-hidden transition-all duration-300 rounded-[28px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0a101f] shadow-sm hover:shadow-xl hover:shadow-blue-900/10 dark:hover:shadow-black/50 ${
-        isHovered ? "border-[#1d4ed8]/50" : ""
+      className={`spotlight-card relative overflow-hidden transition-all duration-300 rounded-[28px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0a101f] shadow-sm hover:shadow-xl hover:shadow-[#476D9A]/10 dark:hover:shadow-black/50 ${
+        isHovered ? "border-[#476D9A]/50" : ""
       } ${className}`}
       {...props}
     >
       {/* Top Edge Specular Glint catching light */}
       <div 
-        className={`pointer-events-none absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#1d4ed8]/80 to-[#10b981]/80 transition-opacity duration-300 ${
+        className={`pointer-events-none absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#476D9A]/80 to-[#61BE99]/80 transition-opacity duration-300 ${
           isHovered ? "opacity-100" : "opacity-0"
         }`} 
       />
@@ -63,7 +63,7 @@ export function SpotlightCard({
           isHovered ? "opacity-100" : "opacity-0"
         }`}
         style={{
-          background: `radial-gradient(420px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(29, 78, 216, 0.12), transparent 60%)`,
+          background: `radial-gradient(420px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(71, 109, 154, 0.16), transparent 60%)`,
         }}
       />
 
@@ -73,7 +73,7 @@ export function SpotlightCard({
           isHovered ? "opacity-100" : "opacity-0"
         }`}
         style={{
-          background: `radial-gradient(260px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(16, 185, 129, 0.16), transparent 50%)`,
+          background: `radial-gradient(260px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(97, 190, 153, 0.16), transparent 50%)`,
         }}
       />
 

@@ -16,15 +16,15 @@ export interface BorderBeamProps {
 /**
  * BorderBeam - 21st.dev / Magic UI component
  * Renders an animated luminous border beam that traces the container's perimeter.
- * Adheres strictly to the Opash 2-color brand palette (Brand Blue #1d4ed8 & Emerald #10b981).
+ * Adheres strictly to the brand palette (#476D9A & #61BE99).
  */
 export function BorderBeam({
   className,
   size = 240,
   duration = 10,
   borderWidth = 1.5,
-  colorFrom = "#1d4ed8",
-  colorTo = "#10b981",
+  colorFrom = "#476D9A",
+  colorTo = "#61BE99",
   delay = 0,
 }: BorderBeamProps) {
   return (

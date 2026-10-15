@@ -70,8 +70,8 @@ export function StatsSection() {
     <section id="stats" className="py-10 sm:py-14 relative bg-[var(--bg-main)] transition-colors duration-300 cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SpotlightCard className="p-6 sm:p-10 rounded-3xl glass-panel border border-[var(--border-strong)] relative overflow-hidden shadow-2xl">
-          {/* Subtle perimeter border beam in Opash Blue & Minimal Green */}
-          <BorderBeam size={280} duration={14} colorFrom="#3b82f6" colorTo="#10b981" />
+          {/* Subtle perimeter border beam in brand colors */}
+          <BorderBeam size={280} duration={14} colorFrom="#476D9A" colorTo="#61BE99" />
 
           {/* Subtle decorative glow */}
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-[var(--primary)]/10 rounded-full blur-3xl pointer-events-none" />

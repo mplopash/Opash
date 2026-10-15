@@ -23,10 +23,10 @@ export function ScrollProgress() {
   return (
     <div className="fixed top-0 left-0 right-0 h-[2.5px] z-[100] pointer-events-none bg-transparent">
       <div
-        className="h-full bg-[#1d4ed8] relative transition-all duration-75 ease-out shadow-[0_0_10px_rgba(29,78,216,0.6)]"
+        className="h-full bg-[#476D9A] relative transition-all duration-75 ease-out shadow-[0_0_10px_rgba(71,109,154,0.6)]"
         style={{ width: `${progress}%` }}
       >
-        <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#10b981] shadow-[0_0_8px_#10b981]" />
+        <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#5DC099] dark:bg-[#61BE99] shadow-[0_0_8px_#61BE99]" />
       </div>
     </div>
   );

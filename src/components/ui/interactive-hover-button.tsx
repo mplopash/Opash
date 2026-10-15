@@ -46,9 +46,9 @@ export const InteractiveHoverButton = React.forwardRef<
         className={cn(
           "group relative inline-flex items-center justify-center cursor-pointer overflow-hidden rounded-full font-bold select-none transition-all duration-300",
           variant === "primary" &&
-            "bg-[#1d4ed8] text-white border border-blue-500/40 shadow-md shadow-blue-700/25 hover:shadow-xl hover:shadow-blue-600/40 active:scale-[0.98]",
+            "bg-[#476D9A] text-white border border-[#476D9A]/60 shadow-md shadow-[#476D9A]/25 hover:shadow-xl hover:shadow-[#476D9A]/40 active:scale-[0.98]",
           variant === "secondary" &&
-            "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 hover:border-blue-500/40 active:scale-[0.98]",
+            "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 hover:border-[#476D9A]/50 active:scale-[0.98]",
           variant === "outline" &&
             "bg-white/80 dark:bg-slate-900/80 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 backdrop-blur-md active:scale-[0.98]",
           "px-6 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm tracking-wide",
@@ -61,14 +61,14 @@ export const InteractiveHoverButton = React.forwardRef<
           className={cn(
             "absolute left-4 top-1/2 -translate-y-1/2 h-2.5 w-2.5 rounded-full transition-all duration-500 ease-out pointer-events-none",
             variant === "primary"
-              ? "bg-[#10b981] group-hover:scale-[65] group-hover:bg-[#1e40af]"
-              : "bg-[#1d4ed8] group-hover:scale-[65] group-hover:bg-[#1d4ed8]"
+              ? "bg-[#5DC099] dark:bg-[#61BE99] group-hover:scale-[65] group-hover:bg-[#38587d]"
+              : "bg-[#476D9A] group-hover:scale-[65] group-hover:bg-[#476D9A]"
           )}
         />
 
         {/* Initial Text State */}
         <span className="relative z-10 flex items-center gap-2 transition-all duration-300 group-hover:translate-x-6 group-hover:opacity-0">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 group-hover:opacity-0 transition-opacity" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#5DC099] dark:bg-[#61BE99] group-hover:opacity-0 transition-opacity" />
           <span>{children || text}</span>
         </span>
 

@@ -101,7 +101,7 @@ export function TechStackSection() {
                 }}
                 className="flex items-center gap-2.5 px-4 py-2 rounded-xl glass-panel border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--primary)]/10 transition-all cursor-pointer whitespace-nowrap text-xs font-semibold text-[var(--text-main)] shadow-sm"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
                 <span>{t.name}</span>
                 <span className="text-[10px] text-[var(--text-dim)] font-mono uppercase bg-[var(--bg-main)] px-1.5 py-0.5 rounded border border-[var(--border-subtle)]">
                   {t.benchmark}

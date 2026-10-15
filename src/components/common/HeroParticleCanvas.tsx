@@ -63,20 +63,19 @@ export function HeroParticleCanvas() {
     const particleCount = Math.min(Math.floor((width * height) / 18000), 62);
     const particles: Particle[] = [];
 
-    // Strict 2-Color Brand: Brand Blue (85%) + Minimal Emerald Green (15%)
-    // Deep, saturated colors for light mode to ensure crisp visibility against white backgrounds
-    const darkColors = ["#1d4ed8", "#2563eb", "#3b82f6", "#60a5fa", "#10b981"];
-    const lightColors = ["#1d4ed8", "#1e40af", "#2563eb", "#0284c7", "#059669"];
+    // Strict User Brand: #476D9A (Primary) + #61BE99 (Dark Accent) / #5DC099 (Light Accent)
+    const darkColors = ["#476D9A", "#5784b8", "#38587d", "#61BE99"];
+    const lightColors = ["#476D9A", "#38587d", "#5784b8", "#5DC099"];
     const colors = isLight ? lightColors : darkColors;
 
     for (let i = 0; i < particleCount; i++) {
       // Beacon nodes with radiant rings (matching dark mode reference)
       const isBeacon = i % 10 === 0;
-      const isEmerald = isBeacon ? i % 20 === 0 : Math.random() < 0.18;
+      const isEmerald = isBeacon ? i % 20 === 0 : Math.random() < 0.2;
       
       let color: string;
       if (isEmerald) {
-        color = isLight ? "#059669" : "#10b981";
+        color = isLight ? "#5DC099" : "#61BE99";
       } else {
         color = colors[Math.floor(Math.random() * (colors.length - 1))];
       }
@@ -162,8 +161,8 @@ export function HeroParticleCanvas() {
           ctx.beginPath();
           ctx.arc(p.x, p.y, ringRadius, 0, Math.PI * 2);
           ctx.strokeStyle = p.isEmerald
-            ? (isLight ? `rgba(5, 150, 105, ${ringAlpha})` : `rgba(16, 185, 129, ${ringAlpha})`)
-            : (isLight ? `rgba(29, 78, 216, ${ringAlpha})` : `rgba(59, 130, 246, ${ringAlpha})`);
+            ? (isLight ? `rgba(93, 192, 153, ${ringAlpha})` : `rgba(97, 190, 153, ${ringAlpha})`)
+            : (isLight ? `rgba(71, 109, 154, ${ringAlpha})` : `rgba(87, 132, 184, ${ringAlpha})`);
           ctx.lineWidth = isLight ? 1.5 : 1.2;
           ctx.stroke();
         }

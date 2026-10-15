@@ -41,9 +41,9 @@ export function MaterialRippleButton({
   };
 
   const variantStyles = {
-    primary: "btn-shine-sweep bg-[var(--primary)] text-white shadow-lg shadow-blue-600/30 hover:bg-[var(--primary-hover)]",
+    primary: "btn-shine-sweep bg-[var(--primary)] text-white shadow-lg shadow-[var(--primary)]/30 hover:bg-[var(--primary-hover)]",
     secondary: "btn-outline-hover bg-[var(--bg-card)] text-[var(--text-main)] border border-[var(--border-strong)]",
-    accent: "btn-shine-sweep bg-[#1d4ed8] hover:bg-[#1e40af] text-white shadow-lg shadow-blue-600/30",
+    accent: "btn-shine-sweep bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white shadow-lg shadow-[var(--primary)]/30",
   };
 
   return (

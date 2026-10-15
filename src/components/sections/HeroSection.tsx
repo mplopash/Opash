@@ -190,9 +190,9 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
             <div className="absolute inset-0 hero-video-dark-glow" />
           </div>
           <div className="absolute inset-0 bg-radial-[circle_at_50%_40%_rgba(6,9,19,0.3)_0%,rgba(6,9,19,0.85)_70%,#060913_100%]" />
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#1d4ed8]/25 rounded-full blur-[140px] animate-pulse" />
-          <div className="absolute top-10 left-10 w-[300px] h-[300px] bg-[#1d4ed8]/20 rounded-full blur-[120px]" />
-          <div className="absolute top-20 right-10 w-[350px] h-[350px] bg-[#10b981]/12 rounded-full blur-[130px]" />
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#476D9A]/25 rounded-full blur-[140px] animate-pulse" />
+          <div className="absolute top-10 left-10 w-[300px] h-[300px] bg-[#476D9A]/20 rounded-full blur-[120px]" />
+          <div className="absolute top-20 right-10 w-[350px] h-[350px] bg-[#61BE99]/15 rounded-full blur-[130px]" />
         </div>
       )}
 
@@ -206,7 +206,7 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
         <div className="text-center max-w-4xl mx-auto space-y-6">
-          {/* Main Headline with Strict 2-Color Typography (Solid Brand Blue + Minimal Green Pip) */}
+          {/* Main Headline with Strict Brand Typography */}
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[var(--text-main)] leading-[1.08]">
             Engineering Next-Gen <br className="hidden sm:inline" />
             <span className="relative inline-block mt-2 min-h-[1.2em]">
@@ -214,15 +214,15 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
                 key={wordIndex}
                 className={`inline-block font-extrabold tracking-tight animate-in fade-in slide-in-from-bottom-2 duration-300 ${
                   isLight
-                    ? "text-[#1d4ed8] drop-shadow-sm"
-                    : "text-[#3b82f6] drop-shadow-[0_0_35px_rgba(29,78,216,0.6)]"
+                    ? "text-[#476D9A] drop-shadow-sm"
+                    : "text-[#5784b8] drop-shadow-[0_0_35px_rgba(71,109,154,0.6)]"
                 }`}
               >
                 {rotatingWords[wordIndex]}
               </span>
               {/* Opash Logo Signature: Brand Blue Underline Bar with Minimal Green Accent Dot */}
-              <span className="absolute -bottom-2 left-0 right-0 h-1.5 bg-[#1d4ed8] rounded-full opacity-90 shadow-[0_0_12px_rgba(29,78,216,0.5)] flex items-center justify-end pr-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] shadow-[0_0_6px_#10b981]" />
+              <span className="absolute -bottom-2 left-0 right-0 h-1.5 bg-[#476D9A] rounded-full opacity-90 shadow-[0_0_12px_rgba(71,109,154,0.5)] flex items-center justify-end pr-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#5DC099] dark:bg-[#61BE99] shadow-[0_0_6px_#61BE99]" />
               </span>
             </span>
           </h1>
@@ -293,8 +293,8 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
         {/* Steady, Ultra-Clean Architecture Console (No 3D Tilting - Creative Interactive Telemetry) */}
         <div className="mt-14 sm:mt-18 max-w-5xl mx-auto">
           <SpotlightCard className="liquid-glass liquid-border rounded-3xl p-5 sm:p-8 shadow-2xl relative border border-[var(--border-strong)] overflow-hidden">
-            {/* Travelling Luminous Perimeter Beam in Brand Blue & Minimal Green */}
-            <BorderBeam size={320} duration={16} colorFrom="#3b82f6" colorTo="#10b981" />
+            {/* Travelling Luminous Perimeter Beam in Brand Colors */}
+            <BorderBeam size={320} duration={16} colorFrom="#476D9A" colorTo="#61BE99" />
 
             {/* Top Bar with Status and Tab Buttons */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-[var(--border-subtle)]">
@@ -400,14 +400,14 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
                 <div>
                   <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800/80">
                     <span className="text-[11px] text-slate-400 flex items-center gap-2">
-                      <Terminal className="w-3.5 h-3.5 text-[#3b82f6]" />
+                      <Terminal className="w-3.5 h-3.5 text-[#476D9A] dark:text-[#61BE99]" />
                       <span>opash-{currentTab.id}-spec.ts</span>
                     </span>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={handleRunTest}
                         disabled={isExecutingTest}
-                        className="px-2.5 py-1 rounded bg-[#1d4ed8]/20 hover:bg-[#1d4ed8] text-[#38bdf8] hover:text-white text-[10px] font-semibold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+                        className="px-2.5 py-1 rounded bg-[#476D9A]/20 hover:bg-[#476D9A] text-[#61BE99] hover:text-white text-[10px] font-semibold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
                         title="Simulate Edge Request"
                       >
                         <Play className={`w-3 h-3 ${isExecutingTest ? "animate-spin" : ""}`} />
@@ -418,7 +418,7 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
                         className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-[10px] font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
                         title="Copy Code Specification"
                       >
-                        {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                        {copied ? <Check className="w-3 h-3 text-[#61BE99]" /> : <Copy className="w-3 h-3" />}
                         <span>{copied ? "Copied!" : "Copy"}</span>
                       </button>
                     </div>
@@ -430,9 +430,9 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
 
                 {/* Simulated Telemetry Benchmark Output */}
                 {testResult && (
-                  <div className="mt-4 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-emerald-400 animate-in fade-in slide-in-from-bottom-1 duration-200">
+                  <div className="mt-4 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-[#61BE99] animate-in fade-in slide-in-from-bottom-1 duration-200">
                     <span className="flex items-center gap-1.5 font-mono">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#5DC099] dark:bg-[#61BE99] animate-pulse" />
                       {testResult}
                     </span>
                     <span className="text-[10px] text-slate-400 font-mono">Surat HQ Edge // HTTP/3</span>

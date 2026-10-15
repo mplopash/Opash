@@ -212,10 +212,10 @@ export function ProjectShowcase({
                     <h3 className="text-[var(--text-main)] font-bold text-lg sm:text-xl tracking-tight group-hover:text-[var(--primary-light)] transition-colors">
                       <span className="relative">
                         {project.title}
-                        {/* Animated underline in Opash Brand Blue */}
+                        {/* Animated underline in Brand Color #476D9A */}
                         <span
                           className={`
-                            absolute left-0 -bottom-0.5 h-[2px] bg-[#1d4ed8]
+                            absolute left-0 -bottom-0.5 h-[2px] bg-[#476D9A]
                             transition-all duration-300 ease-out
                             ${hoveredIndex === index ? "w-full" : "w-0"}
                           `}

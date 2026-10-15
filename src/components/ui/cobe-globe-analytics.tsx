@@ -346,7 +346,7 @@ export function GlobeAnalytics({
               fontSize: "0.55rem",
               fontWeight: 500,
               letterSpacing: "0.02em",
-              color: m.trend >= 0 ? "#10b981" : "#f87171",
+              color: m.trend >= 0 ? "#61BE99" : "#f87171",
             }}
           >
             {m.trend >= 0 ? "↑" : "↓"} {Math.abs(m.trend)}%

@@ -162,12 +162,12 @@ export function WhyChooseUsSection() {
                 key={idx}
                 className={`${item.colSpan} p-8 rounded-3xl glass-panel border border-[var(--border-strong)] flex flex-col justify-between group hover-card-elevate relative overflow-hidden transition-all duration-300 shadow-md`}
               >
-                {/* Minimal Green Accent Top Corner Sheen on Hover */}
-                <span className="absolute top-0 right-0 w-24 h-1 bg-gradient-to-l from-[#10b981] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                {/* Accent Top Corner Sheen on Hover */}
+                <span className="absolute top-0 right-0 w-24 h-1 bg-gradient-to-l from-[var(--accent)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <div className="p-3 rounded-2xl bg-[var(--bg-main)] border border-[var(--border-subtle)] group-hover:scale-110 group-hover:rotate-3 group-hover:border-[#1d4ed8]/40 group-hover:bg-[var(--primary)]/10 transition-all duration-300">
+                    <div className="p-3 rounded-2xl bg-[var(--bg-main)] border border-[var(--border-subtle)] group-hover:scale-110 group-hover:rotate-3 group-hover:border-[#476D9A]/40 group-hover:bg-[var(--primary)]/10 transition-all duration-300">
                       {item.icon}
                     </div>
                     <Badge variant="glass" size="sm">

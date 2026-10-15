@@ -33,7 +33,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantClasses = {
       primary:
-        "btn-shine-sweep bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] shadow-md shadow-blue-600/30 active:scale-[0.98]",
+        "btn-shine-sweep bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] shadow-md shadow-[var(--primary)]/30 active:scale-[0.98]",
       secondary:
         "bg-[var(--bg-card)] text-[var(--text-main)] hover:bg-[var(--border-strong)] border border-[var(--border-subtle)] hover:-translate-y-0.5 active:scale-[0.98]",
       outline:
@@ -41,9 +41,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ghost:
         "bg-transparent text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--primary)]/10 hover:scale-[1.02]",
       gradient:
-        "btn-shine-sweep bg-[#1d4ed8] hover:bg-[#1e40af] text-white shadow-lg shadow-blue-600/30 active:scale-[0.98]",
+        "btn-shine-sweep bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white shadow-lg shadow-[var(--primary)]/30 active:scale-[0.98]",
       glow:
-        "btn-shine-sweep bg-[var(--primary)] text-white shadow-lg shadow-blue-600/40 hover:shadow-xl hover:shadow-blue-600/60 active:scale-[0.98]",
+        "btn-shine-sweep bg-[var(--primary)] text-white shadow-lg shadow-[var(--primary)]/40 hover:shadow-xl hover:shadow-[var(--primary)]/60 active:scale-[0.98]",
     }[variant];
 
     return (

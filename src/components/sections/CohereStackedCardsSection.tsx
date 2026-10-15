@@ -126,14 +126,14 @@ const contract = {
     <section id="architecture-stack" className="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative transition-colors duration-300 cv-auto">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 space-y-3">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--primary)]/10 border border-[var(--primary)]/30 text-xs font-mono font-bold text-[#1d4ed8] dark:text-[#10b981] uppercase tracking-widest">
-          <Layers className="w-3.5 h-3.5 text-[#10b981]" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--primary)]/10 border border-[var(--primary)]/30 text-xs font-mono font-bold text-[#476D9A] dark:text-[#61BE99] uppercase tracking-widest">
+          <Layers className="w-3.5 h-3.5 text-[#5DC099] dark:text-[#61BE99]" />
           <span>Multi-Tier Architecture // Engineering Standards</span>
         </div>
 
         <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-[var(--text-main)] leading-tight">
           Architected for Enterprise Scale & <br className="hidden sm:inline" />
-          <span className="text-[#1d4ed8] dark:text-[#3b82f6]">
+          <span className="text-[#476D9A] dark:text-[#61BE99]">
             Sovereign Code Handover.
           </span>
         </h2>
@@ -156,11 +156,11 @@ const contract = {
                 }}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase transition-all duration-200 border ${
                   isActive
-                    ? "bg-[#1d4ed8] text-white border-[#1d4ed8] shadow-lg shadow-blue-600/25 ring-2 ring-blue-500/20"
-                    : "bg-white dark:bg-[#0c1324] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-[#1d4ed8]/50 hover:bg-slate-50 dark:hover:bg-[#111a33]"
+                    ? "bg-[#476D9A] text-white border-[#476D9A] shadow-lg shadow-[#476D9A]/25 ring-2 ring-[#476D9A]/20"
+                    : "bg-white dark:bg-[#0c1324] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-[#476D9A]/50 hover:bg-slate-50 dark:hover:bg-[#111a33]"
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-emerald-300" : "text-[#1d4ed8] dark:text-[#3b82f6]"}`} />
+                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-[#61BE99]" : "text-[#476D9A] dark:text-[#61BE99]"}`} />
                 <span>{card.num} // {card.title.split(" ")[0]}</span>
               </button>
             );
@@ -171,16 +171,16 @@ const contract = {
       {/* Featured Architecture Console Card */}
       <div className="rounded-[28px] border border-slate-200/90 dark:border-slate-800 p-6 sm:p-10 lg:p-12 shadow-2xl backdrop-blur-2xl transition-all duration-300 bg-white dark:bg-[#0c1324] shadow-blue-900/5 dark:shadow-black/60 relative overflow-hidden">
         {/* Perimeter Border Beam Glow */}
-        <BorderBeam size={300} duration={14} colorFrom="#1d4ed8" colorTo="#10b981" />
+        <BorderBeam size={300} duration={14} colorFrom="#476D9A" colorTo="#61BE99" />
 
         {/* Top Accent Line */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#1d4ed8] to-[#10b981] opacity-75 pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#476D9A] to-[#61BE99] opacity-75 pointer-events-none" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
           {/* Left Column: Narrative Details */}
           <div className="lg:col-span-7 space-y-5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono font-bold text-[#1d4ed8] dark:text-[#10b981] tracking-widest uppercase">
+              <span className="text-xs font-mono font-bold text-[#476D9A] dark:text-[#61BE99] tracking-widest uppercase">
                 {current.num} // {current.tag}
               </span>
               <span className="text-[10px] font-mono font-bold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
@@ -243,8 +243,8 @@ const contract = {
 
               {/* Footer Metric */}
               <div className="px-4 py-2.5 bg-[#0f172a] border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-400">
-                <span className="flex items-center gap-1.5 text-emerald-400 font-semibold font-mono">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#10b981]" />
+                <span className="flex items-center gap-1.5 text-[#61BE99] font-semibold font-mono">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#61BE99]" />
                   <span>Unit Coverage: 98.4%</span>
                 </span>
                 <span className="font-mono text-slate-400">SURAT HQ COMPILER // OK</span>

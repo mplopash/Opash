@@ -210,14 +210,14 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                         }}
                         className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-sm font-semibold transition-colors duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
                           isSelected
-                            ? "text-[#1d4ed8] dark:text-[#3b82f6] font-bold"
-                            : "text-slate-700 dark:text-slate-200 hover:text-[#1d4ed8] dark:hover:text-[#3b82f6]"
+                            ? "text-[#476D9A] dark:text-[#61BE99] font-bold"
+                            : "text-slate-700 dark:text-slate-200 hover:text-[#476D9A] dark:hover:text-[#61BE99]"
                         }`}
                       >
                         <span className="whitespace-nowrap">{item.name}</span>
                         <ChevronDown 
                           className={`w-3.5 h-3.5 transition-transform duration-200 shrink-0 ${
-                            servicesDropdown ? "rotate-180 text-[#1d4ed8] dark:text-[#3b82f6]" : "opacity-70"
+                            servicesDropdown ? "rotate-180 text-[#476D9A] dark:text-[#61BE99]" : "opacity-70"
                           }`} 
                         />
                       </button>
@@ -235,7 +235,7 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                               animate={{ opacity: 1, y: 0, scale: 1 }}
                               exit={{ opacity: 0, y: 6, scale: 0.98 }}
                               transition={{ duration: 0.16, ease: "easeOut" }}
-                              className="p-5 rounded-[26px] bg-white dark:bg-[#0c1324] border-2 border-blue-400 dark:border-blue-500 shadow-2xl shadow-blue-500/20 backdrop-blur-2xl overflow-hidden"
+                              className="p-5 rounded-[26px] bg-white dark:bg-[#0c1324] border-2 border-[#476D9A]/40 dark:border-[#61BE99]/40 shadow-2xl shadow-[#476D9A]/20 backdrop-blur-2xl overflow-hidden"
                             >
                               <div className="space-y-1">
                                 {serviceDropdownItems.map((serviceName, sIdx) => (
@@ -248,10 +248,10 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                                       setActiveTab(idx);
                                       onOpenQuoteModal(serviceName);
                                     }}
-                                    className="group flex items-center justify-between px-3.5 py-2 rounded-xl text-[14px] font-medium text-slate-800 dark:text-slate-200 hover:text-[#1d4ed8] dark:hover:text-[#3b82f6] hover:bg-blue-50/70 dark:hover:bg-blue-950/40 hover:translate-x-1.5 transition-all duration-200 cursor-pointer"
+                                    className="group flex items-center justify-between px-3.5 py-2 rounded-xl text-[14px] font-medium text-slate-800 dark:text-slate-200 hover:text-[#476D9A] dark:hover:text-[#61BE99] hover:bg-[#476D9A]/10 transition-all duration-200 cursor-pointer"
                                   >
                                     <span className="whitespace-nowrap">{serviceName}</span>
-                                    <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-[#1d4ed8] dark:text-[#3b82f6] shrink-0" />
+                                    <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-[#476D9A] dark:text-[#61BE99] shrink-0" />
                                   </Link>
                                 ))}
                               </div>
@@ -281,8 +281,8 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                     }}
                     className={`relative z-10 block px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-sm font-semibold transition-colors duration-200 whitespace-nowrap shrink-0 ${
                       isSelected
-                        ? "text-[#1d4ed8] dark:text-[#3b82f6] font-bold"
-                        : "text-slate-700 dark:text-slate-200 hover:text-[#1d4ed8] dark:hover:text-[#3b82f6]"
+                        ? "text-[#476D9A] dark:text-[#61BE99] font-bold"
+                        : "text-slate-700 dark:text-slate-200 hover:text-[#476D9A] dark:hover:text-[#61BE99]"
                     }`}
                   >
                     <span className="whitespace-nowrap">{item.name}</span>
@@ -450,7 +450,7 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                   setMobileMenuOpen(false);
                   onOpenQuoteModal();
                 }}
-                className="w-full py-3.5 rounded-full bg-gradient-to-r from-[#1d4ed8] to-[#10b981] text-white font-bold text-sm shadow-lg shadow-blue-600/20"
+                className="w-full py-3.5 rounded-full bg-gradient-to-r from-[#476D9A] to-[#61BE99] text-white font-bold text-sm shadow-lg shadow-[#476D9A]/20"
               >
                 Get a Quote
               </button>
