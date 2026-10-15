@@ -108,8 +108,8 @@ const DEFAULT_COLUMNS: FooterColumn[] = [
   },
 ]
 
-const SANS_STACK = '"Outfit", "Plus Jakarta Sans", "Inter", -apple-system, system-ui, sans-serif'
-const MONO_STACK = '"JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace'
+const SANS_STACK = '"Nunito", -apple-system, system-ui, sans-serif'
+const MONO_STACK = '"Nunito", ui-monospace, Menlo, Consolas, monospace'
 
 // #region halftone
 // Pure helpers, lifted out and executed by tests/halftone-wordmark-footer.test.mjs.

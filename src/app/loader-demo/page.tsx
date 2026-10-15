@@ -5,7 +5,7 @@ import Link from "next/link";
 import { VaporizeTextCycle, Tag } from "@/components/ui/vapour-text-effect";
 
 export default function LoaderDemoPage() {
-  const [fontSize, setFontSize] = useState(64);
+  const [fontSize, setFontSize] = useState(84);
   const [spread, setSpread] = useState(5);
   const [density, setDensity] = useState(6);
 
@@ -29,7 +29,7 @@ export default function LoaderDemoPage() {
       </div>
 
       {/* Main Vaporize Text Stage (Enlarged and smooth) */}
-      <div className="relative w-full max-w-5xl h-80 sm:h-96 md:h-[400px] flex items-center justify-center border border-white/10 rounded-3xl bg-white/[0.02] backdrop-blur-md shadow-2xl p-6 sm:p-10 my-8">
+      <div className="relative w-full max-w-5xl h-96 sm:h-[440px] flex items-center justify-center border border-white/10 rounded-3xl bg-white/[0.02] backdrop-blur-md shadow-2xl p-6 sm:p-10 my-8">
         <VaporizeTextCycle
           texts={[
             "WELCOME TO OPASH",
@@ -37,7 +37,7 @@ export default function LoaderDemoPage() {
             "THANK YOU FOR VISITING US",
           ]}
           font={{
-            fontFamily: "Outfit, Plus Jakarta Sans, Inter, sans-serif",
+            fontFamily: "Nunito, sans-serif",
             fontSize: `${fontSize}px`,
             fontWeight: 800,
           }}
@@ -46,8 +46,8 @@ export default function LoaderDemoPage() {
           density={density}
           animation={{
             vaporizeDuration: 2.2,
-            fadeInDuration: 1.0,
-            waitDuration: 1.5,
+            fadeInDuration: 1.1,
+            waitDuration: 1.8,
           }}
           direction="left-to-right"
           alignment="center"
@@ -65,12 +65,12 @@ export default function LoaderDemoPage() {
           <input
             id="font-size-slider"
             type="range"
-            min="36"
-            max="84"
+            min="48"
+            max="120"
             step="2"
             value={fontSize}
             onChange={(e) => setFontSize(Number(e.target.value))}
-            className="w-24 accent-blue-500 cursor-pointer"
+            className="w-28 accent-blue-500 cursor-pointer"
           />
         </div>
 

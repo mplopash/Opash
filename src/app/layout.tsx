@@ -45,7 +45,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-mode="dark" data-font="jakarta" suppressHydrationWarning>
+    <html lang="en" data-mode="dark" data-font="nunito" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -57,7 +57,7 @@ export default function RootLayout({
                   if (!savedMode && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                     mode = 'dark';
                   }
-                  var font = localStorage.getItem('opash_font') || 'jakarta';
+                  var font = 'nunito';
                   var d = document.documentElement;
                   d.setAttribute('data-mode', mode);
                   d.setAttribute('data-font', font);
@@ -76,7 +76,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
           rel="stylesheet"
         />
       </head>

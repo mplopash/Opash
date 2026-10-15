@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 export type ThemeMode = "dark" | "midnight" | "light";
-export type FontFamily = "jakarta" | "inter" | "outfit" | "space" | "poppins";
+export type FontFamily = "nunito" | "jakarta" | "inter" | "outfit" | "space" | "poppins";
 export type BorderRadius = "small" | "medium" | "large";
 
 interface ThemeContextType {
@@ -30,13 +30,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   });
 
   const [font, setFontState] = useState<FontFamily>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("opash_font") as FontFamily;
-      if (saved) return saved;
-      const attr = document.documentElement.getAttribute("data-font") as FontFamily;
-      if (attr) return attr;
-    }
-    return "jakarta";
+    return "nunito";
   });
 
   const [radius, setRadiusState] = useState<BorderRadius>(() => {

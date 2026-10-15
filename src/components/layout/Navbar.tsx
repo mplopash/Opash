@@ -108,19 +108,26 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
     }
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      resetPillToActive();
+    }, 50);
+    return () => clearTimeout(timer);
+  }, [isScrolled]);
+
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 pointer-events-none flex justify-center ${
-          isScrolled ? "pt-2.5 sm:pt-3" : "pt-3.5 sm:pt-4"
+        className={`fixed top-0 left-0 right-0 z-40 transition-[padding] duration-300 pointer-events-none flex justify-center ${
+          isScrolled ? "pt-2.5 sm:pt-3" : "pt-4 sm:pt-5"
         }`}
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
-            className={`w-full transition-all duration-300 flex items-center justify-between pointer-events-auto rounded-full px-4 sm:px-6 py-2 sm:py-2.5 ${
+            className={`w-full rounded-full transition-[background-color,border-color,box-shadow,backdrop-filter,padding] duration-300 flex items-center justify-between pointer-events-auto border ${
               isScrolled
-                ? "bg-white/95 dark:bg-[#070b14]/95 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-lg shadow-slate-900/5 dark:shadow-black/50"
-                : "bg-white/85 dark:bg-[#070b14]/85 backdrop-blur-xl border border-slate-200/70 dark:border-slate-800/70 shadow-sm"
+                ? "px-4 sm:px-6 py-2 sm:py-2.5 bg-white/95 dark:bg-[#070b14]/95 backdrop-blur-2xl border-slate-200/80 dark:border-slate-800/80 shadow-lg shadow-black/5 dark:shadow-black/50"
+                : "px-0 sm:px-1 py-1.5 bg-transparent border-transparent shadow-none"
             }`}
           >
             {/* Opash Logo */}

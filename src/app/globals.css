@@ -27,10 +27,10 @@
   --text-dim: #64748b;
   --spotlight-color: rgba(16, 185, 129, 0.15);
   
-  /* Fonts */
-  --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
-  --font-serif: 'Instrument Serif', Georgia, serif;
+  /* Fonts - Pure Nunito Only */
+  --font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Nunito', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Nunito', system-ui, -apple-system, sans-serif;
   --radius: 1rem;
 }
 
@@ -76,30 +76,16 @@
   --spotlight-color: rgba(29, 78, 216, 0.06);
 }
 
-/* Dynamic Fonts */
-[data-font="jakarta"] {
-  --font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
-}
-
-[data-font="inter"] {
-  --font-family: 'Inter', system-ui, sans-serif;
-  --font-heading: 'Inter', sans-serif;
-}
-
-[data-font="outfit"] {
-  --font-family: 'Outfit', system-ui, sans-serif;
-  --font-heading: 'Outfit', sans-serif;
-}
-
-[data-font="space"] {
-  --font-family: 'Space Grotesk', system-ui, sans-serif;
-  --font-heading: 'Space Grotesk', system-ui, sans-serif;
-}
-
+/* Strict Nunito Typography everywhere */
+[data-font],
+[data-font="nunito"],
+[data-font="jakarta"],
+[data-font="inter"],
+[data-font="outfit"],
+[data-font="space"],
 [data-font="poppins"] {
-  --font-family: 'Poppins', system-ui, sans-serif;
-  --font-heading: 'Poppins', sans-serif;
+  --font-family: 'Nunito', system-ui, -apple-system, sans-serif !important;
+  --font-heading: 'Nunito', system-ui, -apple-system, sans-serif !important;
 }
 
 /* Tailwind CSS v4 Theme Bridge */
@@ -114,21 +100,25 @@
   --color-text-main: var(--text-main);
   --color-text-muted: var(--text-muted);
   --color-border-subtle: var(--border-subtle);
-  --font-sans: var(--font-family);
-  --font-display: var(--font-heading);
-  --font-serif: var(--font-serif);
+  --font-sans: 'Nunito', system-ui, -apple-system, sans-serif;
+  --font-display: 'Nunito', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Nunito', system-ui, -apple-system, sans-serif;
+}
+
+html, body, button, input, select, textarea {
+  font-family: 'Nunito', system-ui, -apple-system, sans-serif !important;
 }
 
 body {
   background-color: var(--bg-main);
   color: var(--text-main);
-  font-family: var(--font-family);
+  font-family: 'Nunito', system-ui, -apple-system, sans-serif !important;
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
+  font-family: 'Nunito', system-ui, -apple-system, sans-serif !important;
 }
 
 /* Lenis Recommended CSS */

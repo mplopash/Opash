@@ -36,39 +36,22 @@ export type VaporizeTextCycleProps = {
   tag?: Tag;
 };
 
-export type Particle = {
+export type VaporParticle = {
   x: number;
   y: number;
-  originalX: number;
-  originalY: number;
+  vx: number;
+  vy: number;
+  radius: number;
   r: number;
   g: number;
   b: number;
-  color: string;
   opacity: number;
-  originalAlpha: number;
-  velocityX: number;
-  velocityY: number;
-  angle: number;
-  speed: number;
-  size: number;
-  shouldFadeQuickly?: boolean;
+  fadeSpeed: number;
+  triggered: boolean;
+  origX: number;
 };
 
-export type TextBoundaries = {
-  left: number;
-  right: number;
-  width: number;
-};
-
-declare global {
-  interface HTMLCanvasElement {
-    textBoundaries?: TextBoundaries;
-  }
-}
-
-// Parse RGB/Hex into numeric tuple for ultra-fast, zero-regex per-frame alpha blending
-function parseColor(color: string = "rgb(255, 255, 255)"): {
+function parseRgb(color: string = "rgb(255, 255, 255)"): {
   r: number;
   g: number;
   b: number;
@@ -91,26 +74,6 @@ function parseColor(color: string = "rgb(255, 255, 255)"): {
   return { r: 255, g: 255, b: 255 };
 }
 
-// Map value between range
-function transformValue(
-  value: number = 5,
-  [inMin, inMax]: [number, number] = [0, 10],
-  [outMin, outMax]: [number, number] = [0.3, 1],
-  clamp = true
-): number {
-  let mapped = outMin + ((value - inMin) / (inMax - inMin)) * (outMax - outMin);
-  if (clamp) {
-    const min = Math.min(outMin, outMax);
-    const max = Math.max(outMin, outMax);
-    mapped = Math.max(min, Math.min(max, mapped));
-  }
-  return mapped;
-}
-
-function calculateVaporizeSpread(fontSize: number): number {
-  return Math.max(2, fontSize * 0.12);
-}
-
 function useIsInView(ref: React.RefObject<HTMLElement | null>): boolean {
   const [isInView, setIsInView] = useState(true);
 
@@ -130,87 +93,20 @@ function useIsInView(ref: React.RefObject<HTMLElement | null>): boolean {
   return isInView;
 }
 
-// High-speed particle render with zero string allocation per frame
-function renderParticles(
-  ctx: CanvasRenderingContext2D,
-  particles: Particle[],
-  globalDpr: number
-) {
-  ctx.save();
-  ctx.scale(globalDpr, globalDpr);
-  for (let i = 0; i < particles.length; i++) {
-    const p = particles[i];
-    if (p.opacity <= 0.01) continue;
-
-    ctx.fillStyle = `rgba(${p.r}, ${p.g}, ${p.b}, ${p.opacity.toFixed(3)})`;
-    ctx.fillRect(p.x / globalDpr, p.y / globalDpr, p.size, p.size);
-  }
-  ctx.restore();
-}
-
-// Organic fluid particle physics with subtle upward vapor buoyancy
-function updateParticles(
-  particles: Particle[],
-  vaporizeX: number,
-  deltaTime: number,
-  direction: "left-to-right" | "right-to-left"
-): boolean {
-  let allVaporized = true;
-  const step = Math.min(deltaTime * 60, 3);
-
-  for (let i = 0; i < particles.length; i++) {
-    const p = particles[i];
-    const isPastLine =
-      direction === "left-to-right"
-        ? p.originalX <= vaporizeX
-        : p.originalX >= vaporizeX;
-
-    if (isPastLine) {
-      p.x += p.velocityX * step;
-      p.y += p.velocityY * step;
-
-      // Organic fluid drag & subtle upward vapor buoyancy
-      p.velocityX *= 0.985;
-      p.velocityY *= 0.985;
-      p.y -= 0.15 * step;
-
-      const fadeRate = p.shouldFadeQuickly ? 1.8 : 0.95;
-      p.opacity = Math.max(0, p.opacity - deltaTime * fadeRate);
-
-      if (p.opacity > 0.02) {
-        allVaporized = false;
-      }
-    } else {
-      allVaporized = false;
-    }
-  }
-
-  return allVaporized;
-}
-
-function resetParticles(particles: Particle[]) {
-  for (let i = 0; i < particles.length; i++) {
-    const p = particles[i];
-    p.x = p.originalX;
-    p.y = p.originalY;
-    p.opacity = p.originalAlpha;
-  }
-}
-
 export function VaporizeTextCycle({
   texts = ["Next.js", "React"],
   font = {
-    fontFamily: "Outfit, Plus Jakarta Sans, Inter, sans-serif",
-    fontSize: "64px",
-    fontWeight: 700,
+    fontFamily: "Nunito, sans-serif",
+    fontSize: "84px",
+    fontWeight: 800,
   },
   color = "rgb(255, 255, 255)",
   spread = 5,
   density = 6,
   animation = {
     vaporizeDuration: 2.2,
-    fadeInDuration: 1.0,
-    waitDuration: 1.4,
+    fadeInDuration: 1.1,
+    waitDuration: 1.8,
   },
   direction = "left-to-right",
   alignment = "center",
@@ -219,22 +115,21 @@ export function VaporizeTextCycle({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const isInView = useIsInView(wrapperRef as React.RefObject<HTMLElement>);
-  const particlesRef = useRef<Particle[]>([]);
+
+  // Particles for the vapor wave
+  const particlesRef = useRef<VaporParticle[]>([]);
   const animationFrameRef = useRef<number | null>(null);
 
-  // Synchronous phase management (completely eliminates async React state race conditions & flicker)
-  const phaseRef = useRef<"vaporizing" | "fadingIn" | "waiting">("waiting");
-  const waitTimerRef = useRef(0);
+  // Synchronous RAF state machine
+  const phaseRef = useRef<"waiting" | "vaporizing" | "fadingIn">("waiting");
+  const timerRef = useRef(0);
   const vaporizeProgressRef = useRef(0);
-  const fadeOpacityRef = useRef(1);
   const currentTextIndexRef = useRef(0);
 
-  // Expose text for SSR/Accessibility
   const [displayedTextIndex, setDisplayedTextIndex] = useState(0);
-  const [wrapperSize, setWrapperSize] = useState({ width: 900, height: 260 });
-  const transformedDensity = transformValue(density, [0, 10], [0.3, 1], true);
+  const [wrapperSize, setWrapperSize] = useState({ width: 1000, height: 320 });
 
-  const rgb = useMemo(() => parseColor(color), [color]);
+  const rgb = useMemo(() => parseRgb(color), [color]);
 
   // High-DPI canvas scale
   const globalDpr = useMemo(() => {
@@ -247,31 +142,28 @@ export function VaporizeTextCycle({
   const animationDurations = useMemo(
     () => ({
       VAPORIZE_DURATION: (animation.vaporizeDuration ?? 2.2) * 1000,
-      FADE_IN_DURATION: (animation.fadeInDuration ?? 1.0) * 1000,
-      WAIT_DURATION: (animation.waitDuration ?? 1.4) * 1000,
+      FADE_IN_DURATION: (animation.fadeInDuration ?? 1.1) * 1000,
+      WAIT_DURATION: (animation.waitDuration ?? 1.8) * 1000,
     }),
     [animation.vaporizeDuration, animation.fadeInDuration, animation.waitDuration]
   );
 
   const fontConfig = useMemo(() => {
-    const fontSize = parseInt(font.fontSize?.replace("px", "") || "64", 10);
+    const rawSize = parseInt(font.fontSize?.replace("px", "") || "84", 10);
     const spreadMultiplier = (spread || 5) / 5;
     return {
-      fontSize,
+      fontSize: rawSize,
       spreadMultiplier,
-      fontWeight: font.fontWeight ?? 700,
-      fontFamily: font.fontFamily ?? "sans-serif",
+      fontWeight: font.fontWeight ?? 800,
+      fontFamily: font.fontFamily ?? "Nunito, sans-serif",
     };
   }, [font.fontSize, font.fontWeight, font.fontFamily, spread]);
 
-  // Builds particle grid for text at currentTextIndex
-  const buildParticlesForText = useCallback(
-    (textIndex: number, initialOpacity: number = 1) => {
+  // Generate fine, smooth vapor particles by sampling the text glyph pixels
+  const generateParticlesForText = useCallback(
+    (textIndex: number) => {
       const canvas = canvasRef.current;
       if (!canvas || wrapperSize.width <= 0 || wrapperSize.height <= 0) return;
-
-      const ctx = canvas.getContext("2d", { willReadFrequently: true });
-      if (!ctx) return;
 
       const w = Math.floor(wrapperSize.width * globalDpr);
       const h = Math.floor(wrapperSize.height * globalDpr);
@@ -280,210 +172,247 @@ export function VaporizeTextCycle({
         canvas.height = h;
       }
 
-      ctx.clearRect(0, 0, w, h);
+      // Create an offscreen canvas to sample the text pixels
+      const offscreen = document.createElement("canvas");
+      offscreen.width = w;
+      offscreen.height = h;
+      const offCtx = offscreen.getContext("2d", { willReadFrequently: true });
+      if (!offCtx) return;
 
       const text = texts[textIndex] || "";
       const scaledFontSize = fontConfig.fontSize * globalDpr;
-      ctx.font = `${fontConfig.fontWeight} ${scaledFontSize}px ${fontConfig.fontFamily}`;
-      ctx.textBaseline = "middle";
+      offCtx.font = `${fontConfig.fontWeight} ${scaledFontSize}px ${fontConfig.fontFamily}`;
+      offCtx.textBaseline = "middle";
 
-      const metrics = ctx.measureText(text);
+      const metrics = offCtx.measureText(text);
       const textWidth = metrics.width;
 
       let startX = (w - textWidth) / 2;
       if (alignment === "left") {
-        startX = 24 * globalDpr;
+        startX = 30 * globalDpr;
       } else if (alignment === "right") {
-        startX = w - textWidth - 24 * globalDpr;
+        startX = w - textWidth - 30 * globalDpr;
       }
       const startY = h / 2;
 
-      ctx.fillStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-      ctx.fillText(text, startX, startY);
+      offCtx.fillStyle = "#ffffff";
+      offCtx.fillText(text, startX, startY);
 
-      const imgData = ctx.getImageData(0, 0, w, h);
+      const imgData = offCtx.getImageData(0, 0, w, h);
       const data = imgData.data;
 
-      let minX = w;
-      let maxX = 0;
-      const particles: Particle[] = [];
+      // Fine sub-pixel step for silky, non-blocky particle distribution
+      const sampleStep = Math.max(2, Math.round(3.5 / ((density || 6) / 5)));
+      const particles: VaporParticle[] = [];
 
-      // Step & Particle Sizing tailored for solid text appearance and fine vapor dispersal
-      const step = Math.max(
-        1.8,
-        Math.round((2.5 * globalDpr) / transformedDensity)
-      );
-      const particleSize = Math.max(1.6, (step / globalDpr) * 0.95);
+      for (let y = 0; y < h; y += sampleStep) {
+        for (let x = 0; x < w; x += sampleStep) {
+          const idx = (y * w + x) * 4;
+          const alpha = data[idx + 3];
 
-      for (let y = 0; y < h; y += step) {
-        for (let x = 0; x < w; x += step) {
-          const index = (y * w + x) * 4;
-          const alpha = data[index + 3];
-
-          if (alpha > 40) {
-            if (x < minX) minX = x;
-            if (x > maxX) maxX = x;
-
-            const normalizedAlpha = alpha / 255;
-            const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.5;
+          if (alpha > 50) {
+            // Random dissipation angle: upward and slightly outward
+            const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.8;
             const speed =
-              (0.5 + Math.random() * 2.4) * fontConfig.spreadMultiplier * globalDpr;
+              (0.8 + Math.random() * 2.8) *
+              fontConfig.spreadMultiplier *
+              globalDpr;
 
             particles.push({
               x,
               y,
-              originalX: x,
-              originalY: y,
+              origX: x,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed,
+              radius: (Math.random() * 1.4 + 1.1) * globalDpr,
               r: rgb.r,
               g: rgb.g,
               b: rgb.b,
-              color,
-              opacity: initialOpacity * normalizedAlpha,
-              originalAlpha: normalizedAlpha,
-              velocityX: Math.cos(angle) * speed,
-              velocityY: Math.sin(angle) * speed,
-              angle,
-              speed,
-              size: particleSize,
-              shouldFadeQuickly: Math.random() > 0.4,
+              opacity: alpha / 255,
+              fadeSpeed: Math.random() * 0.9 + 0.8,
+              triggered: false,
             });
           }
         }
       }
 
-      canvas.textBoundaries = {
-        left: minX <= maxX ? minX : 0,
-        right: minX <= maxX ? maxX : w,
-        width: minX <= maxX ? Math.max(1, maxX - minX) : w,
-      };
-
       particlesRef.current = particles;
-      ctx.clearRect(0, 0, w, h);
-
-      // Only draw immediately if not fading in (prevents 1-frame flash)
-      if (initialOpacity > 0) {
-        renderParticles(ctx, particles, globalDpr);
-      }
     },
-    [
-      wrapperSize,
-      globalDpr,
-      texts,
-      fontConfig,
-      alignment,
-      rgb,
-      transformedDensity,
-      color,
-    ]
+    [wrapperSize, globalDpr, texts, fontConfig, alignment, rgb, density]
   );
 
-  // Initial build and font ready synchronization
+  // Initial load
   useEffect(() => {
     if (typeof document !== "undefined" && document.fonts) {
       document.fonts.ready.then(() => {
-        buildParticlesForText(currentTextIndexRef.current, 1);
+        generateParticlesForText(currentTextIndexRef.current);
       });
     } else {
-      buildParticlesForText(currentTextIndexRef.current, 1);
+      generateParticlesForText(currentTextIndexRef.current);
     }
-  }, [buildParticlesForText]);
+  }, [generateParticlesForText]);
 
-  // Main 120fps Animation Loop (Synchronous state machine, zero race conditions)
+  // Main 120 FPS Hybrid Vector-Vapor Animation Loop
   useEffect(() => {
     if (!isInView) return;
     let lastTime = performance.now();
     let frameId: number;
 
     const animate = (currentTime: number) => {
-      // Cap delta time to 40ms to eliminate hitching or sudden teleporting
-      const deltaTime = Math.min((currentTime - lastTime) / 1000, 0.04);
+      const dt = Math.min((currentTime - lastTime) / 1000, 0.04);
       lastTime = currentTime;
 
       const canvas = canvasRef.current;
       const ctx = canvas?.getContext("2d");
 
-      if (!canvas || !ctx || !particlesRef.current.length) {
+      if (!canvas || !ctx) {
         frameId = requestAnimationFrame(animate);
         return;
       }
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
 
-      const currentPhase = phaseRef.current;
+      const text = texts[currentTextIndexRef.current] || "";
+      const scaledFontSize = fontConfig.fontSize * globalDpr;
+      ctx.font = `${fontConfig.fontWeight} ${scaledFontSize}px ${fontConfig.fontFamily}`;
+      ctx.textBaseline = "middle";
 
-      switch (currentPhase) {
-        case "waiting": {
-          waitTimerRef.current += deltaTime;
-          renderParticles(ctx, particlesRef.current, globalDpr);
+      const metrics = ctx.measureText(text);
+      const textWidth = metrics.width;
+      let startX = (w - textWidth) / 2;
+      if (alignment === "left") {
+        startX = 30 * globalDpr;
+      } else if (alignment === "right") {
+        startX = w - textWidth - 30 * globalDpr;
+      }
+      const startY = h / 2;
 
-          if (waitTimerRef.current >= animationDurations.WAIT_DURATION / 1000) {
-            phaseRef.current = "vaporizing";
-            vaporizeProgressRef.current = 0;
-            resetParticles(particlesRef.current);
-          }
-          break;
-        }
+      const phase = phaseRef.current;
 
-        case "vaporizing": {
-          vaporizeProgressRef.current +=
-            (deltaTime * 100) / (animationDurations.VAPORIZE_DURATION / 1000);
+      // 1. WAITING PHASE (Pristine, 100% Crisp Crystal-Clear Nunito Text)
+      if (phase === "waiting") {
+        timerRef.current += dt;
 
-          const textBoundaries = canvas.textBoundaries;
-          if (!textBoundaries) break;
+        // Draw razor-sharp vector text (NO pixel mosaic!)
+        ctx.fillStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+        ctx.fillText(text, startX, startY);
 
-          const progress = Math.min(100, vaporizeProgressRef.current);
-          const vaporizeX =
-            direction === "left-to-right"
-              ? textBoundaries.left + (textBoundaries.width * progress) / 100
-              : textBoundaries.right - (textBoundaries.width * progress) / 100;
+        if (timerRef.current >= animationDurations.WAIT_DURATION / 1000) {
+          phaseRef.current = "vaporizing";
+          timerRef.current = 0;
+          vaporizeProgressRef.current = 0;
 
-          const allVaporized = updateParticles(
-            particlesRef.current,
-            vaporizeX,
-            deltaTime,
-            direction
-          );
-
-          renderParticles(ctx, particlesRef.current, globalDpr);
-
-          // Once completely vaporized, transition smoothly without flashing
-          if (vaporizeProgressRef.current >= 100 && allVaporized) {
-            currentTextIndexRef.current =
-              (currentTextIndexRef.current + 1) % texts.length;
-            setDisplayedTextIndex(currentTextIndexRef.current);
-
-            phaseRef.current = "fadingIn";
-            fadeOpacityRef.current = 0;
-
-            // Build new particles starting at 0 opacity (ZERO FLICKER)
-            buildParticlesForText(currentTextIndexRef.current, 0);
-          }
-          break;
-        }
-
-        case "fadingIn": {
-          fadeOpacityRef.current = Math.min(
-            1,
-            fadeOpacityRef.current +
-              (deltaTime * 1000) / animationDurations.FADE_IN_DURATION
-          );
-
-          const currentOpacity = fadeOpacityRef.current;
+          // Reset all particles for the new wave
           const particles = particlesRef.current;
-
           for (let i = 0; i < particles.length; i++) {
-            const p = particles[i];
-            p.opacity = currentOpacity * p.originalAlpha;
+            particles[i].x = particles[i].origX;
+            particles[i].triggered = false;
+            particles[i].opacity = 1;
+          }
+        }
+      }
+
+      // 2. VAPORIZING PHASE (Left-to-Right wave dissolves text into fine vapor mist)
+      else if (phase === "vaporizing") {
+        vaporizeProgressRef.current +=
+          (dt * 100) / (animationDurations.VAPORIZE_DURATION / 1000);
+
+        const progress = Math.min(100, vaporizeProgressRef.current);
+        const waveX =
+          direction === "left-to-right"
+            ? startX + (textWidth * progress) / 100
+            : startX + textWidth - (textWidth * progress) / 100;
+
+        // Draw the UNVAPORIZED solid text ahead of the wave (100% crisp!)
+        ctx.save();
+        ctx.beginPath();
+        if (direction === "left-to-right") {
+          ctx.rect(waveX, 0, w - waveX, h);
+        } else {
+          ctx.rect(0, 0, waveX, h);
+        }
+        ctx.clip();
+
+        ctx.fillStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+        ctx.fillText(text, startX, startY);
+        ctx.restore();
+
+        // Update & Render the smooth circular vapor particles
+        const particles = particlesRef.current;
+        let allDead = true;
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+
+          // Trigger particle once the wave reaches its origin X
+          const shouldTrigger =
+            direction === "left-to-right" ? p.origX <= waveX : p.origX >= waveX;
+
+          if (shouldTrigger && !p.triggered) {
+            p.triggered = true;
           }
 
-          renderParticles(ctx, particles, globalDpr);
+          if (p.triggered && p.opacity > 0.01) {
+            allDead = false;
 
-          if (fadeOpacityRef.current >= 1) {
-            phaseRef.current = "waiting";
-            waitTimerRef.current = 0;
-            resetParticles(particles);
+            const step = dt * 60;
+            p.x += p.vx * step;
+            p.y += p.vy * step;
+
+            // Organic upward thermal buoyancy + gentle atmospheric drag
+            p.vx *= 0.982;
+            p.vy *= 0.982;
+            p.y -= 0.18 * step;
+
+            p.opacity = Math.max(0, p.opacity - dt * p.fadeSpeed);
+            p.radius = Math.max(0.6 * globalDpr, p.radius * 0.992);
+
+            // Draw silky smooth rounded particle (NO blocky squares!)
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${p.r}, ${p.g}, ${p.b}, ${p.opacity.toFixed(3)})`;
+            ctx.fill();
+          } else if (!p.triggered) {
+            allDead = false;
           }
-          break;
+        }
+
+        // Once wave passes text and particles dissolve, smoothly move to next text
+        if (vaporizeProgressRef.current >= 100 && allDead) {
+          currentTextIndexRef.current =
+            (currentTextIndexRef.current + 1) % texts.length;
+          setDisplayedTextIndex(currentTextIndexRef.current);
+
+          phaseRef.current = "fadingIn";
+          timerRef.current = 0;
+
+          // Prepare particles for next cycle
+          generateParticlesForText(currentTextIndexRef.current);
+        }
+      }
+
+      // 3. FADING IN PHASE (Smooth ease-in of the new text with zero flash)
+      else if (phase === "fadingIn") {
+        timerRef.current += dt;
+        const fadeProgress = Math.min(
+          1,
+          timerRef.current / (animationDurations.FADE_IN_DURATION / 1000)
+        );
+
+        // Smooth cubic ease-out
+        const ease = 1 - Math.pow(1 - fadeProgress, 3);
+
+        ctx.save();
+        ctx.globalAlpha = ease;
+        ctx.fillStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+        ctx.fillText(text, startX, startY);
+        ctx.restore();
+
+        if (fadeProgress >= 1) {
+          phaseRef.current = "waiting";
+          timerRef.current = 0;
         }
       }
 
@@ -498,24 +427,29 @@ export function VaporizeTextCycle({
     };
   }, [
     isInView,
-    texts.length,
+    texts,
     direction,
     globalDpr,
-    animationDurations.FADE_IN_DURATION,
-    animationDurations.WAIT_DURATION,
-    animationDurations.VAPORIZE_DURATION,
-    buildParticlesForText,
+    alignment,
+    rgb,
+    fontConfig,
+    animationDurations,
+    generateParticlesForText,
   ]);
 
-  // Handle container resize
+  // Handle responsive resize
   useEffect(() => {
     const container = wrapperRef.current;
     if (!container) return;
 
-    const rect = container.getBoundingClientRect();
-    const w = container.clientWidth || Math.round(rect.width) || 900;
-    const h = container.clientHeight || Math.round(rect.height) || 260;
-    setWrapperSize({ width: w, height: h });
+    const updateSize = () => {
+      const rect = container.getBoundingClientRect();
+      const w = container.clientWidth || Math.round(rect.width) || 1000;
+      const h = container.clientHeight || Math.round(rect.height) || 320;
+      setWrapperSize({ width: w, height: h });
+    };
+
+    updateSize();
 
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
@@ -546,8 +480,8 @@ export function VaporizeTextCycle({
       <canvas
         ref={canvasRef}
         style={{
-          minWidth: "40px",
-          minHeight: "30px",
+          minWidth: "60px",
+          minHeight: "40px",
           pointerEvents: "none",
         }}
         className="max-w-full"

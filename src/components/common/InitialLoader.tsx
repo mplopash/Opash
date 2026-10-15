@@ -72,7 +72,7 @@ export function InitialLoader() {
       </div>
 
       {/* Main Vapour Particle Animation Container */}
-      <div className="relative w-full max-w-4xl h-44 sm:h-52 md:h-60 flex items-center justify-center px-4">
+      <div className="relative w-full max-w-4xl h-52 sm:h-64 md:h-72 flex items-center justify-center px-4">
         {mounted && (
           <VaporizeTextCycle
             texts={[
@@ -80,8 +80,8 @@ export function InitialLoader() {
               "THANK YOU FOR VISITING US",
             ]}
             font={{
-              fontFamily: "Outfit, Plus Jakarta Sans, Inter, sans-serif",
-              fontSize: "46px",
+              fontFamily: "Nunito, sans-serif",
+              fontSize: "56px",
               fontWeight: 800,
             }}
             color="rgb(255, 255, 255)"
