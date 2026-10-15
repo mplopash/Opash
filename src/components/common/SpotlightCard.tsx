@@ -11,12 +11,9 @@ interface SpotlightCardProps extends React.HTMLAttributes<HTMLDivElement> {
 export function SpotlightCard({
   children,
   className = "",
-  tiltAmount = 8,
   ...props
 }: SpotlightCardProps) {
   const cardRef = useRef<HTMLDivElement | null>(null);
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
@@ -25,18 +22,9 @@ export function SpotlightCard({
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // Update CSS variables for radial spotlight
+    // Update CSS variables for fluid mouse-following specular spotlight
     cardRef.current.style.setProperty("--mouse-x", `${x}px`);
     cardRef.current.style.setProperty("--mouse-y", `${y}px`);
-
-    // Calculate 3D tilt
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rY = ((x - centerX) / centerX) * tiltAmount;
-    const rX = -((y - centerY) / centerY) * tiltAmount;
-
-    setRotateX(rX);
-    setRotateY(rY);
   };
 
   const handleMouseEnter = () => {
@@ -45,8 +33,6 @@ export function SpotlightCard({
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    setRotateX(0);
-    setRotateY(0);
   };
 
   return (
@@ -56,14 +42,41 @@ export function SpotlightCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={{
-        transform: isHovered
-          ? `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.015, 1.015, 1.015)`
-          : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
-        transition: isHovered ? "transform 0.12s ease-out" : "transform 0.4s ease-out",
+        transform: isHovered ? "translateY(-4px)" : "translateY(0px)",
+        transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease",
       }}
-      className={`spotlight-card transform-style-3d ${className}`}
+      className={`spotlight-card relative overflow-hidden transition-all duration-300 ${
+        isHovered ? "border-[#1d4ed8]/50 shadow-2xl shadow-blue-600/15" : ""
+      } ${className}`}
       {...props}
     >
+      {/* Top Edge Specular Glint catching light */}
+      <div 
+        className={`pointer-events-none absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#3b82f6]/70 to-[#10b981]/70 transition-opacity duration-300 ${
+          isHovered ? "opacity-100" : "opacity-0"
+        }`} 
+      />
+
+      {/* Internal Radial Glow tracking cursor */}
+      <div
+        className={`pointer-events-none absolute -inset-px rounded-[inherit] transition-opacity duration-300 ${
+          isHovered ? "opacity-100" : "opacity-0"
+        }`}
+        style={{
+          background: `radial-gradient(420px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(29, 78, 216, 0.12), transparent 60%)`,
+        }}
+      />
+
+      {/* Specular Edge Ring tracking cursor */}
+      <div
+        className={`pointer-events-none absolute -inset-px rounded-[inherit] transition-opacity duration-300 ${
+          isHovered ? "opacity-100" : "opacity-0"
+        }`}
+        style={{
+          background: `radial-gradient(280px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(16, 185, 129, 0.18), transparent 50%)`,
+        }}
+      />
+
       {children}
     </div>
   );

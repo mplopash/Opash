@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { SmoothScroll } from "@/components/common/SmoothScroll";
-import { VersionSwitcher } from "@/components/common/VersionSwitcher";
 import { ScrollProgress } from "@/components/common/ScrollProgress";
-import { ScrollNavigationRail } from "@/components/common/ScrollNavigationRail";
 
 export const metadata: Metadata = {
   title: "Opash Software | Custom Software Development, AI & Web Engineering",
@@ -59,9 +57,7 @@ export default function RootLayout({
         <SmoothScroll>
           <ThemeProvider>
             <ScrollProgress />
-            <ScrollNavigationRail />
             {children}
-            <VersionSwitcher />
           </ThemeProvider>
         </SmoothScroll>
       </body>

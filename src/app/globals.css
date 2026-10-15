@@ -230,6 +230,54 @@ html.lenis, html.lenis body {
   animation: shinyText 3.5s linear infinite;
 }
 
+/* Border Beam Hardware-Accelerated Travelling Luminous Border Trace */
+@keyframes border-beam {
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+.animate-border-beam {
+  animation: border-beam var(--duration, 12s) infinite linear;
+}
+
+/* Seamless Continuous Marquee */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap, 1rem)));
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  user-select: none;
+  animation: marquee var(--duration, 35s) linear infinite;
+}
+
+.animate-marquee-reverse {
+  display: flex;
+  user-select: none;
+  animation: marquee var(--duration, 35s) linear infinite reverse;
+}
+
+.marquee-wrapper:hover .animate-marquee,
+.marquee-wrapper:hover .animate-marquee-reverse {
+  animation-play-state: paused;
+}
+
+/* SVG Trajectory Stream Flow */
+@keyframes flowDash {
+  to {
+    stroke-dashoffset: -30;
+  }
+}
+.animate-flow-dash {
+  animation: flowDash 1.8s linear infinite;
+}
+
 [data-mode="light"] .shiny-text,
 .light .shiny-text {
   background: linear-gradient(110deg, #1d4ed8 20%, #3b82f6 50%, #1d4ed8 80%);

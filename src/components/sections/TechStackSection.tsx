@@ -89,6 +89,28 @@ export function TechStackSection() {
           description="We select the ideal platform architecture to guarantee maximum performance, security, and developer velocity for your project."
         />
 
+        {/* Seamless Hardware-Accelerated Tech Logo Marquee */}
+        <div className="marquee-wrapper relative overflow-hidden py-4 mb-10 [mask-image:linear-gradient(to_right,transparent,white_12%,white_88%,transparent)]">
+          <div className="flex gap-3 w-max animate-marquee">
+            {[...technologies.slice(0, 14), ...technologies.slice(0, 14)].map((t, idx) => (
+              <button
+                key={idx}
+                onClick={() => {
+                  soundEffects.hover();
+                  setActiveCategory(t.category);
+                }}
+                className="flex items-center gap-2.5 px-4 py-2 rounded-xl glass-panel border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--primary)]/10 transition-all cursor-pointer whitespace-nowrap text-xs font-semibold text-[var(--text-main)] shadow-sm"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
+                <span>{t.name}</span>
+                <span className="text-[10px] text-[var(--text-dim)] font-mono uppercase bg-[var(--bg-main)] px-1.5 py-0.5 rounded border border-[var(--border-subtle)]">
+                  {t.benchmark}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Categories Tab Bar */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
           {categories.map((c) => (

@@ -19,10 +19,14 @@ import {
   Activity,
   Server,
   CloudLightning,
-  ChevronRight
+  ChevronRight,
+  Play,
+  Copy,
+  Check
 } from "lucide-react";
 import { HeroParticleCanvas } from "@/components/common/HeroParticleCanvas";
 import { SpotlightCard } from "@/components/common/SpotlightCard";
+import { BorderBeam } from "@/components/common/BorderBeam";
 import { useTheme } from "@/context/ThemeContext";
 import { soundEffects } from "@/lib/soundEffects";
 
@@ -101,6 +105,35 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
   const isLight = mode === "light";
   const [wordIndex, setWordIndex] = useState(0);
   const [activeTab, setActiveTab] = useState("frontend");
+  const [latency, setLatency] = useState(12);
+  const [isExecutingTest, setIsExecutingTest] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [testResult, setTestResult] = useState<string | null>(null);
+
+  const currentTab = architectureTabs.find((t) => t.id === activeTab) || architectureTabs[0];
+
+  const handleRunTest = async () => {
+    soundEffects.click();
+    setIsExecutingTest(true);
+    setTestResult(null);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 350));
+      const calculated = Math.floor(Math.random() * 6) + 8; // 8-13ms
+      setLatency(calculated);
+      setTestResult(`Benchmark OK: 200 OK • Latency: ${calculated}ms • Edge Cache: HIT`);
+    } finally {
+      setIsExecutingTest(false);
+    }
+  };
+
+  const handleCopyCode = () => {
+    soundEffects.click();
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(currentTab.code);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -108,8 +141,6 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
     }, 2800);
     return () => clearInterval(interval);
   }, []);
-
-  const currentTab = architectureTabs.find((t) => t.id === activeTab) || architectureTabs[0];
 
   const handleScrollToEstimator = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -174,30 +205,6 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
         <div className="text-center max-w-4xl mx-auto space-y-6">
-          {/* Liquid Glass Badge */}
-          <div 
-            onClick={() => {
-              soundEffects.hover();
-              onOpenQuoteModal();
-            }}
-            className="inline-block liquid-glass liquid-border px-5 py-2.5 rounded-2xl shadow-xl transition-all duration-300 hover:scale-105 hover:border-[#1d4ed8]/50 cursor-pointer group"
-            title="Click to view 2026 Engineering Scope"
-          >
-            <div className="flex items-center gap-3 text-xs">
-              <span className="px-2 py-0.5 rounded-md bg-[var(--primary)]/15 text-[var(--primary)] font-mono font-bold tracking-wider group-hover:bg-[var(--primary)] group-hover:text-white transition-colors">
-                [ 2026 ARCHITECTURE ]
-              </span>
-              <span className="text-[var(--text-main)] font-semibold">
-                Engineered by <span className="font-serif italic text-blue-600 dark:text-blue-400 font-normal text-sm">Senior Architects</span>
-              </span>
-              <span className="hidden sm:inline text-[var(--text-dim)]">•</span>
-              <span className="hidden sm:inline text-emerald-600 dark:text-emerald-500 font-semibold flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse inline-block" />
-                100% Upwork Top Rated Agency
-              </span>
-            </div>
-          </div>
-
           {/* Main Headline with Strict 2-Color Typography (Solid Brand Blue + Minimal Green Pip) */}
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[var(--text-main)] leading-[1.08]">
             Engineering Next-Gen <br className="hidden sm:inline" />
@@ -286,17 +293,24 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
           </div>
         </div>
 
-        {/* 3D Spotlight Architecture Console (Interactive Tabs & Code Inspector) */}
+        {/* Steady, Ultra-Clean Architecture Console (No 3D Tilting - Creative Interactive Telemetry) */}
         <div className="mt-14 sm:mt-18 max-w-5xl mx-auto">
-          <SpotlightCard className="liquid-glass liquid-border rounded-3xl p-5 sm:p-8 shadow-2xl relative border border-[var(--border-strong)]">
+          <SpotlightCard className="liquid-glass liquid-border rounded-3xl p-5 sm:p-8 shadow-2xl relative border border-[var(--border-strong)] overflow-hidden">
+            {/* Travelling Luminous Perimeter Beam in Brand Blue & Minimal Green */}
+            <BorderBeam size={320} duration={16} colorFrom="#3b82f6" colorTo="#10b981" />
+
             {/* Top Bar with Status and Tab Buttons */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-[var(--border-subtle)]">
               <div className="flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block shadow-sm" />
                 <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block shadow-sm" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block shadow-sm" />
-                <span className="text-xs text-[var(--text-dim)] font-mono ml-2 tracking-wider">
-                  opash-core-engine::v4.2 // live telemetry
+                <span className="text-xs text-[var(--text-dim)] font-mono ml-2 tracking-wider flex items-center gap-2">
+                  <span>opash-core-engine::v4.2 // live telemetry</span>
+                  <span className="inline-flex items-center gap-1 text-[10px] text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-800/60 font-mono">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
+                    {latency}ms
+                  </span>
                 </span>
               </div>
 
@@ -311,6 +325,7 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
                       onClick={() => {
                         soundEffects.click();
                         setActiveTab(tab.id);
+                        setTestResult(null);
                       }}
                       className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 cursor-pointer ${
                         isActive
@@ -376,27 +391,56 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
                     soundEffects.click();
                     onOpenQuoteModal();
                   }}
-                  className="w-full py-2 px-3 rounded-xl bg-[var(--primary)]/10 hover:bg-[var(--primary)] text-[var(--primary-light)] hover:text-white border border-[var(--primary)]/30 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  className="w-full py-2.5 px-3 rounded-xl bg-[var(--primary)]/10 hover:bg-[var(--primary)] text-[var(--primary-light)] hover:text-white border border-[var(--primary)]/30 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                 >
                   <span>Build with {currentTab.label}</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </button>
               </div>
 
-              {/* Right Column: Code Terminal */}
-              <div className="lg:col-span-7 rounded-2xl bg-[#090d16] text-slate-200 border border-slate-800 p-4 font-mono text-xs overflow-x-auto shadow-inner relative group">
-                <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800/80">
-                  <span className="text-[11px] text-slate-400 flex items-center gap-2">
-                    <Terminal className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>opash-{currentTab.id}-spec.ts</span>
-                  </span>
-                  <span className="text-[10px] uppercase tracking-widest text-emerald-400 font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">
-                    Live Validated
-                  </span>
+              {/* Right Column: Interactive Code Terminal */}
+              <div className="lg:col-span-7 rounded-2xl bg-[#090d16] text-slate-200 border border-slate-800 p-4 font-mono text-xs overflow-x-auto shadow-inner relative flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800/80">
+                    <span className="text-[11px] text-slate-400 flex items-center gap-2">
+                      <Terminal className="w-3.5 h-3.5 text-[#3b82f6]" />
+                      <span>opash-{currentTab.id}-spec.ts</span>
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={handleRunTest}
+                        disabled={isExecutingTest}
+                        className="px-2.5 py-1 rounded bg-[#1d4ed8]/20 hover:bg-[#1d4ed8] text-[#38bdf8] hover:text-white text-[10px] font-semibold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+                        title="Simulate Edge Request"
+                      >
+                        <Play className={`w-3 h-3 ${isExecutingTest ? "animate-spin" : ""}`} />
+                        <span>{isExecutingTest ? "Pinging..." : "Test Latency"}</span>
+                      </button>
+                      <button
+                        onClick={handleCopyCode}
+                        className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-[10px] font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
+                        title="Copy Code Specification"
+                      >
+                        {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                        <span>{copied ? "Copied!" : "Copy"}</span>
+                      </button>
+                    </div>
+                  </div>
+                  <pre className="text-slate-300 leading-relaxed overflow-x-auto">
+                    <code>{currentTab.code}</code>
+                  </pre>
                 </div>
-                <pre className="text-slate-300 leading-relaxed overflow-x-auto">
-                  <code>{currentTab.code}</code>
-                </pre>
+
+                {/* Simulated Telemetry Benchmark Output */}
+                {testResult && (
+                  <div className="mt-4 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-emerald-400 animate-in fade-in slide-in-from-bottom-1 duration-200">
+                    <span className="flex items-center gap-1.5 font-mono">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
+                      {testResult}
+                    </span>
+                    <span className="text-[10px] text-slate-400 font-mono">Surat HQ Edge // HTTP/3</span>
+                  </div>
+                )}
               </div>
             </div>
           </SpotlightCard>

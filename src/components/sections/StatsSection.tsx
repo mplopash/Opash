@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { Users, Rocket, Clock, Award, CheckCircle2, Activity, ShieldCheck, Zap, GitCommit } from "lucide-react";
 import { SpotlightCard } from "@/components/common/SpotlightCard";
+import { CountUp } from "@/components/common/CountUp";
+import { BorderBeam } from "@/components/common/BorderBeam";
 import { soundEffects } from "@/lib/soundEffects";
 
 export function StatsSection() {
@@ -68,6 +70,9 @@ export function StatsSection() {
     <section id="stats" className="py-16 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SpotlightCard className="p-8 sm:p-12 rounded-3xl glass-panel border border-[var(--border-strong)] relative overflow-hidden shadow-2xl">
+          {/* Subtle perimeter border beam in Opash Blue & Minimal Green */}
+          <BorderBeam size={280} duration={14} colorFrom="#3b82f6" colorTo="#10b981" />
+
           {/* Subtle decorative glow */}
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-[var(--primary)]/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -123,7 +128,7 @@ export function StatsSection() {
                   {item.icon}
                 </div>
                 <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[var(--text-main)]">
-                  {item.value}
+                  <CountUp key={`${telemetryMode}-${idx}`} value={item.value} />
                 </div>
                 <div className="text-sm font-bold text-[var(--text-main)] mt-1.5">
                   {item.label}

@@ -18,6 +18,7 @@ import {
   Zap
 } from "lucide-react";
 import { SpotlightCard } from "@/components/common/SpotlightCard";
+import { BorderBeam } from "@/components/common/BorderBeam";
 import { soundEffects } from "@/lib/soundEffects";
 
 interface ProjectEstimatorSectionProps {
@@ -227,7 +228,8 @@ export function ProjectEstimatorSection({ onEstimateSubmit }: ProjectEstimatorSe
 
           {/* Real-time Summary Card with 3D Spotlight */}
           <div className="lg:col-span-5 sticky top-24">
-            <SpotlightCard className="p-6 sm:p-8 rounded-3xl glass-panel border border-[var(--border-strong)] shadow-2xl relative">
+            <SpotlightCard className="p-6 sm:p-8 rounded-3xl glass-panel border border-[var(--border-strong)] shadow-2xl relative overflow-hidden">
+              <BorderBeam size={260} duration={14} colorFrom="#3b82f6" colorTo="#10b981" />
               <div className="flex items-center justify-between pb-4 border-b border-[var(--border-subtle)]">
                 <div className="flex items-center gap-2">
                   <Calculator className="w-5 h-5 text-[var(--primary)]" />
