@@ -13,6 +13,7 @@ import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
 import { ClientSuccessSection } from "@/components/sections/ClientSuccessSection";
 import { IndustriesSection } from "@/components/sections/IndustriesSection";
 import { TechStackSection } from "@/components/sections/TechStackSection";
+import { FounderSection } from "@/components/sections/FounderSection";
 import { CohereScrollTextReveal } from "@/components/common/CohereScrollTextReveal";
 
 // Dynamically import heavy below-the-fold components to reduce initial RAM and keep INP < 50ms
@@ -135,7 +136,10 @@ export default function Home() {
           text="We engineer mission-critical software and autonomous AI systems that reason, adapt, and scale natively into modern enterprise workflows with mathematical precision."
         />
 
-        {/* 13. High-Authority Engineering Insights & Thought Leadership */}
+        {/* 13. Meet Our Founder & CEO (Hiren Danecha) */}
+        <FounderSection />
+
+        {/* 14. High-Authority Engineering Insights & Thought Leadership */}
         <BlogInsightsSection />
 
         {/* 14. High-Intent Consultation & Inquiries */}

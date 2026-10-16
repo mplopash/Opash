@@ -23,14 +23,25 @@ export function Footer() {
   }, []);
 
   const services = [
-    "Custom Software Development",
-    "AI & Machine Learning Solutions",
-    "Web Development & Cloud Platforms",
-    "Mobile App Development (iOS & Android)",
-    "SaaS Architecture & Multi-Tenancy",
-    "API Integration & Microservices",
-    "QA Automation & Performance Testing",
-    "Hire Dedicated Tech Teams",
+    { name: "Custom Software Development", href: "/custom-software-development" },
+    { name: "AI & Machine Learning Solutions", href: "/ai-ml-solutions" },
+    { name: "Web Development & Cloud Platforms", href: "/web-development" },
+    { name: "Mobile App Development (iOS & Android)", href: "/mobile-development" },
+    { name: "SaaS Architecture & Multi-Tenancy", href: "/saas-development" },
+    { name: "API Integration & Microservices", href: "/api-integration" },
+    { name: "QA Automation & Performance Testing", href: "/qa-testing" },
+    { name: "Hire Dedicated Tech Teams", href: "/hire-developers" },
+  ];
+
+  const companyLinks = [
+    { name: "About Opash", href: "/company" },
+    { name: "Case Studies & Work", href: "/portfolio" },
+    { name: "Insights & Tech Blogs", href: "/blogs" },
+    { name: "Careers (We're Hiring!)", href: "/career" },
+    { name: "Project & Budget Estimator", href: "/get-a-quote" },
+    { name: "Contact Engineering Leads", href: "/contact" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms & Conditions", href: "/terms-and-conditions" },
   ];
 
   const industries = [
@@ -146,24 +157,24 @@ export function Footer() {
           <ul className="space-y-2.5 text-xs text-[var(--text-muted)]">
             {services.map((item, idx) => (
               <li key={idx}>
-                <Link href="#services" className="hover:text-[var(--primary-light)] transition-colors block">
-                  {item}
+                <Link href={item.href} className="hover:text-[var(--primary-light)] transition-colors block">
+                  {item.name}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Industries Column */}
+        {/* Company & Legal Column */}
         <div>
           <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--text-main)] mb-4">
-            Industries
+            Company &amp; Legal
           </h4>
           <ul className="space-y-2.5 text-xs text-[var(--text-muted)]">
-            {industries.map((item, idx) => (
+            {companyLinks.map((item, idx) => (
               <li key={idx}>
-                <Link href="#industries" className="hover:text-[var(--primary-light)] transition-colors block">
-                  {item}
+                <Link href={item.href} className="hover:text-[var(--primary-light)] transition-colors block">
+                  {item.name}
                 </Link>
               </li>
             ))}
@@ -186,7 +197,7 @@ export function Footer() {
 
           <div className="mt-6 pt-4 border-t border-[var(--border-subtle)]">
             <Link
-              href="#contact"
+              href="/contact"
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--primary)] hover:underline"
             >
               Start Your Project Consultation

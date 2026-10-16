@@ -28,26 +28,28 @@ interface NavItem {
   name: string;
   href: string;
   hasDropdown?: boolean;
+  badge?: string;
 }
 
 const navItems: NavItem[] = [
-  { id: "home", name: "Home", href: "#" },
+  { id: "home", name: "Home", href: "/" },
   { id: "services", name: "Services", href: "#services", hasDropdown: true },
-  { id: "company", name: "Company", href: "#about" },
-  { id: "blogs", name: "Blogs", href: "#blogs" },
-  { id: "career", name: "Career", href: "#why-us" },
-  { id: "contact", name: "Contact Us", href: "#contact" },
+  { id: "company", name: "About", href: "/company" },
+  { id: "portfolio", name: "Case Studies", href: "/portfolio" },
+  { id: "blogs", name: "Insights", href: "/blogs" },
+  { id: "career", name: "Careers", href: "/career", badge: "HIRING" },
+  { id: "contact", name: "Contact", href: "/contact" },
 ];
 
 const serviceDropdownItems = [
-  "Custom Software Development",
-  "Web Development",
-  "Mobile App Development",
-  "AI & ML Solutions",
-  "SaaS Development",
-  "API Integration & Microservices",
-  "QA / Testing",
-  "Hire Dedicated Developers",
+  { name: "Custom Software Development", href: "/custom-software-development" },
+  { name: "Web Development", href: "/web-development" },
+  { name: "Mobile App Development", href: "/mobile-development" },
+  { name: "AI & ML Solutions", href: "/ai-ml-solutions" },
+  { name: "SaaS Development", href: "/saas-development" },
+  { name: "API Integration & Microservices", href: "/api-integration" },
+  { name: "QA / Testing", href: "/qa-testing" },
+  { name: "Hire Dedicated Developers", href: "/hire-developers" },
 ];
 
 interface TabPosition {
@@ -239,19 +241,18 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                               className="p-5 rounded-[26px] bg-white dark:bg-[#0c1324] border-2 border-[#476D9A]/40 dark:border-[#61BE99]/40 shadow-2xl shadow-[#476D9A]/20 backdrop-blur-2xl overflow-hidden"
                             >
                               <div className="space-y-1">
-                                {serviceDropdownItems.map((serviceName, sIdx) => (
+                                {serviceDropdownItems.map((serviceItem, sIdx) => (
                                   <Link
                                     key={sIdx}
-                                    href="#services"
+                                    href={serviceItem.href}
                                     onClick={() => {
                                       soundEffects.click();
                                       setServicesDropdown(false);
                                       setActiveTab(idx);
-                                      onOpenQuoteModal(serviceName);
                                     }}
                                     className="group flex items-center justify-between px-3.5 py-2 rounded-xl text-[14px] font-medium text-slate-800 dark:text-slate-200 hover:text-[#476D9A] dark:hover:text-[#61BE99] hover:bg-[#476D9A]/10 transition-all duration-200 cursor-pointer"
                                   >
-                                    <span className="whitespace-nowrap">{serviceName}</span>
+                                    <span className="whitespace-nowrap">{serviceItem.name}</span>
                                     <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-[#476D9A] dark:text-[#61BE99] shrink-0" />
                                   </Link>
                                 ))}
@@ -280,13 +281,18 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                       setPillForElement(e.currentTarget);
                       setServicesDropdown(false);
                     }}
-                    className={`relative z-10 block px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-sm font-semibold transition-colors duration-200 whitespace-nowrap shrink-0 ${
+                    className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-sm font-semibold transition-colors duration-200 whitespace-nowrap shrink-0 ${
                       isSelected
                         ? "text-[#476D9A] dark:text-[#61BE99] font-bold"
                         : "text-slate-700 dark:text-slate-200 hover:text-[#476D9A] dark:hover:text-[#61BE99]"
                     }`}
                   >
                     <span className="whitespace-nowrap">{item.name}</span>
+                    {item.badge && (
+                      <span className="px-1.5 py-0.5 rounded-full text-[9px] font-black tracking-wider bg-[#5DC099]/20 text-[#5DC099] border border-[#5DC099]/30">
+                        {item.badge}
+                      </span>
+                    )}
                   </Link>
                 );
               })}
@@ -415,14 +421,13 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                             {serviceDropdownItems.map((svc, sIdx) => (
                               <Link
                                 key={sIdx}
-                                href="#services"
+                                href={svc.href}
                                 onClick={() => {
                                   setMobileMenuOpen(false);
-                                  onOpenQuoteModal(svc);
                                 }}
-                                className="block py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
+                                className="block py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-[#5DC099] dark:hover:text-[#61BE99]"
                               >
-                                {svc}
+                                {svc.name}
                               </Link>
                             ))}
                           </motion.div>
@@ -440,9 +445,14 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                       setActiveTab(idx);
                       setMobileMenuOpen(false);
                     }}
-                    className="block py-2 text-lg font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 dark:border-slate-800/80"
+                    className="flex items-center justify-between py-2 text-lg font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 dark:border-slate-800/80"
                   >
-                    {item.name}
+                    <span>{item.name}</span>
+                    {item.badge && (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-black tracking-wider bg-[#5DC099]/20 text-[#5DC099] border border-[#5DC099]/30">
+                        {item.badge}
+                      </span>
+                    )}
                   </Link>
                 );
               })}

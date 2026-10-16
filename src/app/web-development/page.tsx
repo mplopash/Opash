@@ -1,0 +1,15 @@
+import { Metadata } from "next";
+import { servicesData } from "@/data/servicesData";
+import { ServicePageTemplate } from "@/components/templates/ServicePageTemplate";
+
+const service = servicesData["web-development"];
+
+export const metadata: Metadata = {
+  title: service.meta.title,
+  description: service.meta.description,
+  keywords: service.meta.keywords,
+};
+
+export default function WebDevelopmentPage() {
+  return <ServicePageTemplate service={service} />;
+}
