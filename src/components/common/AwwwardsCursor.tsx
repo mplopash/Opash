@@ -35,7 +35,7 @@ export function AwwwardsCursor() {
       mouseX = e.clientX;
       mouseY = e.clientY;
 
-      if (containerRef.current && containerRef.current.style.opacity !== "1") {
+      if (containerRef.current) {
         containerRef.current.style.opacity = "1";
       }
 
@@ -44,7 +44,6 @@ export function AwwwardsCursor() {
         cursorDotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
       }
 
-      // Check hover targets efficiently via elementFromPoint or event target without full tree crawls
       const target = e.target as HTMLElement | null;
       if (target) {
         const interactive = target.closest("a, button, [role='button'], input, textarea, select, .interactive-card, [data-cursor]");
@@ -71,10 +70,14 @@ export function AwwwardsCursor() {
         loop();
       }
 
+      // Smoothly hide cursor ring when mouse is stationary so it never obstructs screenshots or reading
       if (idleTimer) clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
+        if (containerRef.current) {
+          containerRef.current.style.opacity = "0";
+        }
         isMoving = false;
-      }, 2000);
+      }, 500);
     };
 
     const onMouseLeave = () => {
@@ -93,8 +96,8 @@ export function AwwwardsCursor() {
       const dy = mouseY - ringY;
 
       if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
-        ringX += dx * 0.28;
-        ringY += dy * 0.28;
+        ringX += dx * 0.32;
+        ringY += dy * 0.32;
       } else {
         ringX = mouseX;
         ringY = mouseY;
@@ -125,12 +128,12 @@ export function AwwwardsCursor() {
   return (
     <div
       ref={containerRef}
-      className="hidden lg:block pointer-events-none fixed inset-0 z-[9999] overflow-hidden opacity-0 transition-opacity duration-200"
+      className="hidden lg:block pointer-events-none fixed inset-0 z-[9999] overflow-hidden opacity-0 transition-opacity duration-300"
     >
       {/* Precision Center Dot */}
       <div
         ref={cursorDotRef}
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[var(--accent)] pointer-events-none shadow-[0_0_8px_var(--accent)]"
+        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-[#5DC099] pointer-events-none shadow-[0_0_8px_#5DC099]"
         style={{
           willChange: "transform",
           transform: "translate3d(-100px, -100px, 0) translate(-50%, -50%)",
@@ -140,7 +143,7 @@ export function AwwwardsCursor() {
       {/* Spring Ring */}
       <div
         ref={cursorRingRef}
-        className="cursor-ring fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none flex items-center justify-center border border-[var(--primary-light)]/45 bg-transparent transition-[width,height,background-color,border-color,box-shadow] duration-200"
+        className="cursor-ring fixed top-0 left-0 w-7 h-7 rounded-full pointer-events-none flex items-center justify-center border border-[#5DC099]/35 bg-[#5DC099]/5 backdrop-blur-[1px] transition-[width,height,background-color,border-color,box-shadow] duration-200"
         style={{
           willChange: "transform",
           transform: "translate3d(-100px, -100px, 0) translate(-50%, -50%)",
@@ -156,10 +159,10 @@ export function AwwwardsCursor() {
         .cursor-ring[data-state="hover"] {
           width: 2.25rem;
           height: 2.25rem;
-          background-color: rgba(59, 130, 246, 0.08);
+          background-color: rgba(71, 109, 154, 0.15);
           border-width: 1.5px;
-          border-color: rgba(59, 130, 246, 0.6);
-          box-shadow: 0 0 12px rgba(59, 130, 246, 0.2);
+          border-color: rgba(71, 109, 154, 0.6);
+          box-shadow: 0 0 16px rgba(71, 109, 154, 0.25);
         }
       `}</style>
     </div>

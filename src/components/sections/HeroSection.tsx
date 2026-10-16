@@ -247,7 +247,7 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
         <div className="text-center max-w-4xl mx-auto space-y-6">
-          {/* Main Headline with Strict Brand Typography */}
+          {/* Main Headline with Strict Brand Typography & Full SEO Semantic Keywords */}
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[var(--text-main)] leading-[1.08]">
             Engineering Next-Gen <br className="hidden sm:inline" />
             <span className="relative inline-block mt-2 min-h-[1.2em]">
@@ -258,8 +258,9 @@ export function HeroSection({ onOpenQuoteModal }: HeroSectionProps) {
                     : "text-[#5784b8] drop-shadow-[0_0_35px_rgba(71,109,154,0.6)]"
                 }`}
               >
-                {displayText || "\u00A0"}
+                {displayText || "Custom Software & AI Solutions"}
               </span>
+              <span className="sr-only"> - Leading Custom Software, Scalable Web Apps & Enterprise AI Solutions Development Company</span>
               {/* Blinking kinetic cursor line in brand accent */}
               <span 
                 className="inline-block w-[3.5px] h-[0.88em] ml-1 bg-[#5DC099] dark:bg-[#61BE99] align-middle rounded-full animate-pulse shadow-[0_0_12px_#61BE99]" 

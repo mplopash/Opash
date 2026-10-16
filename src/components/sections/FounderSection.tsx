@@ -30,7 +30,7 @@ export function FounderSection({ eyebrow = "Executive Leadership" }: FounderSect
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="relative rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-card)]/80 backdrop-blur-xl p-8 sm:p-12 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
+        <div className="relative rounded-[36px] border border-white/60 dark:border-white/10 bg-white/40 dark:bg-[var(--bg-card)]/60 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-[0_20px_60px_-15px_rgba(71,109,154,0.1)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.4)]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Content Column */}
@@ -67,7 +67,7 @@ export function FounderSection({ eyebrow = "Executive Leadership" }: FounderSect
                 {badges.map((badge, idx) => (
                   <span
                     key={idx}
-                    className="px-3.5 py-1.5 rounded-full text-xs font-medium bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-[var(--text-main)] shadow-sm"
+                    className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/70 dark:bg-slate-800/60 backdrop-blur-md border border-slate-200/50 dark:border-white/10 text-[var(--text-main)] shadow-xs"
                   >
                     {badge}
                   </span>
@@ -89,7 +89,7 @@ export function FounderSection({ eyebrow = "Executive Leadership" }: FounderSect
                   href="https://in.linkedin.com/company/opash-software"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold border border-[var(--border-subtle)] bg-[var(--bg-elevated)] text-[var(--text-main)] hover:border-[#5DC099] transition-all duration-200 shadow-sm"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold border border-slate-200/60 dark:border-white/10 bg-white/70 dark:bg-slate-800/60 backdrop-blur-md text-[var(--text-main)] hover:border-[#5DC099] transition-all duration-200 shadow-xs"
                 >
                   <svg className="w-4 h-4 fill-[#0a66c2]" viewBox="0 0 24 24">
                     <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
@@ -99,7 +99,7 @@ export function FounderSection({ eyebrow = "Executive Leadership" }: FounderSect
               </div>
             </motion.div>
 
-            {/* Right Card Column */}
+            {/* Right Card Column - Refined Frosted Glass Pedestal */}
             <motion.div 
               className="lg:col-span-5 flex flex-col items-center"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -107,7 +107,10 @@ export function FounderSection({ eyebrow = "Executive Leadership" }: FounderSect
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <div className="w-full max-w-sm rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-main)]/90 backdrop-blur-md p-8 flex flex-col items-center text-center shadow-2xl relative overflow-hidden group">
+              <div className="w-full max-w-sm rounded-[32px] p-8 sm:p-9 flex flex-col items-center text-center relative overflow-hidden group transition-all duration-300 bg-white/80 dark:bg-[#080e1e]/80 backdrop-blur-2xl border border-white/60 dark:border-white/10 shadow-[0_20px_60px_-15px_rgba(71,109,154,0.18)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)]">
+                
+                {/* Luminous Specular Sheen Glow at top */}
+                <div className="pointer-events-none absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-24 bg-[radial-gradient(ellipse_at_center,rgba(97,190,153,0.25)_0%,transparent_70%)] rounded-full blur-xl" />
                 
                 {/* Decorative corner glow */}
                 <div className="absolute top-0 right-0 w-28 h-28 bg-[#5DC099]/15 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
@@ -157,22 +160,22 @@ export function FounderSection({ eyebrow = "Executive Leadership" }: FounderSect
                   <span>Surat, India</span>
                 </p>
 
-                {/* Trust stats pill */}
-                <div className="grid grid-cols-2 gap-3 w-full mt-6 pt-6 border-t border-[var(--border-subtle)]">
-                  <div className="text-center p-2 rounded-lg bg-[var(--bg-elevated)]/60">
-                    <div className="text-lg font-black text-[var(--text-main)]">75+</div>
-                    <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider font-semibold">Projects</div>
+                {/* Trust stats glass capsules */}
+                <div className="grid grid-cols-2 gap-3 w-full mt-6 pt-5 border-t border-slate-200/50 dark:border-white/10">
+                  <div className="text-center p-2.5 rounded-2xl bg-slate-100/70 dark:bg-slate-800/40 backdrop-blur-md border border-slate-200/40 dark:border-white/5">
+                    <div className="text-xl font-black text-[var(--text-main)]">75+</div>
+                    <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider font-bold mt-0.5">Projects</div>
                   </div>
-                  <div className="text-center p-2 rounded-lg bg-[var(--bg-elevated)]/60">
-                    <div className="text-lg font-black text-[#5DC099]">96%</div>
-                    <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider font-semibold">Retention</div>
+                  <div className="text-center p-2.5 rounded-2xl bg-slate-100/70 dark:bg-slate-800/40 backdrop-blur-md border border-slate-200/40 dark:border-white/5">
+                    <div className="text-xl font-black text-[#5DC099]">96%</div>
+                    <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider font-bold mt-0.5">Retention</div>
                   </div>
                 </div>
 
-                {/* Direct email box */}
-                <div className="mt-6 p-3.5 w-full rounded-xl bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-xs text-[var(--text-muted)] transition-colors hover:border-[#5DC099]/40">
-                  <span className="text-[11px] uppercase tracking-wider font-semibold text-[var(--text-dim)]">Direct Engineering Line:</span>
-                  <div className="font-bold text-[var(--text-main)] text-sm mt-1 select-all hover:text-[#5DC099] transition-colors">
+                {/* Direct email glass capsule */}
+                <div className="mt-5 p-3.5 w-full rounded-2xl bg-slate-100/70 dark:bg-slate-800/40 backdrop-blur-md border border-slate-200/40 dark:border-white/5 text-xs text-[var(--text-muted)] transition-all hover:border-[#5DC099]/50 shadow-xs">
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-[var(--text-muted)]">Direct Engineering Line:</span>
+                  <div className="font-extrabold text-[var(--text-main)] text-sm mt-1 select-all hover:text-[#5DC099] transition-colors">
                     hiren@opashsoftware.com
                   </div>
                 </div>

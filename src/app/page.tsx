@@ -8,6 +8,7 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { StatsSection } from "@/components/sections/StatsSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
 import { ProjectShowcaseSection } from "@/components/sections/ProjectShowcaseSection";
+import { InteractiveBrandSection } from "@/components/sections/InteractiveBrandSection";
 import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
 import { RecognisedBySection } from "@/components/sections/RecognisedBySection";
 import { ClientSuccessSection } from "@/components/sections/ClientSuccessSection";
@@ -91,7 +92,10 @@ export default function Home() {
         {/* 05. Proven Work: Flagship Case Studies with Live Verified Telemetry */}
         <ProjectShowcaseSection />
 
-        {/* 06. Institutional Guarantees: 2-Week Sprints, 100% IP Handover, Direct Senior Devs */}
+        {/* 06. Interactive Engineering Canvas: Live Tactile Physics & Brand Wordmark */}
+        <InteractiveBrandSection onOpenQuoteModal={() => handleOpenQuoteModal("Interactive Engineering Consultation")} />
+
+        {/* 07. Institutional Guarantees: 2-Week Sprints, 100% IP Handover, Direct Senior Devs */}
         <WhyChooseUsSection />
 
         {/* 07. Curated Technology Ecosystem: 28-Stack Matrix with Production SLAs */}

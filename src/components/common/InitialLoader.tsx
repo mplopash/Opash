@@ -29,6 +29,12 @@ export function InitialLoader() {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
+    // Check if user already saw the loader in the current session
+    if (typeof window !== "undefined" && sessionStorage.getItem("opash_visited")) {
+      setIsFinished(true);
+      return;
+    }
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         handleSkip();
@@ -36,7 +42,7 @@ export function InitialLoader() {
     };
     window.addEventListener("keydown", handleKeyDown);
 
-    // Phrase cycling timer (clean 1.1s per phrase)
+    // Phrase cycling timer (crisp 420ms per phrase)
     const stepInterval = setInterval(() => {
       setCurrentStep((prev) => {
         if (prev < LOADER_PHRASES.length - 1) {
@@ -45,11 +51,11 @@ export function InitialLoader() {
         clearInterval(stepInterval);
         return prev;
       });
-    }, 1100);
+    }, 420);
 
-    // Butter-smooth hardware-synced progress counter to 100%
+    // Fast, responsive progress counter to 100% in 1.3s
     const startTime = performance.now();
-    const targetDuration = 3300; // 3.3s total duration
+    const targetDuration = 1300; // 1.3s total duration
 
     let animFrame: number;
     const updateProgress = (now: number) => {
@@ -60,11 +66,14 @@ export function InitialLoader() {
       if (rawPct < 100) {
         animFrame = requestAnimationFrame(updateProgress);
       } else {
-        // Hold for 250ms at 100% before smooth cinematic dissolve
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("opash_visited", "true");
+        }
+        // Brief hold before smooth cinematic dissolve
         setTimeout(() => {
           setIsExiting(true);
-          setTimeout(() => setIsFinished(true), 650);
-        }, 250);
+          setTimeout(() => setIsFinished(true), 500);
+        }, 150);
       }
     };
 
@@ -78,8 +87,11 @@ export function InitialLoader() {
   }, []);
 
   const handleSkip = () => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("opash_visited", "true");
+    }
     setIsExiting(true);
-    setTimeout(() => setIsFinished(true), 300);
+    setTimeout(() => setIsFinished(true), 250);
   };
 
   if (isFinished) return null;

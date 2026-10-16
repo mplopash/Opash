@@ -68,6 +68,10 @@ export interface HalftoneWordmarkFooterProps {
   monoFamily?: string
   /** Root height. A definite length, never a percentage. */
   height?: string
+  /** Root element type. Defaults to 'footer'. */
+  as?: "footer" | "section" | "div"
+  /** Custom badge text in the rule bar instead of backToTop */
+  customBadge?: string
   /** Extra root class names. */
   className?: string
 }
@@ -219,6 +223,8 @@ export default function HalftoneWordmarkFooter({
   fontWeight = 900,
   monoFamily = MONO_STACK,
   height = "520px",
+  as: Component = "footer",
+  customBadge,
   className = "",
 }: HalftoneWordmarkFooterProps) {
   const colors = { ...(PRESETS[preset] || PRESETS.night), ...(palette || {}) }
@@ -271,11 +277,11 @@ export default function HalftoneWordmarkFooter({
       // Measure header space
       const ruleEl = root.querySelector(".hwf-rule")
       const topOffset = ruleEl
-        ? Math.max(100, Math.round(ruleEl.getBoundingClientRect().bottom - rect.top) + 16)
-        : 120
-      const bottomSafePadding = 56 // clear floating dock/version switcher
+        ? Math.max(90, Math.round(ruleEl.getBoundingClientRect().bottom - rect.top) + 16)
+        : 110
+      const bottomSafePadding = o.crop > 0 ? 0 : 32
       const availH = Math.max(80, h - topOffset - bottomSafePadding)
-      const availW = Math.max(100, w * 0.90)
+      const availW = Math.max(100, w * 0.88)
 
       const word = o.wordmark || "opash"
       const testFace = o.fontWeight + " 100px " + o.fontFamily
@@ -286,10 +292,10 @@ export default function HalftoneWordmarkFooter({
       const mDescent = mBox.actualBoundingBoxDescent || 25
       const mHeight = mAscent + mDescent
 
-      // Fit to both width and available height so complete name is shown
+      // Fit to both width and available height so complete name is shown with comfortable breathing room
       const scaleW = availW / mWidth
       const scaleH = availH / mHeight
-      let fit = Math.floor(Math.min(scaleW, scaleH) * 100)
+      let fit = Math.floor(Math.min(scaleW, scaleH) * 100 * 0.92)
 
       if (o.crop > 0) {
         fit = Math.floor(scaleW * 100 * (1 + o.crop))
@@ -506,8 +512,8 @@ export default function HalftoneWordmarkFooter({
   }
 
   return (
-    <footer
-      ref={rootRef}
+    <Component
+      ref={rootRef as any}
       className={"hwf-root " + className}
       style={
         {
@@ -541,13 +547,17 @@ export default function HalftoneWordmarkFooter({
         ))}
       </div>
       <div className="hwf-rule">
-        {backToTop ? (
+        {customBadge ? (
+          <span className="hwf-badge text-[11px] tracking-widest text-[var(--hwf-warm)] font-mono font-medium">
+            {customBadge}
+          </span>
+        ) : backToTop ? (
           <button type="button" className="hwf-up" onClick={toTop}>
             Back to top ↑
           </button>
         ) : null}
       </div>
-    </footer>
+    </Component>
   )
 }
 

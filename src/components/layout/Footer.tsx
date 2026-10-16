@@ -13,7 +13,6 @@ import {
   CheckCircle2, 
   Heart
 } from "lucide-react";
-import HalftoneWordmarkFooter from "@/components/ui/halftone-wordmark-footer";
 
 export function Footer() {
   const [currentYear, setCurrentYear] = React.useState(2026);
@@ -207,14 +206,35 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Halftone Interactive Wordmark Footer (Opash) */}
-      <HalftoneWordmarkFooter
-        wordmark="opash"
-        label="Opash Software"
-        meta={`©${currentYear} · Surat HQ Campus / Global Delivery`}
-        palette={{ ink: "#476d9a", warm: "#5ec098" }}
-        height="480px"
-      />
+      {/* Streamlined Enterprise Footer Bar */}
+      <div className="border-t border-[var(--border-subtle)] bg-[var(--bg-main)]/80 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[var(--text-muted)]">
+          <div className="flex flex-wrap items-center gap-2 text-center md:text-left">
+            <span>© {currentYear} Opash Software Private Limited. All rights reserved.</span>
+            <span className="hidden sm:inline text-[var(--text-dim)]">•</span>
+            <span className="hidden sm:inline">Surat HQ Campus, Gujarat, India</span>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            <Link href="/privacy-policy" className="hover:text-[var(--text-main)] transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms-and-conditions" className="hover:text-[var(--text-main)] transition-colors">
+              Terms &amp; Conditions
+            </Link>
+            <Link href="/sitemap.xml" className="hover:text-[var(--text-main)] transition-colors">
+              Sitemap
+            </Link>
+            <button
+              type="button"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="text-[var(--primary)] hover:text-[var(--primary-light)] font-semibold transition-colors flex items-center gap-1"
+            >
+              Back to Top ↑
+            </button>
+          </div>
+        </div>
+      </div>
     </footer>
   );
 }
