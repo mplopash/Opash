@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import { 
@@ -59,12 +60,34 @@ interface TabPosition {
 }
 
 export function Navbar({ onOpenQuoteModal }: NavbarProps) {
+  const pathname = usePathname();
   const { mode, setMode } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdown, setServicesDropdown] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
+
+  const getActiveTabIndex = (path: string): number => {
+    if (!path || path === "/") return 0;
+    if (path.startsWith("/portfolio")) return 3;
+    if (path.startsWith("/company") || path.startsWith("/about")) return 2;
+    if (path.startsWith("/blogs")) return 4;
+    if (path.startsWith("/career")) return 5;
+    if (path.startsWith("/contact")) return 6;
+    if (
+      serviceDropdownItems.some((s) => path === s.href) ||
+      path.includes("-development") ||
+      path.includes("solutions") ||
+      path.includes("integration") ||
+      path.includes("testing") ||
+      path.includes("developers")
+    ) {
+      return 1;
+    }
+    return 0;
+  };
+
+  const [activeTab, setActiveTab] = useState(() => getActiveTabIndex(pathname));
 
   // SlideTabs Pill cursor state
   const [pillPosition, setPillPosition] = useState<TabPosition>({
@@ -87,6 +110,12 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
     });
   };
 
+  // Sync activeTab whenever route pathname changes
+  useEffect(() => {
+    const tabIdx = getActiveTabIndex(pathname);
+    setActiveTab(tabIdx);
+  }, [pathname]);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -96,16 +125,33 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Update pill position when active tab changes or on mount
+  // Update pill position when active tab changes or route changes
   useEffect(() => {
-    const currentTabEl = tabsRef.current[activeTab];
-    if (currentTabEl) {
-      setPillForElement(currentTabEl);
-    }
+    const timer = setTimeout(() => {
+      const currentTabEl = tabsRef.current[activeTab];
+      if (currentTabEl) {
+        setPillForElement(currentTabEl);
+      }
+    }, 40);
+    return () => clearTimeout(timer);
+  }, [activeTab, pathname]);
+
+  // Window resize handler to reposition pill accurately
+  useEffect(() => {
+    const handleResize = () => {
+      const currentTabEl = tabsRef.current[activeTab];
+      if (currentTabEl) {
+        setPillForElement(currentTabEl);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [activeTab]);
 
   const resetPillToActive = () => {
-    const currentTabEl = tabsRef.current[activeTab];
+    const tabIdx = getActiveTabIndex(pathname);
+    setActiveTab(tabIdx);
+    const currentTabEl = tabsRef.current[tabIdx];
     if (currentTabEl) {
       setPillForElement(currentTabEl);
     }
@@ -114,7 +160,7 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
       resetPillToActive();
-    }, 50);
+    }, 60);
     return () => clearTimeout(timer);
   }, [isScrolled]);
 
@@ -437,6 +483,7 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                   );
                 }
 
+                const isSelected = activeTab === idx;
                 return (
                   <Link
                     key={item.id}
@@ -445,7 +492,11 @@ export function Navbar({ onOpenQuoteModal }: NavbarProps) {
                       setActiveTab(idx);
                       setMobileMenuOpen(false);
                     }}
-                    className="flex items-center justify-between py-2 text-lg font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 dark:border-slate-800/80"
+                    className={`flex items-center justify-between py-2 text-lg font-bold border-b border-slate-100 dark:border-slate-800/80 transition-colors ${
+                      isSelected
+                        ? "text-[#476D9A] dark:text-[#61BE99]"
+                        : "text-slate-800 dark:text-slate-100"
+                    }`}
                   >
                     <span>{item.name}</span>
                     {item.badge && (

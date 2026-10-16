@@ -97,6 +97,7 @@ export function ClientSuccessSection() {
   ];
 
   const [activeIdx, setActiveIdx] = useState(0);
+  const [viewMode, setViewMode] = useState<"spotlight" | "grid">("spotlight");
 
   const prev = () => {
     soundEffects.hover();
@@ -113,142 +114,232 @@ export function ClientSuccessSection() {
   return (
     <section id="case-studies" className="py-14 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow="08 // Verified Client Voices"
-          title="Real Projects, Real Growth,"
-          highlight="Unfiltered Client Proof"
-          description="We take pride in building long-term engineering partnerships with founders and enterprise leaders across the globe."
-        />
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <SectionHeading
+            eyebrow="08 // What Our Clients Say"
+            title="Real Projects, Real Growth,"
+            highlight="What Our Clients Say About Us"
+            description="Direct feedback from verified startup founders, CTOs, and global product leaders who scale production systems with Opash Software."
+          />
 
-        {/* Clean Client Navigation Strip (Editorial Style) */}
-        <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-4 mb-10 no-scrollbar">
-          {testimonials.map((t, idx) => (
+          {/* View Mode Switcher */}
+          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] self-start md:self-auto shadow-xs">
             <button
-              key={idx}
               onClick={() => {
                 soundEffects.click();
-                setActiveIdx(idx);
+                setViewMode("spotlight");
               }}
-              className={`px-4 py-2 rounded-full text-xs font-mono font-medium transition-all whitespace-nowrap cursor-pointer ${
-                activeIdx === idx
-                  ? "bg-[var(--text-main)] text-[var(--bg-main)] font-bold shadow-md"
-                  : "bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)]"
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                viewMode === "spotlight"
+                  ? "bg-[var(--primary)] text-white shadow-sm"
+                  : "text-[var(--text-muted)] hover:text-[var(--text-main)]"
               }`}
             >
-              {t.companyName}
+              Spotlight Architecture
             </button>
-          ))}
+            <button
+              onClick={() => {
+                soundEffects.click();
+                setViewMode("grid");
+              }}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                viewMode === "grid"
+                  ? "bg-[var(--primary)] text-white shadow-sm"
+                  : "text-[var(--text-muted)] hover:text-[var(--text-main)]"
+              }`}
+            >
+              All 6 Reviews Grid
+            </button>
+          </div>
         </div>
 
-        {/* Clean Editorial Case Study Presentation (Cohere-style Calm Layout) */}
-        <div className="max-w-5xl mx-auto rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)]/50 backdrop-blur-xl p-8 sm:p-12 shadow-xl relative overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-            
-            {/* Left Column: Direct Quote & Author Attribution */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1 text-amber-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
-                  ))}
-                </div>
-                <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-dim)] px-2.5 py-0.5 rounded-full bg-[var(--border-subtle)] border border-[var(--border-subtle)]">
-                  {current.industry}
-                </span>
-              </div>
+        {viewMode === "spotlight" ? (
+          <>
+            {/* Clean Client Navigation Strip (Editorial Style) */}
+            <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-4 mb-10 no-scrollbar">
+              {testimonials.map((t, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    soundEffects.click();
+                    setActiveIdx(idx);
+                  }}
+                  className={`px-4 py-2 rounded-full text-xs font-mono font-medium transition-all whitespace-nowrap cursor-pointer ${
+                    activeIdx === idx
+                      ? "bg-[var(--primary)] text-white font-bold shadow-md"
+                      : "bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)]"
+                  }`}
+                >
+                  {t.companyName}
+                </button>
+              ))}
+            </div>
 
-              <blockquote className="text-xl sm:text-2xl text-[var(--text-main)] leading-relaxed font-normal tracking-tight">
-                "{current.testimonial}"
-              </blockquote>
-
-              <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
-                <div>
-                  <div className="font-bold text-base text-[var(--text-main)]">
-                    {current.clientName}
+            {/* Clean Editorial Case Study Presentation (Cohere-style Calm Layout) */}
+            <div className="max-w-5xl mx-auto rounded-3xl border border-[var(--border-strong)] bg-[var(--bg-card)]/50 backdrop-blur-xl p-8 sm:p-12 shadow-xl relative overflow-hidden">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                
+                {/* Left Column: Direct Quote & Author Attribution */}
+                <div className="lg:col-span-7 space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1 text-amber-400">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                      ))}
+                    </div>
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-dim)] px-2.5 py-0.5 rounded-full bg-[var(--border-subtle)] border border-[var(--border-subtle)]">
+                      {current.industry}
+                    </span>
                   </div>
-                  <div className="text-xs text-[var(--text-muted)] flex items-center gap-1.5 mt-0.5">
-                    <span>{current.clientRole}</span>
-                    <span>·</span>
+
+                  <blockquote className="text-xl sm:text-2xl text-[var(--text-main)] leading-relaxed font-normal tracking-tight">
+                    &ldquo;{current.testimonial}&rdquo;
+                  </blockquote>
+
+                  <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
+                    <div>
+                      <div className="font-bold text-base text-[var(--text-main)]">
+                        {current.clientName}
+                      </div>
+                      <div className="text-xs text-[var(--text-muted)] flex items-center gap-1.5 mt-0.5">
+                        <span>{current.clientRole}</span>
+                        <span>&middot;</span>
+                        <a
+                          href={current.companyUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-[var(--primary)] dark:text-[#5DC099] font-semibold hover:underline inline-flex items-center gap-1"
+                        >
+                          {current.companyName}
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Minimal Pagination Arrows */}
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={prev}
+                        className="p-2 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-main)] text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors cursor-pointer"
+                        aria-label="Previous case study"
+                      >
+                        <ArrowLeft className="w-4 h-4" />
+                      </button>
+                      <span className="text-xs font-mono text-[var(--text-dim)] font-semibold px-2">
+                        0{activeIdx + 1} / 0{testimonials.length}
+                      </span>
+                      <button
+                        onClick={next}
+                        className="p-2 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-main)] text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors cursor-pointer"
+                        aria-label="Next case study"
+                      >
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column: Key Metric Callout & Architecture Details */}
+                <div className="lg:col-span-5 p-6 sm:p-7 rounded-2xl bg-[var(--bg-main)]/80 border border-[var(--border-subtle)] space-y-5">
+                  <div className="flex items-center justify-between text-xs font-mono text-[var(--text-dim)]">
+                    <span className="inline-flex items-center gap-1.5 text-emerald-500 font-semibold">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      Verified Deliverable
+                    </span>
+                    <span>Surat HQ</span>
+                  </div>
+
+                  <div>
+                    <div className="text-3xl sm:text-4xl font-extrabold text-[#5DC099] tracking-tight">
+                      {current.metricNumber}
+                    </div>
+                    <div className="text-xs text-[var(--text-muted)] font-mono mt-1">
+                      {current.metricLabel}
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-[var(--border-subtle)] space-y-2">
+                    <div className="text-[11px] font-mono text-[var(--text-dim)] uppercase tracking-wider flex items-center gap-1.5">
+                      <Cpu className="w-3.5 h-3.5 text-[var(--primary)]" />
+                      <span>Architecture Topology</span>
+                    </div>
+                    <p className="text-xs text-[var(--text-main)] leading-relaxed">
+                      {current.architecture}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 border-t border-[var(--border-subtle)]">
+                    <div className="flex flex-wrap gap-1.5">
+                      {current.tech.map((t, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-0.5 rounded text-[10px] font-mono bg-[var(--bg-card)] text-[var(--text-dim)] border border-[var(--border-subtle)]"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </>
+        ) : (
+          /* All 6 Reviews Grid View */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {testimonials.map((t, idx) => (
+              <div
+                key={idx}
+                className="p-6 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--primary)]/50 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-lg group"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-1 text-amber-400">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                      ))}
+                    </div>
+                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-[var(--bg-main)] border border-[var(--border-subtle)] text-[var(--text-muted)]">
+                      {t.industry.split("&")[0]}
+                    </span>
+                  </div>
+
+                  <blockquote className="text-sm text-[var(--text-main)] leading-relaxed mb-6 font-normal">
+                    &ldquo;{t.testimonial}&rdquo;
+                  </blockquote>
+                </div>
+
+                <div className="pt-4 border-t border-[var(--border-subtle)]">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-bold text-[var(--text-main)]">
+                        {t.clientName}
+                      </h4>
+                      <p className="text-xs text-[var(--text-muted)]">
+                        {t.clientRole}
+                      </p>
+                    </div>
                     <a
-                      href={current.companyUrl}
+                      href={t.companyUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-[var(--primary-light)] font-semibold hover:underline inline-flex items-center gap-1"
+                      className="text-xs font-bold text-[#476D9A] dark:text-[#5DC099] hover:underline flex items-center gap-1"
                     >
-                      {current.companyName}
+                      {t.companyName}
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>
-                </div>
 
-                {/* Minimal Pagination Arrows */}
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={prev}
-                    className="p-2 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-main)] text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors cursor-pointer"
-                    aria-label="Previous case study"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                  </button>
-                  <span className="text-xs font-mono text-[var(--text-dim)] font-semibold px-2">
-                    0{activeIdx + 1} / 0{testimonials.length}
-                  </span>
-                  <button
-                    onClick={next}
-                    className="p-2 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-main)] text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors cursor-pointer"
-                    aria-label="Next case study"
-                  >
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
+                  <div className="mt-3 flex items-center justify-between text-[11px] font-mono text-[var(--text-muted)] pt-2 border-t border-dashed border-[var(--border-subtle)]">
+                    <span className="text-[#5DC099] font-bold">{t.metricNumber}</span>
+                    <span className="truncate max-w-[170px]">{t.metricLabel}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            {/* Right Column: Key Metric Callout & Architecture Details */}
-            <div className="lg:col-span-5 p-6 sm:p-7 rounded-2xl bg-[var(--bg-main)]/80 border border-[var(--border-subtle)] space-y-5">
-              <div className="flex items-center justify-between text-xs font-mono text-[var(--text-dim)]">
-                <span className="inline-flex items-center gap-1.5 text-emerald-400 font-semibold">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  Verified Deliverable
-                </span>
-                <span>Surat HQ</span>
-              </div>
-
-              <div>
-                <div className="text-3xl sm:text-4xl font-extrabold text-[var(--accent)] tracking-tight">
-                  {current.metricNumber}
-                </div>
-                <div className="text-xs text-[var(--text-muted)] font-mono mt-1">
-                  {current.metricLabel}
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-[var(--border-subtle)] space-y-2">
-                <div className="text-[11px] font-mono text-[var(--text-dim)] uppercase tracking-wider flex items-center gap-1.5">
-                  <Cpu className="w-3.5 h-3.5 text-[var(--primary)]" />
-                  <span>Architecture Topology</span>
-                </div>
-                <p className="text-xs text-[var(--text-main)] leading-relaxed">
-                  {current.architecture}
-                </p>
-              </div>
-
-              <div className="pt-3 border-t border-[var(--border-subtle)]">
-                <div className="flex flex-wrap gap-1.5">
-                  {current.tech.map((t, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2 py-0.5 rounded text-[10px] font-mono bg-[var(--bg-card)] text-[var(--text-dim)] border border-[var(--border-subtle)]"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
+            ))}
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

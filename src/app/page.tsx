@@ -10,6 +10,7 @@ import { ServicesSection } from "@/components/sections/ServicesSection";
 import { ProjectShowcaseSection } from "@/components/sections/ProjectShowcaseSection";
 import { CohereStackedCardsSection } from "@/components/sections/CohereStackedCardsSection";
 import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
+import { RecognisedBySection } from "@/components/sections/RecognisedBySection";
 import { ClientSuccessSection } from "@/components/sections/ClientSuccessSection";
 import { IndustriesSection } from "@/components/sections/IndustriesSection";
 import { TechStackSection } from "@/components/sections/TechStackSection";
@@ -118,7 +119,10 @@ export default function Home() {
         {/* 07. Institutional Guarantees: 2-Week Sprints, Mutual NDA, Direct Slack */}
         <WhyChooseUsSection />
 
-        {/* 08. Social Proof: Verified Client Testimonials & Upwork Top-Rated Ratings */}
+        {/* 08. Institutional Validation: We Are Recognised By (Clutch, GoodFirms, Upwork) */}
+        <RecognisedBySection />
+
+        {/* 09. Social Proof: Verified Client Testimonials & Case Studies */}
         <ClientSuccessSection />
 
         {/* 09. Interactive Scope Tool: Project & Budget Estimator */}
