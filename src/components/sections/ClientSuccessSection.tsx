@@ -112,11 +112,11 @@ export function ClientSuccessSection() {
   const current = testimonials[activeIdx];
 
   return (
-    <section id="case-studies" className="py-14 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 cv-auto">
+    <section id="case-studies" className="py-16 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <SectionHeading
-            eyebrow="09 // Verified Client Testimonials"
+            eyebrow="Verified Client Testimonials"
             title="Real Projects, Real Growth,"
             highlight="What Our Clients Say About Us"
             description="Direct feedback from verified startup founders, CTOs, and global product leaders who scale production systems with Opash Software."

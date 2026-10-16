@@ -279,7 +279,7 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
   return (
     <section 
       id="services" 
-      className="py-14 sm:py-20 relative bg-[var(--bg-secondary)] transition-colors duration-300 font-sans overflow-hidden"
+      className="py-16 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 font-sans overflow-hidden"
     >
       {/* Background ambient radial glow in #476D9A and #61BE99 */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[350px] bg-[radial-gradient(ellipse_at_center,rgba(71,109,154,0.12)_0%,transparent_70%)] pointer-events-none" />
@@ -291,7 +291,7 @@ export function ServicesSection({ onSelectService }: ServicesSectionProps) {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-10">
           <div>
             <SectionHeading
-              eyebrow="03 // Core Capabilities"
+              eyebrow="Core Capabilities & Solutions"
               title="Engineering Solutions Tailored for"
               highlight="Maximum Velocity"
               description="High-velocity software engineering, autonomous AI workflows, and cloud architecture built for enterprise scale."

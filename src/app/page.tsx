@@ -8,37 +8,15 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { StatsSection } from "@/components/sections/StatsSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
 import { ProjectShowcaseSection } from "@/components/sections/ProjectShowcaseSection";
-import { CohereStackedCardsSection } from "@/components/sections/CohereStackedCardsSection";
 import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
 import { RecognisedBySection } from "@/components/sections/RecognisedBySection";
 import { ClientSuccessSection } from "@/components/sections/ClientSuccessSection";
-import { IndustriesSection } from "@/components/sections/IndustriesSection";
 import { TechStackSection } from "@/components/sections/TechStackSection";
 import { FounderSection } from "@/components/sections/FounderSection";
-import { CohereScrollTextReveal } from "@/components/common/CohereScrollTextReveal";
 
-// Dynamically import heavy below-the-fold components to reduce initial RAM and keep INP < 50ms
-const GlobalReachSection = dynamic(
-  () => import("@/components/sections/GlobalReachSection").then((mod) => mod.GlobalReachSection),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="py-20 text-center text-xs font-mono text-[var(--text-muted)] animate-pulse">
-        INITIALIZING SECURE SURAT HQ TELEMETRY NODE...
-      </div>
-    ),
-  }
-);
-
+// Dynamically import heavy below-the-fold components to keep INP < 50ms
 const ProjectEstimatorSection = dynamic(
   () => import("@/components/sections/ProjectEstimatorSection").then((mod) => mod.ProjectEstimatorSection),
-  {
-    loading: () => <div className="py-16" />,
-  }
-);
-
-const BlogInsightsSection = dynamic(
-  () => import("@/components/sections/BlogInsightsSection").then((mod) => mod.BlogInsightsSection),
   {
     loading: () => <div className="py-16" />,
   }
@@ -98,55 +76,37 @@ export default function Home() {
 
       {/* Main Content Area - Arranged as a High-Converting Enterprise Engineering Platform */}
       <main className="flex-1">
-        {/* 01. Hero: Core Value Prop & Interactive Architecture Spec */}
+        {/* 01. Hero: Core Value Proposition & Interactive Architecture Spec */}
         <HeroSection onOpenQuoteModal={() => handleOpenQuoteModal()} />
 
-        {/* 02. Proof & Key Metrics: 50+ Devs, 70+ Deliveries, 99.8% SLA, 8+ Years */}
+        {/* 02. Verified Metrics & Live Engineering Benchmarks */}
         <StatsSection />
 
-        {/* 03. Core Capabilities: Custom Software, Web, Mobile, AI/ML, SaaS */}
-        <ServicesSection onSelectService={(srv) => handleOpenQuoteModal(srv)} />
-
-        {/* 04. Proven Work: Flagship Case Studies with Live Verified Telemetry */}
-        <ProjectShowcaseSection />
-
-        {/* 05. Engineering Architecture: 4-Tier Scalable Stack & Sovereign IP */}
-        <CohereStackedCardsSection onOpenQuoteModal={handleOpenQuoteModal} />
-
-        {/* 06. Global Delivery: Surat HQ Active Beacon & Worldwide Client Hubs */}
-        <GlobalReachSection />
-
-        {/* 07. Institutional Guarantees: 2-Week Sprints, Mutual NDA, Direct Slack */}
-        <WhyChooseUsSection />
-
-        {/* 08. Institutional Validation: We Are Recognised By (Clutch, GoodFirms, Upwork) */}
+        {/* 03. Institutional Validation: Recognised By (Clutch, GoodFirms, Upwork, Google) */}
         <RecognisedBySection />
 
-        {/* 09. Social Proof: Verified Client Testimonials & Case Studies */}
-        <ClientSuccessSection />
+        {/* 04. Core Capabilities: Custom Software, Web, Mobile, AI/ML, Cloud & DevOps */}
+        <ServicesSection onSelectService={(srv) => handleOpenQuoteModal(srv)} />
 
-        {/* 10. Interactive Scope Tool: Project & Budget Estimator */}
-        <ProjectEstimatorSection onEstimateSubmit={handleEstimateSubmit} />
+        {/* 05. Proven Work: Flagship Case Studies with Live Verified Telemetry */}
+        <ProjectShowcaseSection />
 
-        {/* 11. Domain Verticals: InsurTech, Healthcare, Logistics, FinTech */}
-        <IndustriesSection onExploreIndustry={(ind) => handleOpenQuoteModal(`Industry Solution: ${ind}`)} />
+        {/* 06. Institutional Guarantees: 2-Week Sprints, 100% IP Handover, Direct Senior Devs */}
+        <WhyChooseUsSection />
 
-        {/* 12. Technology Matrix: Next.js, React, Node, Python, Flutter, Go, AWS */}
+        {/* 07. Curated Technology Ecosystem: 28-Stack Matrix with Production SLAs */}
         <TechStackSection onSelectTech={(tech) => handleOpenQuoteModal(`Technology Architecture: ${tech}`)} />
 
-        {/* Engineering Manifesto Statement */}
-        <CohereScrollTextReveal 
-          subtext="THE NEW NATURE OF DIGITAL ENGINEERING // OPASH STANDARDS"
-          text="We engineer mission-critical software and autonomous AI systems that reason, adapt, and scale natively into modern enterprise workflows with mathematical precision."
-        />
+        {/* 08. Social Proof: Verified Client Testimonials from Global Product Leaders */}
+        <ClientSuccessSection />
 
-        {/* 13. Meet Our Founder & CEO (Hiren Danecha) */}
-        <FounderSection eyebrow="13 // Executive Leadership" />
+        {/* 09. Executive Leadership: Meet Our Founder & CEO (Hiren Danecha) */}
+        <FounderSection eyebrow="Executive Leadership" />
 
-        {/* 14. High-Authority Engineering Insights & Thought Leadership */}
-        <BlogInsightsSection />
+        {/* 10. Interactive Scope Tool: 60-Second Budget & Timeline Estimator */}
+        <ProjectEstimatorSection onEstimateSubmit={handleEstimateSubmit} />
 
-        {/* 15. High-Intent Consultation & Inquiries */}
+        {/* 11. Engineering Consultation & Direct Inquiries */}
         <ContactSection />
       </main>
 

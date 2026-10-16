@@ -657,9 +657,7 @@ export function TechStackSection({ onSelectTech }: TechStackSectionProps) {
   return (
     <section 
       id="tech-stack" 
-      className={`relative pt-20 md:pt-28 pb-16 md:pb-24 transition-colors duration-300 font-sans scroll-mt-24 ${
-        isLight ? "bg-[#FAFBFD]" : "bg-[#090D14]"
-      }`}
+      className="relative py-16 sm:py-20 bg-[var(--bg-secondary)]/50 border-y border-[var(--border-subtle)] transition-colors duration-300 font-sans scroll-mt-24"
     >
       {/* Background Architectural Accent Lines */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
@@ -675,50 +673,13 @@ export function TechStackSection({ onSelectTech }: TechStackSectionProps) {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* ========================================================= */}
-        {/* SECTION HEADER                                            */}
-        {/* ========================================================= */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-3 ${
-              isLight 
-                ? "bg-[#476D9A]/10 text-[#476D9A] border border-[#476D9A]/20" 
-                : "bg-[#5DC099]/10 text-[#5DC099] border border-[#5DC099]/20"
-            }`}
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>12 // OPASH ENGINEERING ECOSYSTEM</span>
-          </motion.div>
-
-          <motion.h2 
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className={`text-3xl md:text-5xl font-extrabold tracking-tight mb-4 ${
-              isLight ? "text-slate-900" : "text-white"
-            }`}
-          >
-            Engineered With Precision.{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#476D9A] via-[#5DC099] to-[#61BE99]">
-              Built For Scale.
-            </span>
-          </motion.h2>
-
-          <motion.p 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className={`text-sm md:text-base leading-relaxed ${
-              isLight ? "text-slate-600" : "text-slate-400"
-            }`}
-          >
-            Explore our curated 28-technology core engine. Zero boilerplate, strict microsecond SLAs, and end-to-end architecture synergy.
-          </motion.p>
-        </div>
+        {/* SECTION HEADER */}
+        <SectionHeading
+          eyebrow="Technology Ecosystem"
+          title="Engineered With Precision."
+          highlight="Built For Scale."
+          description="Explore our curated 28-technology core engine. Zero boilerplate, strict microsecond SLAs, and end-to-end architecture synergy."
+        />
 
         {/* ========================================================= */}
         {/* UNIFIED CONTROL CONSOLE                                   */}

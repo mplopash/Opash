@@ -11,8 +11,9 @@ import {
   Sparkles,
   Layers
 } from "lucide-react";
-import { SiGoogle, SiUpwork, SiTrustpilot } from "react-icons/si";
 import { soundEffects } from "@/lib/soundEffects";
+import { SiGoogle, SiUpwork, SiTrustpilot } from "react-icons/si";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 interface RecognitionItem {
   id: string;
@@ -142,7 +143,7 @@ export function RecognisedBySection() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   return (
-    <section className="relative py-20 bg-[var(--bg-card)]/40 border-y border-[var(--border-subtle)] overflow-hidden">
+    <section className="relative py-16 sm:py-20 bg-[var(--bg-secondary)]/50 border-y border-[var(--border-subtle)] overflow-hidden transition-colors duration-300">
       {/* Ambient Radial Mesh Background */}
       <div 
         className="absolute inset-0 pointer-events-none opacity-30 dark:opacity-40"
@@ -152,21 +153,13 @@ export function RecognisedBySection() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header Block */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--primary)]/10 border border-[var(--primary)]/25 text-xs font-bold tracking-wider text-[var(--primary)] uppercase mb-4 shadow-sm">
-            <Award className="w-3.5 h-3.5 text-[#5DC099]" />
-            <span>08 // Global Industry Accreditations</span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[var(--text-main)] tracking-tight">
-            We Are <span className="text-[#476D9A] dark:text-[#6a9bcc]">Recognised By</span>
-          </h2>
-
-          <p className="mt-4 text-base sm:text-lg text-[var(--text-muted)] leading-relaxed">
-            Consistently ranked among the world’s premier software engineering and AI consultancy agencies across leading independent review platforms.
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Global Industry Accreditations"
+          icon={<Award className="w-3.5 h-3.5 text-[#5DC099]" />}
+          title="We Are"
+          highlight="Recognised By"
+          description="Consistently ranked among the premier software engineering and AI consultancy agencies across leading independent review platforms."
+        />
 
         {/* High-Converting Grid of Recognition Badges */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

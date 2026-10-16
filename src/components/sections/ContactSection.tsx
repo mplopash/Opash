@@ -68,10 +68,10 @@ export function ContactSection() {
   ];
 
   return (
-    <section id="contact" className="py-14 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 cv-auto">
+    <section id="contact" className="py-16 sm:py-20 relative bg-[var(--bg-secondary)]/50 border-t border-[var(--border-subtle)] transition-colors duration-300 cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="15 // Engineering Consultation & Inquiries"
+          eyebrow="Engineering Consultation & Inquiries"
           title="Let’s Turn Your Vision Into"
           highlight="Production-Grade Reality"
           description="Speak directly with our senior technical leads in India, USA, and UK. We will respond within 4 business hours with an initial architectural roadmap."

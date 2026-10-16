@@ -80,7 +80,7 @@ export function StatsSection() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-[var(--border-subtle)]">
             <div>
               <span className="text-[11px] font-mono uppercase tracking-widest text-[var(--accent)] font-bold">
-                02 // Verified Engineering Benchmark
+                Verified Engineering Benchmarks
               </span>
               <h2 className="text-xl sm:text-2xl font-bold text-[var(--text-main)] mt-0.5">
                 Measurable Impact & Production Velocity

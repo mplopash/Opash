@@ -12,11 +12,11 @@ export function BlogInsightsSection() {
   const displayPosts = blogPosts.slice(0, 3);
 
   return (
-    <section id="blogs" className="py-14 sm:py-20 relative bg-[var(--bg-secondary)] cv-auto">
+    <section id="blogs" className="py-16 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <SectionHeading
-            eyebrow="14 // Engineering Insights"
+            eyebrow="Engineering Insights &amp; Thought Leadership"
             title="From Emerging Trends to"
             highlight="Enterprise Transformations"
             description="Read our latest engineering articles, architectural post-mortems, and technology blueprints."

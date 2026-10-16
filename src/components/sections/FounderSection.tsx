@@ -9,7 +9,7 @@ interface FounderSectionProps {
   eyebrow?: string;
 }
 
-export function FounderSection({ eyebrow = "13 // Executive Leadership" }: FounderSectionProps = {}) {
+export function FounderSection({ eyebrow = "Executive Leadership" }: FounderSectionProps = {}) {
   const badges = [
     "Tech Strategist",
     "Startup Mentor",
@@ -18,7 +18,7 @@ export function FounderSection({ eyebrow = "13 // Executive Leadership" }: Found
   ];
 
   return (
-    <section id="leadership" className="py-24 relative overflow-hidden bg-[var(--bg-main)]">
+    <section id="leadership" className="py-16 sm:py-20 relative overflow-hidden bg-[var(--bg-secondary)]/50 border-y border-[var(--border-subtle)] transition-colors duration-300">
       {/* Subtle ambient glow matching Opash palette */}
       <div 
         className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none opacity-20 blur-3xl"
@@ -30,7 +30,7 @@ export function FounderSection({ eyebrow = "13 // Executive Leadership" }: Found
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="relative rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-secondary)]/80 backdrop-blur-xl p-8 sm:p-12 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
+        <div className="relative rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-card)]/80 backdrop-blur-xl p-8 sm:p-12 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Content Column */}
@@ -41,12 +41,12 @@ export function FounderSection({ eyebrow = "13 // Executive Leadership" }: Found
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#5DC099]/30 bg-[#5DC099]/10 text-xs font-semibold tracking-wide text-[#5DC099]">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#5DC099]/30 bg-[#5DC099]/10 text-xs font-bold tracking-wide uppercase text-[#5DC099]">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>{eyebrow}</span>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[var(--text-main)] font-sans">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[var(--text-main)] leading-[1.15]">
                 Meet Our Founder &amp; CEO
               </h2>
 
