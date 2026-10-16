@@ -420,12 +420,10 @@ export function CohereStackedCardsSection({ onOpenQuoteModal }: CohereStackedCar
                     soundEffects.click();
                     onOpenQuoteModal("Multi-Tier Architecture Consultation");
                   }}
-                  className="opash-ripple-btn w-full py-2.5 px-4 font-bold text-xs"
+                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#476D9A] to-[#345378] dark:from-[#476D9A] dark:to-[#5DC099] shadow-md shadow-[#476D9A]/20 hover:opacity-95 transition-all hover:scale-[1.01] cursor-pointer"
                 >
-                  <span className="btn-txt">
-                    <span>Schedule Architecture Review</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
+                  <span>Schedule Architecture Review</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
@@ -444,53 +442,76 @@ export function CohereStackedCardsSection({ onOpenQuoteModal }: CohereStackedCar
                 <div
                   key={tier.id}
                   ref={(el) => { tierRefs.current[idx] = el; }}
-                  className={`opash-corner-card rounded-2xl p-6 sm:p-8 border transition-all duration-300 shadow-xl ${
-                    isActive ? "is-active ring-2 ring-[#476D9A]/50 dark:ring-[#5DC099]/50 shadow-2xl" : ""
-                  } ${
-                    isLight 
-                      ? "bg-gradient-to-b from-[#ffffff] to-[#f4f8fb] border-slate-200/90 shadow-slate-200/50" 
-                      : "bg-gradient-to-b from-[#0e1424] to-[#070b16] border-slate-800/90 shadow-black/60"
+                  className={`group relative rounded-3xl p-6 sm:p-8 transition-all duration-300 backdrop-blur-xl border ${
+                    isActive
+                      ? isLight
+                        ? "bg-white/95 border-[#476D9A]/50 shadow-[0_16px_36px_-8px_rgba(71,109,154,0.18)] ring-1 ring-[#476D9A]/40"
+                        : "bg-[#0b1222]/90 border-[#5DC099]/50 shadow-[0_16px_40px_-8px_rgba(93,192,153,0.15)] ring-1 ring-[#5DC099]/40"
+                      : isLight
+                        ? "bg-white/75 border-slate-200/90 shadow-md shadow-slate-200/40 hover:bg-white/90 hover:border-[#476D9A]/30 hover:shadow-xl"
+                        : "bg-[#0b101d]/70 border-white/[0.08] shadow-lg shadow-black/40 hover:bg-[#0e1628]/85 hover:border-white/20 hover:shadow-2xl"
                   }`}
                 >
-                  {/* Top-Right Go Corner Badge with Arrow (User-Requested Uiverse Effect) */}
-                  <div className="go-corner">
-                    <ArrowUpRight className="go-arrow w-3.5 h-3.5" />
+                  {/* Top-Right Status Badge & Clean Link Indicator */}
+                  <div className="absolute top-6 right-6 flex items-center gap-2 z-10">
+                    <span className={`text-[10px] font-mono font-bold px-3 py-1 rounded-full border transition-colors ${
+                      isActive
+                        ? isLight
+                          ? "bg-[#476D9A]/10 text-[#476D9A] border-[#476D9A]/30"
+                          : "bg-[#5DC099]/15 text-[#5DC099] border-[#5DC099]/30"
+                        : isLight
+                          ? "bg-slate-100 text-slate-600 border-slate-200"
+                          : "bg-white/[0.05] text-slate-400 border-white/10"
+                    }`}>
+                      {tier.statusBadge}
+                    </span>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all ${
+                      isActive
+                        ? isLight
+                          ? "bg-[#476D9A] text-white border-[#476D9A]"
+                          : "bg-[#5DC099] text-slate-950 border-[#5DC099]"
+                        : isLight
+                          ? "bg-slate-100 text-slate-500 border-slate-200 group-hover:bg-[#476D9A] group-hover:text-white group-hover:border-[#476D9A]"
+                          : "bg-white/[0.05] text-slate-400 border-white/10 group-hover:bg-[#5DC099] group-hover:text-slate-950 group-hover:border-[#5DC099]"
+                    }`}>
+                      <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </div>
                   </div>
 
                   {/* Card Content Layer */}
-                  <div className="card-content space-y-6">
+                  <div className="space-y-6">
                     
                     {/* Top Tier Tag & Status Indicator */}
-                    <div className="flex items-center justify-between gap-2 pr-6">
-                      <div className="flex items-center gap-2">
-                        <div className={`p-2 rounded-xl transition-transform group-hover:scale-110 ${
-                          isLight ? "bg-slate-100 text-[#476D9A]" : "bg-slate-800 text-[#5DC099]"
+                    <div className="pr-36">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 border transition-transform duration-300 group-hover:scale-105 ${
+                          isActive
+                            ? isLight
+                              ? "bg-[#476D9A] text-white border-[#476D9A] shadow-md shadow-[#476D9A]/25"
+                              : "bg-[#5DC099] text-slate-950 border-[#5DC099] shadow-md shadow-[#5DC099]/25 font-black"
+                            : isLight
+                              ? "bg-slate-100 text-[#476D9A] border-slate-200"
+                              : "bg-white/[0.06] text-[#5DC099] border-white/10"
                         }`}>
                           <Icon className="w-5 h-5" />
                         </div>
                         <div>
-                          <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase block">
+                          <span className="text-[11px] font-mono font-bold tracking-widest text-[#476D9A] dark:text-[#5DC099] uppercase block mb-0.5">
                             TIER {tier.num} // {tier.tag}
                           </span>
-                          <h3 className="card-title text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white transition-colors duration-300">
+                          <h3 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
                             {tier.title}
                           </h3>
                         </div>
                       </div>
-
-                      <span className={`text-[10px] font-mono font-bold px-2.5 py-1 rounded-full whitespace-nowrap transition-colors duration-300 ${
-                        isLight ? "bg-slate-100 text-slate-700" : "bg-slate-800 text-slate-300"
-                      }`}>
-                        {tier.statusBadge}
-                      </span>
                     </div>
 
                     {/* Headline & Description */}
                     <div>
-                      <h4 className="text-sm font-bold text-[#5DC099] mb-1.5">
+                      <h4 className="text-sm sm:text-base font-bold text-[#476D9A] dark:text-[#5DC099] mb-1.5">
                         {tier.headline}
                       </h4>
-                      <p className="card-desc text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed transition-colors duration-300">
+                      <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
                         {tier.desc}
                       </p>
                     </div>
@@ -500,16 +521,16 @@ export function CohereStackedCardsSection({ onOpenQuoteModal }: CohereStackedCar
                       {tier.specs.map((spec, sIdx) => (
                         <div
                           key={sIdx}
-                          className={`p-2.5 rounded-xl border transition-all ${
+                          className={`p-3 rounded-xl border transition-all ${
                             isLight 
-                              ? "bg-white/80 border-slate-200/80 shadow-xs" 
-                              : "bg-[#090d18]/80 border-slate-800 shadow-inner"
+                              ? "bg-slate-50/90 border-slate-200/80 shadow-xs" 
+                              : "bg-white/[0.03] border-white/[0.08] shadow-inner"
                           }`}
                         >
-                          <span className="text-[10px] font-medium text-slate-400 block mb-0.5">
+                          <span className="text-[10px] font-mono uppercase text-slate-500 dark:text-slate-400 block mb-0.5">
                             {spec.label}
                           </span>
-                          <span className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">
+                          <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white line-clamp-1">
                             {spec.value}
                           </span>
                         </div>
@@ -517,7 +538,7 @@ export function CohereStackedCardsSection({ onOpenQuoteModal }: CohereStackedCar
                     </div>
 
                     {/* Live Architecture Code Terminal Specimen (Matching Hero & Navbar Standards) */}
-                    <div className="rounded-xl bg-[#070b14] border border-slate-800 overflow-hidden shadow-2xl">
+                    <div className="rounded-2xl bg-[#070b14] border border-slate-800/90 overflow-hidden shadow-2xl">
                       {/* Terminal Top Window Controls */}
                       <div className="px-4 py-2.5 bg-[#0d1322] border-b border-slate-800 flex items-center justify-between text-xs">
                         <div className="flex items-center gap-2">
@@ -562,9 +583,9 @@ export function CohereStackedCardsSection({ onOpenQuoteModal }: CohereStackedCar
                       </div>
                     </div>
 
-                    {/* Bottom Action Button (Opash Expanding Ripple Button) */}
+                    {/* Bottom Action Button */}
                     <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-                      <span className="text-xs text-slate-400 font-medium text-center sm:text-left">
+                      <span className="text-xs text-slate-500 dark:text-slate-400 font-medium text-center sm:text-left">
                         Want this architecture deployed into your stack?
                       </span>
                       <button
@@ -572,12 +593,10 @@ export function CohereStackedCardsSection({ onOpenQuoteModal }: CohereStackedCar
                           soundEffects.click();
                           onOpenQuoteModal(tier.title);
                         }}
-                        className="opash-ripple-btn w-full sm:w-auto py-2 px-4 text-xs font-bold"
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-2.5 px-5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-[#476D9A] to-[#345378] dark:from-[#476D9A] dark:to-[#5DC099] hover:opacity-95 shadow-md shadow-[#476D9A]/20 transition-all hover:scale-[1.02] cursor-pointer"
                       >
-                        <span className="btn-txt">
-                          <span>Configure {tier.shortLabel}</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </span>
+                        <span>Configure {tier.shortLabel}</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
 

@@ -745,4 +745,19 @@ html.lenis, html.lenis body {
   backface-visibility: hidden;
 }
 
+/* Neutralize legacy corner card pseudo-element expanding blobs */
+.opash-corner-card::before,
+.opash-corner-card:before {
+  display: none !important;
+  content: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: none !important;
+}
+.go-corner {
+  display: none !important;
+}
+
 

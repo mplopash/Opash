@@ -3,7 +3,7 @@ import { Loader2 } from "lucide-react";
 import { MagneticHover } from "@/components/effects/MagneticHover";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "gradient" | "glow";
+  variant?: "default" | "primary" | "secondary" | "outline" | "ghost" | "gradient" | "glow";
   size?: "sm" | "md" | "lg" | "xl";
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
@@ -34,6 +34,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       xl: "px-8 py-4 text-lg font-bold gap-3",
     }[size];
 
+    const actualVariant = variant === "default" ? "primary" : variant;
+
     const variantClasses = {
       primary:
         "btn-shine-sweep bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] shadow-md shadow-[var(--primary)]/30 active:scale-[0.98]",
@@ -47,7 +49,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         "btn-shine-sweep bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white shadow-lg shadow-[var(--primary)]/30 active:scale-[0.98]",
       glow:
         "btn-shine-sweep bg-[var(--primary)] text-white shadow-lg shadow-[var(--primary)]/40 hover:shadow-xl hover:shadow-[var(--primary)]/60 active:scale-[0.98]",
-    }[variant];
+    }[actualVariant];
 
     const btnElement = (
       <button
@@ -59,19 +61,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {isLoading ? (
           <Loader2 className="w-4 h-4 animate-spin" />
         ) : (
-          leftIcon && <span className="inline-flex shrink-0 transition-transform duration-200 group-hover:scale-110">{leftIcon}</span>
-        )}
-        <span>{children}</span>
-        {!isLoading && rightIcon && (
-          <span className="inline-flex shrink-0 transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5">
-            {rightIcon}
-          </span>
+          <>
+            {leftIcon && <span className="shrink-0">{leftIcon}</span>}
+            {children}
+            {rightIcon && <span className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5">{rightIcon}</span>}
+          </>
         )}
       </button>
     );
 
-    if (magnetic && !disabled && !isLoading) {
-      return <MagneticHover pullFactor={0.16} maxPull={8}>{btnElement}</MagneticHover>;
+    if (magnetic) {
+      return <MagneticHover pullFactor={0.2} maxPull={8}>{btnElement}</MagneticHover>;
     }
 
     return btnElement;

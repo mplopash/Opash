@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, Mail, Sparkles, ShieldCheck, Award } from "lucide-react";
 
@@ -108,9 +109,36 @@ export function FounderSection() {
                 <div className="absolute top-0 right-0 w-28 h-28 bg-[#5DC099]/15 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
                 <div className="absolute bottom-0 left-0 w-28 h-28 bg-[#476D9A]/15 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
 
-                {/* Avatar / Monogram */}
-                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#476D9A] to-[#5DC099] flex items-center justify-center text-white text-3xl font-black mb-6 shadow-[0_0_35px_rgba(71,109,154,0.4)] ring-4 ring-white/10 select-none">
-                  HD
+                {/* Executive Portrait Pedestal with Dynamic Ambient Glow & Effects */}
+                <div className="relative mb-6 group/avatar">
+                  {/* Pulsing ambient backlight */}
+                  <div className="absolute -inset-2 rounded-3xl bg-gradient-to-r from-[#476D9A] to-[#5DC099] opacity-30 blur-xl group-hover/avatar:opacity-60 transition-opacity duration-500 animate-pulse pointer-events-none" />
+
+                  {/* Dual-tone gradient ring border */}
+                  <div className="relative p-[3px] rounded-3xl bg-gradient-to-br from-[#476D9A] via-[#5DC099] to-[#476D9A] shadow-2xl transition-transform duration-500 group-hover/avatar:scale-[1.02]">
+                    <div className="relative w-40 h-40 sm:w-44 sm:h-44 rounded-[21px] overflow-hidden bg-[#070b14]">
+                      <Image
+                        src="/images/team/hiren-executive.webp"
+                        alt="Hiren Danecha - Founder & CEO of Opash Software"
+                        width={200}
+                        height={200}
+                        priority
+                        className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover/avatar:scale-105 filter contrast-105"
+                      />
+
+                      {/* Subtle ambient lighting vignette overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#040711]/70 via-transparent to-transparent pointer-events-none" />
+
+                      {/* Interactive shine sweep on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent -translate-x-full group-hover/avatar:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+                    </div>
+                  </div>
+
+                  {/* Verified Executive Badge */}
+                  <div className="absolute -bottom-2.5 -right-2.5 flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#060913]/90 dark:bg-[#0b1222]/95 border border-[#5DC099]/60 text-white shadow-lg backdrop-blur-md">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#5DC099]" />
+                    <span className="text-[10px] font-mono font-bold tracking-wider text-[#5DC099]">FOUNDER</span>
+                  </div>
                 </div>
 
                 <h3 className="text-2xl font-bold text-[var(--text-main)]">
