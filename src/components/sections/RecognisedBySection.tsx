@@ -11,6 +11,7 @@ import {
   Sparkles,
   Layers
 } from "lucide-react";
+import { SiGoogle, SiUpwork, SiTrustpilot } from "react-icons/si";
 import { soundEffects } from "@/lib/soundEffects";
 
 interface RecognitionItem {
@@ -182,10 +183,10 @@ export function RecognisedBySection() {
                   setHoveredId(item.id);
                 }}
                 onMouseLeave={() => setHoveredId(null)}
-                className={`group relative p-6 rounded-2xl bg-[var(--bg-card)] border transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer ${
+                className={`group relative p-6 rounded-2xl backdrop-blur-xl transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer ${
                   isHovered 
-                    ? "border-[var(--primary)] shadow-xl -translate-y-1 bg-[var(--bg-card)]" 
-                    : "border-[var(--border-subtle)] hover:border-[var(--primary)]/50 shadow-sm"
+                    ? "bg-white/70 dark:bg-white/[0.06] border border-[#476D9A]/40 dark:border-[#5DC099]/40 -translate-y-1" 
+                    : "bg-white/40 dark:bg-white/[0.02] border border-slate-200/50 dark:border-white/[0.05] hover:bg-white/60 dark:hover:bg-white/[0.04]"
                 }`}
               >
                 {/* Decorative Top Accent Glow Bar */}
@@ -201,11 +202,28 @@ export function RecognisedBySection() {
                   {/* Top Row: Name + Rating / Badge */}
                   <div className="flex items-center justify-between gap-3 mb-4">
                     <div className="flex items-center gap-2.5">
+                      {/* Authentic Brand Icon Container */}
                       <div 
-                        className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm tracking-tighter text-white shadow-md transition-transform duration-300 group-hover:scale-105"
+                        className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm text-white shadow-xs transition-transform duration-300 group-hover:scale-105"
                         style={{ backgroundColor: item.accentColor }}
                       >
-                        {item.name.slice(0, 2).toUpperCase()}
+                        {item.id === "google" && <SiGoogle className="w-4 h-4 text-white" />}
+                        {item.id === "upwork" && <SiUpwork className="w-4 h-4 text-white" />}
+                        {item.id === "trustpilot" && <SiTrustpilot className="w-4 h-4 text-white" />}
+                        {item.id === "clutch" && (
+                          <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5c-2.48 0-4.5-2.02-4.5-4.5S10.52 7.5 13 7.5c1.37 0 2.6.62 3.42 1.6l-1.42 1.42C14.47 9.87 13.78 9.5 13 9.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5c.78 0 1.47-.37 2-1.02l1.42 1.42c-.82.98-2.05 1.6-3.42 1.6z"/>
+                          </svg>
+                        )}
+                        {item.id === "goodfirms" && (
+                          <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                          </svg>
+                        )}
+                        {item.id === "designrush" && <Layers className="w-4 h-4 text-white" />}
+                        {item.id === "topdevelopers" && <Award className="w-4 h-4 text-white" />}
+                        {item.id === "techreviewer" && <ShieldCheck className="w-4 h-4 text-white" />}
+                        {item.id === "techimply" && <CheckCircle2 className="w-4 h-4 text-white" />}
                       </div>
                       <div>
                         <h3 className="text-lg font-bold text-[var(--text-main)] group-hover:text-[var(--primary)] transition-colors flex items-center gap-1.5">

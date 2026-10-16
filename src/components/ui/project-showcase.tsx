@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ShieldCheck, Activity, Factory, Sparkles } from "lucide-react";
 
 export interface Project {
   title: string;
@@ -10,6 +10,7 @@ export interface Project {
   link: string;
   image: string;
   category?: string;
+  icon?: React.ComponentType<{ className?: string }>;
 }
 
 export const defaultProjects: Project[] = [
@@ -20,6 +21,7 @@ export const defaultProjects: Project[] = [
     link: "https://www.esanad.com/",
     image: "/images/projects/esanad.jpg",
     category: "Next.js 16 • AWS S3 • KMS",
+    icon: ShieldCheck,
   },
   {
     title: "UCareHQ Healthcare",
@@ -28,6 +30,7 @@ export const defaultProjects: Project[] = [
     link: "https://ucarehq.com/",
     image: "/images/projects/ucarehq.jpg",
     category: "React 19 • TypeScript • Cloud",
+    icon: Activity,
   },
   {
     title: "IKO International",
@@ -36,6 +39,7 @@ export const defaultProjects: Project[] = [
     link: "https://next.ikointl.com/",
     image: "/images/projects/ikointl.jpg",
     category: "Angular • Node.js • MongoDB",
+    icon: Factory,
   },
   {
     title: "Opash Neural Mesh",
@@ -44,6 +48,7 @@ export const defaultProjects: Project[] = [
     link: "#",
     image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
     category: "Python • LangChain • Gemini API",
+    icon: Sparkles,
   },
 ];
 
@@ -66,7 +71,6 @@ export function ProjectShowcase({
   const animFrameRef = useRef<number | null>(null);
 
   const updateCardPosition = () => {
-    // Smooth lerp
     currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.18;
     currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.18;
 
@@ -130,11 +134,11 @@ export function ProjectShowcase({
   return (
     <section 
       onMouseMove={handleMouseMove} 
-      className={`relative w-full max-w-4xl mx-auto px-4 sm:px-6 py-12 ${className}`}
+      className={`relative w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 ${className}`}
     >
       {heading && (
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-xs font-mono font-bold tracking-widest text-[var(--accent)] uppercase">
+        <div className="flex items-center justify-between mb-8 pb-3 border-b border-slate-200/40 dark:border-white/[0.06]">
+          <h2 className="text-xs font-mono font-bold tracking-widest text-[#476D9A] dark:text-[#5DC099] uppercase">
             {heading}
           </h2>
           <span className="text-xs text-[var(--text-dim)] font-mono">
@@ -146,7 +150,7 @@ export function ProjectShowcase({
       {/* Floating Smooth Cursor-Follow Image Preview Card (Fixed Viewport Layer) */}
       <div
         ref={previewRef}
-        className={`pointer-events-none fixed z-50 overflow-hidden rounded-2xl shadow-2xl transition-opacity duration-200 ease-out border border-white/20 bg-[#090d16] ${
+        className={`pointer-events-none fixed z-50 overflow-hidden rounded-2xl transition-opacity duration-200 ease-out bg-[#090d16] ${
           isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"
         }`}
         style={{
@@ -155,12 +159,14 @@ export function ProjectShowcase({
           willChange: "transform",
         }}
       >
-        <div className="relative w-[320px] h-[190px] rounded-2xl overflow-hidden bg-slate-900 shadow-2xl">
+        <div className="relative w-[320px] h-[190px] rounded-2xl overflow-hidden bg-slate-900">
           {items.map((project, index) => (
             <img
               key={project.title}
               src={project.image || "/placeholder.svg"}
               alt={project.title}
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 w-full h-full object-cover transition-all duration-500 ease-out"
               style={{
                 opacity: hoveredIndex === index ? 1 : 0,
@@ -183,96 +189,103 @@ export function ProjectShowcase({
       </div>
 
       <div className="space-y-0">
-        {items.map((project, index) => (
-          <a
-            key={project.title}
-            href={project.link}
-            target={project.link.startsWith("http") ? "_blank" : undefined}
-            rel={project.link.startsWith("http") ? "noopener noreferrer" : undefined}
-            className="group block"
-            data-cursor="PREVIEW"
-            onMouseEnter={(e) => handleMouseEnter(index, e)}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-          >
-            <div className="relative py-6 border-t border-[var(--border-subtle)] transition-all duration-300 ease-out">
-              {/* Background highlight on hover */}
-              <div
-                className={`
-                  absolute inset-0 -mx-4 px-4 bg-[var(--primary)]/10 rounded-2xl
-                  transition-all duration-300 ease-out border border-[var(--primary)]/20
-                  ${hoveredIndex === index ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}
-                `}
-              />
+        {items.map((project, index) => {
+          const ProjectIcon = project.icon || ShieldCheck;
+          return (
+            <a
+              key={project.title}
+              href={project.link}
+              target={project.link.startsWith("http") ? "_blank" : undefined}
+              rel={project.link.startsWith("http") ? "noopener noreferrer" : undefined}
+              className="group block"
+              data-cursor="PREVIEW"
+              onMouseEnter={(e) => handleMouseEnter(index, e)}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="relative py-6 border-b border-slate-200/40 dark:border-white/[0.05] transition-all duration-300 ease-out">
+                {/* Background frosted glass highlight on hover - No harsh borders or shadows */}
+                <div
+                  className={`
+                    absolute inset-0 -mx-4 px-4 bg-white/50 dark:bg-white/[0.05] backdrop-blur-md rounded-2xl
+                    transition-all duration-300 ease-out
+                    ${hoveredIndex === index ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}
+                  `}
+                />
 
-              <div className="relative flex items-start justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  {/* Title with animated underline */}
-                  <div className="inline-flex items-center gap-2">
-                    <h3 className="text-[var(--text-main)] font-bold text-lg sm:text-xl tracking-tight group-hover:text-[var(--primary-light)] transition-colors">
-                      <span className="relative">
-                        {project.title}
-                        {/* Animated underline in Brand Color #476D9A */}
-                        <span
+                <div className="relative flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-3.5 flex-1 min-w-0">
+                    {/* Clean Authentic React Icon Badge */}
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-[#476D9A]/10 dark:bg-[#5DC099]/10 text-[#476D9A] dark:text-[#5DC099] transition-transform duration-300 group-hover:scale-105 mt-0.5">
+                      <ProjectIcon className="w-4 h-4" />
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      {/* Title with animated underline */}
+                      <div className="inline-flex items-center gap-2">
+                        <h3 className="text-[var(--text-main)] font-bold text-lg sm:text-xl tracking-tight group-hover:text-[#476D9A] dark:group-hover:text-[#5DC099] transition-colors">
+                          <span className="relative">
+                            {project.title}
+                            {/* Animated underline in Brand Color #476D9A */}
+                            <span
+                              className={`
+                                absolute left-0 -bottom-0.5 h-[2px] bg-[#476D9A] dark:bg-[#5DC099]
+                                transition-all duration-300 ease-out
+                                ${hoveredIndex === index ? "w-full" : "w-0"}
+                              `}
+                            />
+                          </span>
+                        </h3>
+
+                        {/* Arrow that slides in */}
+                        <ArrowUpRight
                           className={`
-                            absolute left-0 -bottom-0.5 h-[2px] bg-[#476D9A]
+                            w-4 h-4 text-[#476D9A] dark:text-[#5DC099]
                             transition-all duration-300 ease-out
-                            ${hoveredIndex === index ? "w-full" : "w-0"}
+                            ${
+                              hoveredIndex === index
+                                ? "opacity-100 translate-x-0 translate-y-0"
+                                : "opacity-0 -translate-x-2 translate-y-2"
+                            }
                           `}
                         />
-                      </span>
-                    </h3>
+                      </div>
 
-                    {/* Arrow that slides in */}
-                    <ArrowUpRight
-                      className={`
-                        w-4 h-4 text-[var(--accent)]
-                        transition-all duration-300 ease-out
-                        ${
-                          hoveredIndex === index
-                            ? "opacity-100 translate-x-0 translate-y-0"
-                            : "opacity-0 -translate-x-2 translate-y-2"
-                        }
-                      `}
-                    />
+                      {/* Description with fade effect */}
+                      <p
+                        className={`
+                          text-sm mt-1.5 leading-relaxed
+                          transition-all duration-300 ease-out
+                          ${hoveredIndex === index ? "text-[var(--text-main)]" : "text-[var(--text-muted)]"}
+                        `}
+                      >
+                        {project.description}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Description with fade effect */}
-                  <p
-                    className={`
-                      text-sm mt-1.5 leading-relaxed
-                      transition-all duration-300 ease-out
-                      ${hoveredIndex === index ? "text-[var(--text-main)]" : "text-[var(--text-muted)]"}
-                    `}
-                  >
-                    {project.description}
-                  </p>
-                </div>
-
-                {/* Year and platform badge */}
-                <div className="flex flex-col items-end gap-1 shrink-0">
-                  <span
-                    className={`
-                      text-xs font-mono tabular-nums font-bold
-                      transition-all duration-300 ease-out
-                      ${hoveredIndex === index ? "text-[var(--primary-light)]" : "text-[var(--text-dim)]"}
-                    `}
-                  >
-                    {project.year}
-                  </span>
-                  {project.category && (
-                    <span className="text-[10px] text-[var(--text-dim)] font-mono hidden sm:inline-block">
-                      {project.category.split("•")[0]}
+                  {/* Year and platform badge */}
+                  <div className="flex flex-col items-end gap-1 shrink-0 pt-1">
+                    <span
+                      className={`
+                        text-xs font-mono tabular-nums font-bold
+                        transition-all duration-300 ease-out
+                        ${hoveredIndex === index ? "text-[#476D9A] dark:text-[#5DC099]" : "text-[var(--text-dim)]"}
+                      `}
+                    >
+                      {project.year}
                     </span>
-                  )}
+                    {project.category && (
+                      <span className="text-[10px] text-[var(--text-dim)] font-mono hidden sm:inline-block">
+                        {project.category.split("•")[0]}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </a>
-        ))}
-
-        {/* Bottom border for last item */}
-        <div className="border-t border-[var(--border-subtle)]" />
+            </a>
+          );
+        })}
       </div>
     </section>
   );
