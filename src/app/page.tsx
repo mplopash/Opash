@@ -125,32 +125,32 @@ export default function Home() {
         {/* 09. Social Proof: Verified Client Testimonials & Case Studies */}
         <ClientSuccessSection />
 
-        {/* 09. Interactive Scope Tool: Project & Budget Estimator */}
+        {/* 10. Interactive Scope Tool: Project & Budget Estimator */}
         <ProjectEstimatorSection onEstimateSubmit={handleEstimateSubmit} />
 
-        {/* 10. Domain Verticals: InsurTech, Healthcare, Logistics, FinTech */}
+        {/* 11. Domain Verticals: InsurTech, Healthcare, Logistics, FinTech */}
         <IndustriesSection onExploreIndustry={(ind) => handleOpenQuoteModal(`Industry Solution: ${ind}`)} />
 
-        {/* 11. Technology Matrix: Next.js, React, Node, Python, Flutter, Go, AWS */}
+        {/* 12. Technology Matrix: Next.js, React, Node, Python, Flutter, Go, AWS */}
         <TechStackSection onSelectTech={(tech) => handleOpenQuoteModal(`Technology Architecture: ${tech}`)} />
 
-        {/* 12. Engineering Manifesto Statement */}
+        {/* Engineering Manifesto Statement */}
         <CohereScrollTextReveal 
           subtext="THE NEW NATURE OF DIGITAL ENGINEERING // OPASH STANDARDS"
           text="We engineer mission-critical software and autonomous AI systems that reason, adapt, and scale natively into modern enterprise workflows with mathematical precision."
         />
 
         {/* 13. Meet Our Founder & CEO (Hiren Danecha) */}
-        <FounderSection />
+        <FounderSection eyebrow="13 // Executive Leadership" />
 
         {/* 14. High-Authority Engineering Insights & Thought Leadership */}
         <BlogInsightsSection />
 
-        {/* 14. High-Intent Consultation & Inquiries */}
+        {/* 15. High-Intent Consultation & Inquiries */}
         <ContactSection />
       </main>
 
-      {/* 15. Global Halftone Engineering Footer */}
+      {/* Global Halftone Engineering Footer */}
       <Footer />
 
       {/* Shared Global Quote & Consultation Modal */}

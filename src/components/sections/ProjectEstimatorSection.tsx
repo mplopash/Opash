@@ -117,7 +117,7 @@ export function ProjectEstimatorSection({ onEstimateSubmit }: ProjectEstimatorSe
     <section id="estimator" className="py-14 sm:py-20 relative bg-[var(--bg-main)] transition-colors duration-300 cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="09 // Scope & Budget Estimator"
+          eyebrow="10 // Scope & Budget Estimator"
           title="Estimate Your Project Scope"
           highlight="in Under 60 Seconds"
           description="Transparent, honest pricing based on our 70+ delivered software systems. Real-time engineering breakdown with zero hidden surprises."

@@ -106,7 +106,7 @@ export function VersionSwitcher() {
             {versions.map((ver) => {
               const isActive =
                 ver.path === "/"
-                  ? pathname === "/" || pathname === "/v1"
+                  ? pathname === "/"
                   : pathname === ver.path;
 
               return (

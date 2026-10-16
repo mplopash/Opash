@@ -5,7 +5,11 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, Mail, Sparkles, ShieldCheck, Award } from "lucide-react";
 
-export function FounderSection() {
+interface FounderSectionProps {
+  eyebrow?: string;
+}
+
+export function FounderSection({ eyebrow = "13 // Executive Leadership" }: FounderSectionProps = {}) {
   const badges = [
     "Tech Strategist",
     "Startup Mentor",
@@ -14,7 +18,7 @@ export function FounderSection() {
   ];
 
   return (
-    <section className="py-24 relative overflow-hidden bg-[var(--bg-main)]">
+    <section id="leadership" className="py-24 relative overflow-hidden bg-[var(--bg-main)]">
       {/* Subtle ambient glow matching Opash palette */}
       <div 
         className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none opacity-20 blur-3xl"
@@ -39,7 +43,7 @@ export function FounderSection() {
             >
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#5DC099]/30 bg-[#5DC099]/10 text-xs font-semibold tracking-wide text-[#5DC099]">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>EXECUTIVE LEADERSHIP</span>
+                <span>{eyebrow}</span>
               </div>
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[var(--text-main)] font-sans">

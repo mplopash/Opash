@@ -92,10 +92,10 @@ const DEFAULT_COLUMNS: FooterColumn[] = [
   { 
     title: "Enterprise", 
     links: [
-      { label: "Surat HQ Campus", href: "#about" }, 
-      { label: "50+ In-House Squad", href: "#architecture" }, 
-      { label: "Zero Subcontractor NDA", href: "#architecture" },
-      { label: "Verified Case Studies", href: "#proof" }
+      { label: "Surat HQ Campus", href: "/company" }, 
+      { label: "50+ In-House Squad", href: "#architecture-stack" }, 
+      { label: "Zero Subcontractor NDA", href: "#why-us" },
+      { label: "Verified Case Studies", href: "/portfolio" }
     ] 
   },
   { 

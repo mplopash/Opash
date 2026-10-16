@@ -274,7 +274,7 @@ export default function CompanyPage() {
         </section>
 
         {/* Founder Section */}
-        <FounderSection />
+        <FounderSection eyebrow="Executive Leadership" />
 
       </main>
 

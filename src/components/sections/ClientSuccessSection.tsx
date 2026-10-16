@@ -116,7 +116,7 @@ export function ClientSuccessSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <SectionHeading
-            eyebrow="08 // What Our Clients Say"
+            eyebrow="09 // Verified Client Testimonials"
             title="Real Projects, Real Growth,"
             highlight="What Our Clients Say About Us"
             description="Direct feedback from verified startup founders, CTOs, and global product leaders who scale production systems with Opash Software."
@@ -135,7 +135,7 @@ export function ClientSuccessSection() {
                   : "text-[var(--text-muted)] hover:text-[var(--text-main)]"
               }`}
             >
-              Spotlight Architecture
+              Spotlight Review
             </button>
             <button
               onClick={() => {
@@ -239,14 +239,14 @@ export function ClientSuccessSection() {
                   </div>
                 </div>
 
-                {/* Right Column: Key Metric Callout & Architecture Details */}
+                {/* Right Column: Key Metric & Partnership Callout */}
                 <div className="lg:col-span-5 p-6 sm:p-7 rounded-2xl bg-[var(--bg-main)]/80 border border-[var(--border-subtle)] space-y-5">
                   <div className="flex items-center justify-between text-xs font-mono text-[var(--text-dim)]">
                     <span className="inline-flex items-center gap-1.5 text-emerald-500 font-semibold">
                       <CheckCircle2 className="w-3.5 h-3.5" />
-                      Verified Deliverable
+                      Verified Client Partner
                     </span>
-                    <span>Surat HQ</span>
+                    <span>Surat HQ Sprints</span>
                   </div>
 
                   <div>
@@ -260,16 +260,17 @@ export function ClientSuccessSection() {
 
                   <div className="pt-4 border-t border-[var(--border-subtle)] space-y-2">
                     <div className="text-[11px] font-mono text-[var(--text-dim)] uppercase tracking-wider flex items-center gap-1.5">
-                      <Cpu className="w-3.5 h-3.5 text-[var(--primary)]" />
-                      <span>Architecture Topology</span>
+                      <ShieldCheck className="w-3.5 h-3.5 text-[#5DC099]" />
+                      <span>Engagement Standard</span>
                     </div>
                     <p className="text-xs text-[var(--text-main)] leading-relaxed">
-                      {current.architecture}
+                      Agile 2-week deliverables, private Slack channel integration, and zero code handover friction.
                     </p>
                   </div>
 
-                  <div className="pt-3 border-t border-[var(--border-subtle)]">
-                    <div className="flex flex-wrap gap-1.5">
+                  <div className="pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs text-[var(--text-muted)]">
+                    <span className="font-mono text-[11px]">Core Stack</span>
+                    <div className="flex flex-wrap gap-1">
                       {current.tech.map((t, idx) => (
                         <span
                           key={idx}

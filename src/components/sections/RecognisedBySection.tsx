@@ -156,7 +156,7 @@ export function RecognisedBySection() {
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--primary)]/10 border border-[var(--primary)]/25 text-xs font-bold tracking-wider text-[var(--primary)] uppercase mb-4 shadow-sm">
             <Award className="w-3.5 h-3.5 text-[#5DC099]" />
-            <span>GLOBAL INDUSTRY ACCREDITATIONS</span>
+            <span>08 // Global Industry Accreditations</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[var(--text-main)] tracking-tight">
@@ -279,38 +279,6 @@ export function RecognisedBySection() {
               </a>
             );
           })}
-        </div>
-
-        {/* Bottom Proof Telemetry Bar */}
-        <div className="mt-12 p-6 rounded-2xl bg-[var(--bg-main)] border border-[var(--border-subtle)] flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
-          <div className="flex items-center gap-4 text-center md:text-left">
-            <div className="w-12 h-12 rounded-xl bg-[#5DC099]/15 border border-[#5DC099]/30 flex items-center justify-center shrink-0 text-[#5DC099]">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-base font-bold text-[var(--text-main)]">
-                100% Verifiable Public Reputation & Client References
-              </h4>
-              <p className="text-xs text-[var(--text-muted)]">
-                Direct client references, case studies, and NDA-compliant technical walkthroughs available on request.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center">
-              <span className="block text-xl font-extrabold text-[var(--primary)]">100%</span>
-              <span className="text-[10px] uppercase font-bold text-[var(--text-muted)]">Job Success Score</span>
-            </div>
-            <div className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center">
-              <span className="block text-xl font-extrabold text-[#5DC099]">4.9 / 5</span>
-              <span className="text-[10px] uppercase font-bold text-[var(--text-muted)]">Aggregate Rating</span>
-            </div>
-            <div className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center">
-              <span className="block text-xl font-extrabold text-[var(--text-main)]">8+ Years</span>
-              <span className="text-[10px] uppercase font-bold text-[var(--text-muted)]">Delivery History</span>
-            </div>
-          </div>
         </div>
       </div>
     </section>

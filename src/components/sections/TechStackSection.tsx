@@ -691,7 +691,7 @@ export function TechStackSection({ onSelectTech }: TechStackSectionProps) {
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>11 // OPASH ENGINEERING ECOSYSTEM</span>
+            <span>12 // OPASH ENGINEERING ECOSYSTEM</span>
           </motion.div>
 
           <motion.h2 

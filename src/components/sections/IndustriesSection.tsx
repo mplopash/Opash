@@ -163,7 +163,7 @@ export function IndustriesSection({ onExploreIndustry }: IndustriesSectionProps)
     <section id="industries" className="py-14 sm:py-20 relative bg-[var(--bg-main)] cv-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="10 // Specialized Verticals"
+          eyebrow="11 // Specialized Verticals"
           title="Tailored Solutions for"
           highlight="High-Stakes Industries"
           description="Opash Software brings over 8 years of specialized engineering across heavily regulated, data-intensive industries."
